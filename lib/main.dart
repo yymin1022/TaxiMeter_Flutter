@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:taximeter/pages/donation_page.dart';
+import 'package:taximeter/pages/main_page.dart';
+import 'package:taximeter/pages/setting_page.dart';
 
 void main() {
   runApp(const TaxiMeterApp());
@@ -28,17 +31,41 @@ class TaxiMeterMain extends StatefulWidget {
 }
 
 class _TaxiMeterMainState extends State<TaxiMeterMain> {
+  int _pageIndex = 1;
+  final _pageList = [
+    const SettingPage(),
+    const MainPage(),
+    const DonationPage()
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text("Taxi Meter"),
-          ],
-        ),
+      body: _pageList[_pageIndex],
+      bottomNavigationBar: NavigationBar(
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Setting',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.money),
+            label: 'Donation',
+          ),
+        ],
+        selectedIndex: _pageIndex,
+        onDestinationSelected: _onBottomNavBarTapped,
       ),
     );
+  }
+
+  void _onBottomNavBarTapped(int idx){
+    setState(() {
+      _pageIndex = idx;
+    });
   }
 }
