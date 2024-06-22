@@ -60,12 +60,12 @@ class _TaxiMeterMainState extends State<TaxiMeterMain> {
           ),
         ],
         selectedIndex: _pageIndex,
-        onDestinationSelected: _onBottomNavBarTapped,
+        onDestinationSelected: _onNavBarTapped,
       ),
     );
   }
 
-  void _onBottomNavBarTapped(int idx){
+  void _onNavBarTapped(int idx){
     setState(() {
       _pageIndex = idx;
     });
