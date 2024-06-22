@@ -41,7 +41,9 @@ class _TaxiMeterMainState extends State<TaxiMeterMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pageList[_pageIndex],
+      body: SafeArea(
+        child: _pageList[_pageIndex]
+      ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(
