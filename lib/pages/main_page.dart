@@ -14,7 +14,33 @@ class MainPage extends StatelessWidget {
               Icons.local_taxi,
               size: 224.0
             ),
-            Text("Main Page")
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "택시",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 48.0,
+                    fontWeight: FontWeight.bold
+                  )
+                ),
+                Text(
+                  "미터기",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 48.0
+                  )
+                )
+              ],
+            ),
+            Text(
+              "터치하여 시작하기",
+              style: TextStyle(
+                color: Colors.black45,
+                fontSize: 24.0
+              )
+            )
           ],
         ),
       )
