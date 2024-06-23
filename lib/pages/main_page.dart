@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
         onTap: (){
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return MeterPage();
+              return const MeterPage();
             }
           ));
         },
