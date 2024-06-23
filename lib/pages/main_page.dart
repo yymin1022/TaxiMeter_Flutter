@@ -10,6 +10,10 @@ class MainPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Icon(
+              Icons.local_taxi,
+              size: 224.0
+            ),
             Text("Main Page")
           ],
         ),
