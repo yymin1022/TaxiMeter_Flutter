@@ -8,6 +8,7 @@ class MainPage extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Main Page")
           ],
