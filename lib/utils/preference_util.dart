@@ -14,11 +14,17 @@ class PreferenceUtil {
     prefs ??= await SharedPreferences.getInstance();
   }
 
-  Future<String?> getPrefsValue(String key) async {
+  Future<int?> getPrefsValueI(String key) async {
+    if(prefs != null) {
+      return prefs!.getInt(key);
+    }
+    return null;
+  }
+
+  Future<String?> getPrefsValueS(String key) async {
     if(prefs != null) {
       return prefs!.getString(key);
     }
-    
     return null;
   }
 }
