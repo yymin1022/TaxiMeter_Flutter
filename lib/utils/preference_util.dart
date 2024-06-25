@@ -7,4 +7,10 @@ class PreferenceUtil {
   factory PreferenceUtil() {
     return _instance;
   }
+
+  SharedPreferences? prefs;
+
+  Future<void> initPrefs() async {
+    prefs ??= await SharedPreferences.getInstance();
+  }
 }
