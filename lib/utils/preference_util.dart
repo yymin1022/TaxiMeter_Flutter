@@ -27,4 +27,14 @@ class PreferenceUtil {
     }
     return null;
   }
+
+  Future<void> setPrefsValue(String key, dynamic value) async {
+    if(prefs != null) {
+      if(value is String) {
+        prefs!.setString(key, value);
+      } else if(value is int) {
+        prefs!.setInt(key, value);
+      }
+    }
+  }
 }
