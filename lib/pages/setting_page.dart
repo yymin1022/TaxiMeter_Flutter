@@ -38,26 +38,10 @@ class SettingPage extends StatelessWidget {
               subtitle: Text("중앙대학교 소프트웨어학부 2019"),
               onTap: (){},
             ),
-            ListTile(
-              title: Text("개발자 블로그"),
-              subtitle: Text("https://dev-lr.com"),
-              onTap: (){},
-            ),
-            ListTile(
-              title: Text("개발자 GitHub"),
-              subtitle: Text("https://github.com/yymin1022"),
-              onTap: (){},
-            ),
-            ListTile(
-              title: Text("개발자 Instagram"),
-              subtitle: Text("https://instagram.com/useful_min"),
-              onTap: (){},
-            ),
-            ListTile(
-              title: Text("개인정보 처리방침"),
-              subtitle: Text("https://defcon.or.kr/privacy"),
-              onTap: (){},
-            )
+            const SettingListWebItem("개발자 블로그", "https://dev-lr.com"),
+            const SettingListWebItem("개발자 GitHub", "https://github.com/yymin1022"),
+            const SettingListWebItem("개발자 Instagram", "https://instagram.com/useful_min"),
+            const SettingListWebItem("개인정보 처리방침", "https://defcon.or.kr/privacy")
           ],
         ),
       )
@@ -79,6 +63,21 @@ class SettingListTitle extends StatelessWidget {
           fontSize: 15.0
         )
       )
+    );
+  }
+}
+
+class SettingListWebItem extends StatelessWidget {
+  const SettingListWebItem(this.title, this.url, {super.key});
+  final String title;
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(url),
+      onTap: (){},
     );
   }
 }
