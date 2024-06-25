@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -77,7 +78,9 @@ class SettingListWebItem extends StatelessWidget {
     return ListTile(
       title: Text(title),
       subtitle: Text(url),
-      onTap: (){},
+      onTap: () async {
+        await launchUrl(Uri.parse(url));
+      },
     );
   }
 }
