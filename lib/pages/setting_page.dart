@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:taximeter/utils/preference_util.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -9,6 +10,9 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  String? curLocation;
+  String? curTheme;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +24,16 @@ class _SettingPageState extends State<SettingPage> {
             ListTile(
               title: Text("위치"),
               subtitle: Text("서울특별시"),
-              onTap: (){},
+              onTap: (){
+                _showLocationDialog();
+              },
             ),
             ListTile(
               title: Text("미터기 테마"),
               subtitle: Text("말 타입"),
-              onTap: (){},
+              onTap: (){
+                _showThemeDialog();
+              },
             ),
             const SettingListTitle("미터기 정보"),
             ListTile(
@@ -51,6 +59,74 @@ class _SettingPageState extends State<SettingPage> {
           ],
         ),
       )
+    );
+  }
+
+  void _showLocationDialog() async {
+    final PreferenceUtil prefUtil = PreferenceUtil();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("위치"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                ListTile(
+                  title: Text("서울특별시"),
+                  onTap: () {
+                    prefUtil.setPrefsValue("pref_location", "seoul");
+                    setState(() {
+                      curLocation = "seoul";
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showThemeDialog() async {
+    final prefUtil = PreferenceUtil();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("미터기 테마"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                ListTile(
+                  title: Text("말 타입"),
+                  onTap: () {
+                    prefUtil.setPrefsValue("pref_theme", "horse");
+                    setState(() {
+                      curTheme = "horse";
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  title: Text("원형 타입"),
+                  onTap: () {
+                    prefUtil.setPrefsValue("pref_theme", "circle");
+                    setState(() {
+                      curTheme = "circle";
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
