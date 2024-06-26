@@ -10,11 +10,15 @@ class PreferenceUtil {
 
   SharedPreferences? prefs;
 
-  Future<void> initPrefs() async {
+  Future<void> _initPrefs() async {
     prefs ??= await SharedPreferences.getInstance();
   }
 
   Future<int?> getPrefsValueI(String key) async {
+    if(prefs == null) {
+      await _initPrefs();
+    }
+
     if(prefs != null) {
       return prefs!.getInt(key);
     }
@@ -22,6 +26,10 @@ class PreferenceUtil {
   }
 
   Future<String?> getPrefsValueS(String key) async {
+    if(prefs == null) {
+      await _initPrefs();
+    }
+
     if(prefs != null) {
       return prefs!.getString(key);
     }
@@ -29,6 +37,10 @@ class PreferenceUtil {
   }
 
   Future<void> setPrefsValue(String key, dynamic value) async {
+    if(prefs == null) {
+      await _initPrefs();
+    }
+
     if(prefs != null) {
       if(value is String) {
         prefs!.setString(key, value);
