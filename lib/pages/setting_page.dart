@@ -14,6 +14,19 @@ class _SettingPageState extends State<SettingPage> {
   String? curTheme;
 
   @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+
+    String prefLocation = await PreferenceUtil().getPrefsValueS("pref_location") ?? "seoul";
+    String prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
+
+    setState(() {
+      curLocation = prefLocation;
+      curTheme = prefTheme;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -23,14 +36,14 @@ class _SettingPageState extends State<SettingPage> {
             const SettingListTitle("미터기 설정"),
             ListTile(
               title: Text("위치"),
-              subtitle: Text("서울특별시"),
+              subtitle: Text(curLocation ?? "seoul"),
               onTap: (){
                 _showLocationDialog();
               },
             ),
             ListTile(
               title: Text("미터기 테마"),
-              subtitle: Text("말 타입"),
+              subtitle: Text(curTheme ?? "horse"),
               onTap: (){
                 _showThemeDialog();
               },
