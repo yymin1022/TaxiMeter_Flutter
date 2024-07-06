@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:taximeter/utils/preference_util.dart';
+import 'package:taximeter/utils/settings_data.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -36,14 +37,14 @@ class _SettingPageState extends State<SettingPage> {
             const SettingListTitle("미터기 설정"),
             ListTile(
               title: Text("위치"),
-              subtitle: Text(curLocation ?? "seoul"),
+              subtitle: Text(SettingsData.getName(curLocation ?? "seoul").ko),
               onTap: (){
                 _showLocationDialog();
               },
             ),
             ListTile(
               title: Text("미터기 테마"),
-              subtitle: Text(curTheme ?? "horse"),
+              subtitle: Text(SettingsData.getName(curTheme ?? "horse").ko),
               onTap: (){
                 _showThemeDialog();
               },
