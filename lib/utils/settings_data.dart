@@ -1,4 +1,4 @@
-enum Location {
+enum SettingsData {
   seoul("seoul", en: "Seoul", ko: "서울특별시"),
   gangwon("seoul", en: "Gangwon", ko: "강원도"),
   gyeonggi("seoul", en: "Gyeonggi", ko: "경기도"),
@@ -15,14 +15,17 @@ enum Location {
   jeju("seoul", en: "Jeju", ko: "제주특별자치도"),
   chungbuk("seoul", en: "Chungbuk", ko: "충청북도"),
   chungnam("seoul", en: "Chungnam", ko: "충청남도"),
-  custom("seoul", en: "Custom", ko: "직접 설정");
+  custom("seoul", en: "Custom", ko: "직접 설정"),
 
-  const Location(this.code, {required this.en, required this.ko});
+  theme_circle("circle", en: "Circle Type", ko: "원형 타입"),
+  theme_horse("horse", en: "Horse Type", ko: "말 타입");
+
+  const SettingsData(this.code, {required this.en, required this.ko});
   final String code;
   final String en;
   final String ko;
 
-  factory Location.getName(String code){
-    return Location.values.firstWhere((value) => (value.code == code));
+  factory SettingsData.getName(String code){
+    return SettingsData.values.firstWhere((value) => (value.code == code));
   }
 }
