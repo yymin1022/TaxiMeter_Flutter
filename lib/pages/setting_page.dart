@@ -115,28 +115,18 @@ class _SettingPageState extends State<SettingPage> {
           title: Text("미터기 테마"),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                ListTile(
-                  title: Text("말 타입"),
+              children: SettingsDataTheme.values.map((data) {
+                return ListTile(
+                  title: Text(data.ko),
                   onTap: () {
-                    prefUtil.setPrefsValue("pref_theme", "horse");
+                    prefUtil.setPrefsValue("pref_theme", data.code);
                     setState(() {
-                      curTheme = "horse";
+                      curTheme = data.code;
                     });
                     Navigator.of(context).pop();
                   },
-                ),
-                ListTile(
-                  title: Text("원형 타입"),
-                  onTap: () {
-                    prefUtil.setPrefsValue("pref_theme", "circle");
-                    setState(() {
-                      curTheme = "circle";
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+                );
+              }).toList() as List<Widget>
             ),
           ),
         );
