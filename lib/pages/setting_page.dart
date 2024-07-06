@@ -37,14 +37,14 @@ class _SettingPageState extends State<SettingPage> {
             const SettingListTitle("미터기 설정"),
             ListTile(
               title: Text("위치"),
-              subtitle: Text(SettingsData.getName(curLocation ?? "seoul").ko),
+              subtitle: Text(SettingsDataLocation.getName(curLocation ?? "seoul").ko),
               onTap: (){
                 _showLocationDialog();
               },
             ),
             ListTile(
               title: Text("미터기 테마"),
-              subtitle: Text(SettingsData.getName(curTheme ?? "horse").ko),
+              subtitle: Text(SettingsDataTheme.getName(curTheme ?? "horse").ko),
               onTap: (){
                 _showThemeDialog();
               },
