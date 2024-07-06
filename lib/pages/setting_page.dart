@@ -86,18 +86,18 @@ class _SettingPageState extends State<SettingPage> {
           title: Text("위치"),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                ListTile(
-                  title: Text("서울특별시"),
+              children: SettingsDataLocation.values.map((data) {
+                return ListTile(
+                  title: Text(data.ko),
                   onTap: () {
-                    prefUtil.setPrefsValue("pref_location", "seoul");
+                    prefUtil.setPrefsValue("pref_location", data.code);
                     setState(() {
-                      curLocation = "seoul";
+                      curLocation = data.code;
                     });
                     Navigator.of(context).pop();
                   },
-                ),
-              ],
+                );
+              }).toList() as List<Widget>
             ),
           ),
         );
