@@ -87,9 +87,11 @@ class _SettingPageState extends State<SettingPage> {
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataLocation.values.map((data) {
-                return ListTile(
+                return RadioListTile(
                   title: Text(data.ko),
-                  onTap: () {
+                  groupValue: curLocation,
+                  value: data.code,
+                  onChanged: (value) {
                     prefUtil.setPrefsValue("pref_location", data.code);
                     setState(() {
                       curLocation = data.code;
@@ -116,9 +118,11 @@ class _SettingPageState extends State<SettingPage> {
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataTheme.values.map((data) {
-                return ListTile(
+                return RadioListTile(
                   title: Text(data.ko),
-                  onTap: () {
+                  groupValue: curTheme,
+                  value: data.code,
+                  onChanged: (value) {
                     prefUtil.setPrefsValue("pref_theme", data.code);
                     setState(() {
                       curTheme = data.code;
