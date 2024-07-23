@@ -125,6 +125,38 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+  void _showCustomCostDialog() async {
+    final PreferenceUtil prefUtil = PreferenceUtil();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("요금정보 직접 설정"),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                RadioListTile(
+                  title: Text("항목 1"),
+                  groupValue: curLocation,
+                  value: "항목 1",
+                  onChanged: (value) {
+                    prefUtil.setPrefsValue("pref_location", SettingsDataLocation.custom.code);
+                    setState(() {
+                      curLocation = SettingsDataLocation.custom.code;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _showLocationDialog() async {
     final PreferenceUtil prefUtil = PreferenceUtil();
 
@@ -142,11 +174,15 @@ class _SettingPageState extends State<SettingPage> {
                   groupValue: curLocation,
                   value: data.code,
                   onChanged: (value) {
-                    prefUtil.setPrefsValue("pref_location", data.code);
-                    setState(() {
-                      curLocation = data.code;
-                    });
                     Navigator.of(context).pop();
+                    if(value == "custom") {
+                      _showCustomCostDialog();
+                    } else {
+                      prefUtil.setPrefsValue("pref_location", data.code);
+                      setState(() {
+                        curLocation = data.code;
+                      });
+                    }
                   },
                 );
               }).toList() as List<Widget>
