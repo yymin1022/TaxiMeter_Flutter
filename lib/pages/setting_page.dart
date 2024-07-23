@@ -84,6 +84,7 @@ class _SettingPageState extends State<SettingPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("위치"),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataLocation.values.map((data) {
@@ -115,6 +116,7 @@ class _SettingPageState extends State<SettingPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("미터기 테마"),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataTheme.values.map((data) {
