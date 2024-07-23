@@ -52,7 +52,7 @@ class _SettingPageState extends State<SettingPage> {
             const SettingListTitle("미터기 정보"),
             ListTile(
               title: Text("요금 정보"),
-              subtitle: Text("기본요금 : 4800원 (최초 1.6km)"),
+              subtitle: Text(_getCostInfoText()),
               onTap: (){},
             ),
             ListTile(
@@ -113,6 +113,16 @@ class _SettingPageState extends State<SettingPage> {
       percNightStart1 = prefPercNightStart1;
       percNightStart2 = prefPercNightStart2;
     });
+  }
+
+  String _getCostInfoText() {
+    if(percNight1 == percNight2) {
+      return "기본요금 : $costBase원 (최초 ${distBase / 1000}km)\n거리요금 $costRunPer당 100원\n시간요금 $costTimePer초당 100원\n"
+          "시외할증 $percCity%\n야간할증\n - $percNight1% ($percNightStart1:00 ~ $percNightEnd1:00)";
+    } else {
+      return "기본요금 : $costBase원 (최초 ${distBase / 1000}km)\n거리요금 $costRunPer당 100원\n시간요금 $costTimePer초당 100원\n"
+          "시외할증 $percCity%\n야간할증\n - $percNight1% ($percNightStart1:00 ~ $percNightEnd1:00)\n - $percNight2% ($percNightStart2:00 ~ $percNightEnd2:00)";
+    }
   }
 
   void _showLocationDialog() async {
