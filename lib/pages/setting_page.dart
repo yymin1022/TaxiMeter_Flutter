@@ -11,6 +11,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  String? curCostVersion;
   String? curLocation;
   String? curTheme;
 
@@ -18,10 +19,12 @@ class _SettingPageState extends State<SettingPage> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
 
+    String prefCostVersion = await PreferenceUtil().getPrefsValueS("pref_cost_version") ?? "20001022";
     String prefLocation = await PreferenceUtil().getPrefsValueS("pref_location") ?? "seoul";
     String prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
 
     setState(() {
+      curCostVersion = prefCostVersion;
       curLocation = prefLocation;
       curTheme = prefTheme;
     });
@@ -57,7 +60,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             ListTile(
               title: Text("요금정보 DB 버전"),
-              subtitle: Text("20240310"),
+              subtitle: Text(curCostVersion ?? "20001022"),
               onTap: (){},
             ),
             const SettingListTitle("개발자 정보"),
