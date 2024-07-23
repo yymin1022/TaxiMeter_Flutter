@@ -11,24 +11,21 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  String? curCostVersion;
-  String? curLocation;
-  String? curTheme;
+  String curCostVersion = "20001022";
+  String curLocation = "seoul";
+  String curTheme = "horse";
 
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    String prefCostVersion = await PreferenceUtil().getPrefsValueS("pref_cost_version") ?? "20001022";
-    String prefLocation = await PreferenceUtil().getPrefsValueS("pref_location") ?? "seoul";
-    String prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
-
-    setState(() {
-      curCostVersion = prefCostVersion;
-      curLocation = prefLocation;
-      curTheme = prefTheme;
-    });
-  }
+  int costBase = 0;
+  int costRunPer = 131;
+  int costTimePer = 30;
+  int distBase = 1600;
+  int percCity = 20;
+  int percNight1 = 20;
+  int percNight2 = 40;
+  int percNightEnd1 = 4;
+  int percNightEnd2 = 2;
+  int percNightStart1 = 22;
+  int percNightStart2 = 23;
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +37,14 @@ class _SettingPageState extends State<SettingPage> {
             const SettingListTitle("미터기 설정"),
             ListTile(
               title: Text("위치"),
-              subtitle: Text(SettingsDataLocation.getName(curLocation ?? "seoul").ko),
+              subtitle: Text(SettingsDataLocation.getName(curLocation).ko),
               onTap: (){
                 _showLocationDialog();
               },
             ),
             ListTile(
               title: Text("미터기 테마"),
-              subtitle: Text(SettingsDataTheme.getName(curTheme ?? "horse").ko),
+              subtitle: Text(SettingsDataTheme.getName(curTheme).ko),
               onTap: (){
                 _showThemeDialog();
               },
@@ -60,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             ListTile(
               title: Text("요금정보 DB 버전"),
-              subtitle: Text(curCostVersion ?? "20001022"),
+              subtitle: Text(curCostVersion),
               onTap: (){},
             ),
             const SettingListTitle("개발자 정보"),
@@ -77,6 +74,45 @@ class _SettingPageState extends State<SettingPage> {
         ),
       )
     );
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+
+    String prefCostVersion = await PreferenceUtil().getPrefsValueS("pref_cost_version") ?? "20001022";
+    String prefLocation = await PreferenceUtil().getPrefsValueS("pref_location") ?? "seoul";
+    String prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
+
+    int prefCostBase = await PreferenceUtil().getPrefsValueI("pref_cost_base") ?? 0;
+    int prefCostRunPer = await PreferenceUtil().getPrefsValueI("pref_cost_run_per") ?? 131;
+    int prefCostTimePer = await PreferenceUtil().getPrefsValueI("pref_cost_time_per") ?? 30;
+    int prefDistBase = await PreferenceUtil().getPrefsValueI("pref_dist_base") ?? 1600;
+    int prefPercCity = await PreferenceUtil().getPrefsValueI("pref_perc_city") ?? 20;
+    int prefPercNight1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_1") ?? 20;
+    int prefPercNight2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_2") ?? 40;
+    int prefPercNightEnd1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_1") ?? 4;
+    int prefPercNightEnd2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_2") ?? 2;
+    int prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
+    int prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
+
+    setState(() {
+      curCostVersion = prefCostVersion;
+      curLocation = prefLocation;
+      curTheme = prefTheme;
+
+      costBase = prefCostBase;
+      costRunPer = prefCostRunPer;
+      costTimePer = prefCostTimePer;
+      distBase = prefDistBase;
+      percCity = prefPercCity;
+      percNight1 = prefPercNight1;
+      percNight2 = prefPercNight2;
+      percNightEnd1 = prefPercNightEnd1;
+      percNightEnd2 = prefPercNightEnd2;
+      percNightStart1 = prefPercNightStart1;
+      percNightStart2 = prefPercNightStart2;
+    });
   }
 
   void _showLocationDialog() async {
