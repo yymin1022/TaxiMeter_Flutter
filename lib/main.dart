@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 
 void main() {
   runApp(const TaxiMeterApp());
@@ -12,6 +13,9 @@ class TaxiMeterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const firebaseUtil = FirebaseUtil();
+    firebaseUtil.initFirebase();
+
     return MaterialApp(
       title: 'Taxi Meter',
       theme: ThemeData(
