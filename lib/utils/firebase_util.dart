@@ -1,8 +1,15 @@
 class FirebaseUtil {
-  FirebaseUtil._privateConstructor();
-  static final FirebaseUtil _instance = FirebaseUtil._privateConstructor();
+  const FirebaseUtil();
 
-  factory FirebaseUtil() {
-    return _instance;
+  void initFirebase() {
+
+  }
+
+  bool isUpdateAvail() {
+    return false;
+  }
+
+  void updateCostInfo() {
+
   }
 }
