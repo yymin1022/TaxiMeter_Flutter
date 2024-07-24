@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:taximeter/utils/preference_util.dart';
 import 'package:taximeter/utils/settings_data.dart';
@@ -168,48 +169,64 @@ class _SettingPageState extends State<SettingPage> {
               children: [
                 TextField(
                   controller: inputControllerCostBase,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "기본요금"
                   ),
                 ),
                 TextField(
                   controller: inputControllerCostRunPer,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "거리요금 기준 거리 (미터)"
                   ),
                 ),
                 TextField(
                   controller: inputControllerCostTimePer,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "거리요금 기준 시간 (초)"
                   ),
                 ),
                 TextField(
                   controller: inputControllerDistBase,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "기본요금 주행 거리 (미터)"
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercCity,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "시외할증 비율"
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNight,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "야간할증 비율"
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNightStart,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "야간할증 시작 (24시간 단위)"
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNightEnd,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     labelText: "야간할증 종료 (24시간 단위)"
                   ),
