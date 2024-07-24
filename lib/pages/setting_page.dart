@@ -128,26 +128,71 @@ class _SettingPageState extends State<SettingPage> {
   void _showCustomCostDialog() async {
     final PreferenceUtil prefUtil = PreferenceUtil();
 
+    final inputControllerCostBase = TextEditingController();
+    final inputControllerCostRunPer = TextEditingController();
+    final inputControllerCostTimePer = TextEditingController();
+    final inputControllerDistBase = TextEditingController();
+    final inputControllerPercCity = TextEditingController();
+    final inputControllerPercNight1 = TextEditingController();
+    final inputControllerPercNightEnd1 = TextEditingController();
+    final inputControllerPercNightStart1 = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("요금정보 직접 설정"),
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
+          contentPadding: const EdgeInsets.all(20.0),
           content: SingleChildScrollView(
             child: ListBody(
               children: [
-                RadioListTile(
-                  title: Text("항목 1"),
-                  groupValue: curLocation,
-                  value: "항목 1",
-                  onChanged: (value) {
-                    prefUtil.setPrefsValue("pref_location", SettingsDataLocation.custom.code);
-                    setState(() {
-                      curLocation = SettingsDataLocation.custom.code;
-                    });
-                    Navigator.of(context).pop();
-                  },
+                TextField(
+                  controller: inputControllerCostBase,
+                  decoration: const InputDecoration(
+                    labelText: "기본요금"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerCostRunPer,
+                  decoration: const InputDecoration(
+                    labelText: "거리요금 기준 거리 (미터)"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerCostTimePer,
+                  decoration: const InputDecoration(
+                    labelText: "거리요금 기준 시간 (초)"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerDistBase,
+                  decoration: const InputDecoration(
+                    labelText: "기본요금 주행 거리 (미터)"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerPercCity,
+                  decoration: const InputDecoration(
+                    labelText: "시외할증 비율"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerPercNight1,
+                  decoration: const InputDecoration(
+                    labelText: "야간할증 비율"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerPercNightStart1,
+                  decoration: const InputDecoration(
+                    labelText: "야간할증 시작 (24시간 단위)"
+                  ),
+                ),
+                TextField(
+                  controller: inputControllerPercNightEnd1,
+                  decoration: const InputDecoration(
+                    labelText: "야간할증 종료 (24시간 단위)"
+                  ),
                 )
               ]
             ),
