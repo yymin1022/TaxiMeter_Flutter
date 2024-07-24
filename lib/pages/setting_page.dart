@@ -125,7 +125,8 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  void _setPrefCostData(int inputCostBase, int inputCostRunPer, int inputCostTimePer, int inputDistBase,
+  void _setPrefCostData(String location,
+      int inputCostBase, int inputCostRunPer, int inputCostTimePer, int inputDistBase,
       int inputPercCity, int inputPercNight1, int inputPercNight2,
       int inputPercNightStart1, int inputPercNightStart2,
       int inputPercNightEnd1, int inputPercNightEnd2) {
@@ -142,7 +143,7 @@ class _SettingPageState extends State<SettingPage> {
     prefUtil.setPrefsValue("pref_perc_night_start_2", inputPercNightStart2);
     prefUtil.setPrefsValue("pref_perc_night_end_1", inputPercNightEnd1);
     prefUtil.setPrefsValue("pref_perc_night_end_2", inputPercNightEnd2);
-    prefUtil.setPrefsValue("pref_location", "custom");
+    prefUtil.setPrefsValue("pref_location", location);
     didChangeDependencies();
   }
 
@@ -227,7 +228,8 @@ class _SettingPageState extends State<SettingPage> {
                     int inputPercNightStart = int.parse(inputControllerPercNightStart.text);
                     int inputPercNightEnd = int.parse(inputControllerPercNightEnd.text);
 
-                    _setPrefCostData(inputCostBase, inputCostRunPer, inputCostTimePer, inputDistBase,
+                    _setPrefCostData("custom",
+                        inputCostBase, inputCostRunPer, inputCostTimePer, inputDistBase,
                         inputPercCity, inputPercNight, inputPercNight,
                         inputPercNightStart, inputPercNightStart,
                         inputPercNightEnd, inputPercNightEnd);
@@ -257,13 +259,24 @@ class _SettingPageState extends State<SettingPage> {
                   title: Text(data.ko),
                   groupValue: curLocation,
                   value: data.code,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     Navigator.of(context).pop();
                     if(value == "custom") {
                       _showCustomCostDialog();
                     } else {
                       prefUtil.setPrefsValue("pref_location", data.code);
-                      didChangeDependencies();
+                      _setPrefCostData(data.code,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_base") ?? 4800,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_run_per") ?? 131,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_time_per") ?? 30,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_dist_base") ?? 1600,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_city") ?? 20,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_1") ?? 20,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_2") ?? 40,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_start_1") ?? 22,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_start_2") ?? 23,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_end_1") ?? 4,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_end_2") ?? 2);
                     }
                   },
                 );
