@@ -15,7 +15,7 @@ class _SettingPageState extends State<SettingPage> {
   String curLocation = "seoul";
   String curTheme = "horse";
 
-  int costBase = 0;
+  int costBase = 4800;
   int costRunPer = 131;
   int costTimePer = 30;
   int distBase = 1600;
@@ -84,7 +84,7 @@ class _SettingPageState extends State<SettingPage> {
     String prefLocation = await PreferenceUtil().getPrefsValueS("pref_location") ?? "seoul";
     String prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
 
-    int prefCostBase = await PreferenceUtil().getPrefsValueI("pref_cost_base") ?? 0;
+    int prefCostBase = await PreferenceUtil().getPrefsValueI("pref_cost_base") ?? 4800;
     int prefCostRunPer = await PreferenceUtil().getPrefsValueI("pref_cost_run_per") ?? 131;
     int prefCostTimePer = await PreferenceUtil().getPrefsValueI("pref_cost_time_per") ?? 30;
     int prefDistBase = await PreferenceUtil().getPrefsValueI("pref_dist_base") ?? 1600;
@@ -125,17 +125,36 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  void _showCustomCostDialog() async {
+  void _setPrefCostData(int inputCostBase, int inputCostRunPer, int inputCostTimePer, int inputDistBase,
+      int inputPercCity, int inputPercNight1, int inputPercNight2,
+      int inputPercNightStart1, int inputPercNightStart2,
+      int inputPercNightEnd1, int inputPercNightEnd2) {
     final PreferenceUtil prefUtil = PreferenceUtil();
 
+    prefUtil.setPrefsValue("pref_cost_base", inputCostBase);
+    prefUtil.setPrefsValue("pref_cost_run_per", inputCostRunPer);
+    prefUtil.setPrefsValue("pref_cost_time_per", inputCostTimePer);
+    prefUtil.setPrefsValue("pref_dist_base", inputDistBase);
+    prefUtil.setPrefsValue("pref_perc_city", inputPercCity);
+    prefUtil.setPrefsValue("pref_perc_night_1", inputPercNight1);
+    prefUtil.setPrefsValue("pref_perc_night_2", inputPercNight2);
+    prefUtil.setPrefsValue("pref_perc_night_start_1", inputPercNightStart1);
+    prefUtil.setPrefsValue("pref_perc_night_start_2", inputPercNightStart2);
+    prefUtil.setPrefsValue("pref_perc_night_end_1", inputPercNightEnd1);
+    prefUtil.setPrefsValue("pref_perc_night_end_2", inputPercNightEnd2);
+    prefUtil.setPrefsValue("pref_location", "custom");
+    didChangeDependencies();
+  }
+
+  void _showCustomCostDialog() async {
     final inputControllerCostBase = TextEditingController();
     final inputControllerCostRunPer = TextEditingController();
     final inputControllerCostTimePer = TextEditingController();
     final inputControllerDistBase = TextEditingController();
     final inputControllerPercCity = TextEditingController();
-    final inputControllerPercNight1 = TextEditingController();
-    final inputControllerPercNightEnd1 = TextEditingController();
-    final inputControllerPercNightStart1 = TextEditingController();
+    final inputControllerPercNight = TextEditingController();
+    final inputControllerPercNightStart = TextEditingController();
+    final inputControllerPercNightEnd = TextEditingController();
 
     showDialog(
       context: context,
@@ -177,22 +196,42 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 TextField(
-                  controller: inputControllerPercNight1,
+                  controller: inputControllerPercNight,
                   decoration: const InputDecoration(
                     labelText: "야간할증 비율"
                   ),
                 ),
                 TextField(
-                  controller: inputControllerPercNightStart1,
+                  controller: inputControllerPercNightStart,
                   decoration: const InputDecoration(
                     labelText: "야간할증 시작 (24시간 단위)"
                   ),
                 ),
                 TextField(
-                  controller: inputControllerPercNightEnd1,
+                  controller: inputControllerPercNightEnd,
                   decoration: const InputDecoration(
                     labelText: "야간할증 종료 (24시간 단위)"
                   ),
+                ),
+                ElevatedButton(
+                  child: Text("저장"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+
+                    int inputCostBase = int.parse(inputControllerCostBase.text);
+                    int inputCostRunPer = int.parse(inputControllerCostRunPer.text);
+                    int inputCostTimePer = int.parse(inputControllerCostTimePer.text);
+                    int inputDistBase = int.parse(inputControllerDistBase.text);
+                    int inputPercCity = int.parse(inputControllerPercCity.text);
+                    int inputPercNight = int.parse(inputControllerPercNight.text);
+                    int inputPercNightStart = int.parse(inputControllerPercNightStart.text);
+                    int inputPercNightEnd = int.parse(inputControllerPercNightEnd.text);
+
+                    _setPrefCostData(inputCostBase, inputCostRunPer, inputCostTimePer, inputDistBase,
+                        inputPercCity, inputPercNight, inputPercNight,
+                        inputPercNightStart, inputPercNightStart,
+                        inputPercNightEnd, inputPercNightEnd);
+                  },
                 )
               ]
             ),
@@ -224,9 +263,7 @@ class _SettingPageState extends State<SettingPage> {
                       _showCustomCostDialog();
                     } else {
                       prefUtil.setPrefsValue("pref_location", data.code);
-                      setState(() {
-                        curLocation = data.code;
-                      });
+                      didChangeDependencies();
                     }
                   },
                 );
@@ -256,9 +293,7 @@ class _SettingPageState extends State<SettingPage> {
                   value: data.code,
                   onChanged: (value) {
                     prefUtil.setPrefsValue("pref_theme", data.code);
-                    setState(() {
-                      curTheme = data.code;
-                    });
+                    didChangeDependencies();
                     Navigator.of(context).pop();
                   },
                 );
