@@ -214,25 +214,36 @@ class _SettingPageState extends State<SettingPage> {
                     labelText: "야간할증 종료 (24시간 단위)"
                   ),
                 ),
+                Container(
+                  height: 20.0,
+                ),
                 ElevatedButton(
                   child: Text("저장"),
                   onPressed: () {
                     Navigator.of(context).pop();
 
-                    int inputCostBase = int.parse(inputControllerCostBase.text);
-                    int inputCostRunPer = int.parse(inputControllerCostRunPer.text);
-                    int inputCostTimePer = int.parse(inputControllerCostTimePer.text);
-                    int inputDistBase = int.parse(inputControllerDistBase.text);
-                    int inputPercCity = int.parse(inputControllerPercCity.text);
-                    int inputPercNight = int.parse(inputControllerPercNight.text);
-                    int inputPercNightStart = int.parse(inputControllerPercNightStart.text);
-                    int inputPercNightEnd = int.parse(inputControllerPercNightEnd.text);
+                    try {
+                      int inputCostBase = int.parse(inputControllerCostBase.text);
+                      int inputCostRunPer = int.parse(inputControllerCostRunPer.text);
+                      int inputCostTimePer = int.parse(inputControllerCostTimePer.text);
+                      int inputDistBase = int.parse(inputControllerDistBase.text);
+                      int inputPercCity = int.parse(inputControllerPercCity.text);
+                      int inputPercNight = int.parse(inputControllerPercNight.text);
+                      int inputPercNightStart = int.parse(inputControllerPercNightStart.text);
+                      int inputPercNightEnd = int.parse(inputControllerPercNightEnd.text);
 
-                    _setPrefCostData("custom",
-                        inputCostBase, inputCostRunPer, inputCostTimePer, inputDistBase,
-                        inputPercCity, inputPercNight, inputPercNight,
-                        inputPercNightStart, inputPercNightStart,
-                        inputPercNightEnd, inputPercNightEnd);
+                      _setPrefCostData("custom",
+                          inputCostBase, inputCostRunPer, inputCostTimePer, inputDistBase,
+                          inputPercCity, inputPercNight, inputPercNight,
+                          inputPercNightStart, inputPercNightStart,
+                          inputPercNightEnd, inputPercNightEnd);
+                    } catch(e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("입력한 정보가 올바르지 않습니다."),
+                        )
+                      );
+                    }
                   },
                 )
               ]
