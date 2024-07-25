@@ -44,5 +44,8 @@ class FirebaseUtil {
         _prefUtil.setPrefsValue("pref_cost_${curCity}_$key", val);
       });
     });
+    var newVersion = (await _firestoreDB.collection("cost").doc("version").get())
+        .data()?["data"] ?? "20001022";
+    _prefUtil.setPrefsValue("pref_cost_version", newVersion);
   }
 }
