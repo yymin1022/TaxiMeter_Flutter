@@ -4,7 +4,7 @@ import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
 import 'package:taximeter/utils/firebase_util.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final firebaseUtil = FirebaseUtil();
   await firebaseUtil.initFirebase();
