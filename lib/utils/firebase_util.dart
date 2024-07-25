@@ -34,7 +34,15 @@ class FirebaseUtil {
     return curVersion != newVersion;
   }
 
-  void updateCostInfo() {
-    print("UPDATE COST");
+  void updateCostInfo() async {
+    var costInfoDoc = (await _firestoreDB.collection("cost").doc("info").get())
+        .data()?["data"]!;
+    costInfoDoc.forEach((data) {
+      var curCity = data["city"];
+      var curData = data["data"];
+      curData.forEach((key, val) {
+        _prefUtil.setPrefsValue("pref_cost_${curCity}_$key", val);
+      });
+    });
   }
 }
