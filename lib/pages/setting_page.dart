@@ -298,13 +298,13 @@ class _SettingPageState extends State<SettingPage> {
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_run_per") ?? 131,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_time_per") ?? 30,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_dist_base") ?? 1600,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_city") ?? 20,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_1") ?? 20,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_2") ?? 40,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_start_1") ?? 22,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_start_2") ?? 23,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_end_1") ?? 4,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_perc_night_end_2") ?? 2);
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_city") ?? 20,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_1") ?? 20,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_2") ?? 40,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_start_1") ?? 22,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_start_2") ?? 23,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_end_1") ?? 4,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_end_2") ?? 2);
                     }
                   },
                 );
