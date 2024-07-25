@@ -4,10 +4,14 @@ import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
 import 'package:taximeter/utils/firebase_util.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const firebaseUtil = FirebaseUtil();
-  firebaseUtil.initFirebase();
+  final firebaseUtil = FirebaseUtil();
+  await firebaseUtil.initFirebase();
+
+  if(await firebaseUtil.isUpdateAvail()) {
+    firebaseUtil.updateCostInfo();
+  }
 
   runApp(const TaxiMeterApp());
 }
