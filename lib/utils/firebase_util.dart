@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,10 @@ import 'package:taximeter/utils/preference_util.dart';
 class FirebaseUtil {
   FirebaseUtil();
 
-  final PreferenceUtil prefUtil = PreferenceUtil();
+  final _prefUtil = PreferenceUtil();
+  late FirebaseFirestore _firestoreDB;
 
-  void initFirebase() async {
+  Future<void> initFirebase() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -21,13 +23,18 @@ class FirebaseUtil {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+
+    _firestoreDB = FirebaseFirestore.instance;
   }
 
-  bool isUpdateAvail() {
-    return false;
+  Future<bool> isUpdateAvail() async {
+    var curVersion = await _prefUtil.getPrefsValueS("pref_cost_version") ?? "20001022";
+    var newVersion = (await _firestoreDB.collection("cost").doc("version").get())
+        .data()?["data"] ?? "20001022";
+    return curVersion != newVersion;
   }
 
   void updateCostInfo() {
-
+    print("UPDATE COST");
   }
 }
