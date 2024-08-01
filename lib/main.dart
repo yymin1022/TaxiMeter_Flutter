@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final firebaseUtil = FirebaseUtil();
+  await firebaseUtil.initFirebase();
+
+  if(await firebaseUtil.isUpdateAvail()) {
+    firebaseUtil.updateCostInfo();
+  }
+
   runApp(const TaxiMeterApp());
 }
 
