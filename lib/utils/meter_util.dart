@@ -13,6 +13,9 @@ class MeterUtil {
   var meterCurSpeed = 0.0;
   var meterSumDistance = 0.0;
 
+  var meterIsPercCity = false;
+  var meterIsPercNight = false;
+
   var meterCostMode = CostMode.COST_BASE;
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
   var meterTheme = MeterTheme.METER_THEME_HORSE;
@@ -47,6 +50,18 @@ class MeterUtil {
 
   void increaseCost() {
 
+  }
+
+  void setPercCity(bool isEnabled) {
+    if(meterIsPercCity != isEnabled) {
+      meterIsPercCity = isEnabled;
+    }
+  }
+
+  void setPercNight(bool isEnabled) {
+    if(meterIsPercNight != isEnabled) {
+      meterIsPercNight = isEnabled;
+    }
   }
 
   Future<void> _initValue() async {
