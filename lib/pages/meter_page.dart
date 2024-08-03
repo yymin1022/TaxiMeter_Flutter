@@ -6,12 +6,14 @@ class MeterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text("Meter Page")
-          ],
-        ),
+      body: SafeArea(child:
+        Center(
+          child: Column(
+            children: [
+              Text("Meter Page")
+            ],
+          ),
+        )
       )
     );
   }
