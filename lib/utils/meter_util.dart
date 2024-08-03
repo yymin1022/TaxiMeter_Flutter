@@ -1,3 +1,5 @@
+import 'package:taximeter/utils/preference_util.dart';
+
 class MeterUtil {
   MeterUtil._privateConstructor();
   static final MeterUtil _instance = MeterUtil._privateConstructor();
@@ -15,9 +17,22 @@ class MeterUtil {
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
   var meterTheme = MeterTheme.METER_THEME_HORSE;
 
-  void initMeter() {
+  var prefCostBase = 0;
+  var prefCostRunPer = 0;
+  var prefCostTimePer = 0;
+  var prefDistBase = 0;
+  var prefPercCity = 0;
+  var prefPercNight1 = 20;
+  var prefPercNight2 = 40;
+  var prefPercNightEnd1 = 4;
+  var prefPercNightEnd2 = 2;
+  var prefPercNightStart1 = 22;
+  var prefPercNightStart2 = 23;
+  var prefTheme = "horse";
+
+  void initMeter() async {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
-      _initValue();
+      await _initValue();
 
       meterStatus = MeterStatus.METER_RUNNING;
     }
@@ -34,8 +49,26 @@ class MeterUtil {
 
   }
 
-  void _initValue() {
-    
+  Future<void> _initValue() async {
+    prefCostBase = await PreferenceUtil().getPrefsValueI("pref_cost_base") ?? 4800;
+    prefCostRunPer = await PreferenceUtil().getPrefsValueI("pref_cost_run_per") ?? 131;
+    prefCostTimePer = await PreferenceUtil().getPrefsValueI("pref_cost_time_per") ?? 30;
+    prefDistBase = await PreferenceUtil().getPrefsValueI("pref_dist_base") ?? 1600;
+    prefPercCity = await PreferenceUtil().getPrefsValueI("pref_perc_city") ?? 20;
+    prefPercNight1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_1") ?? 20;
+    prefPercNight2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_2") ?? 40;
+    prefPercNightEnd1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_1") ?? 4;
+    prefPercNightEnd2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_2") ?? 2;
+    prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
+    prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
+    prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
+
+    cost = prefCostBase;
+    costCounter = prefDistBase;
+    costMode = CostMode.COST_BASE;
+    curSpeed = 0.0;
+    meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
+    sumDistance = 0.0;
   }
 }
 
