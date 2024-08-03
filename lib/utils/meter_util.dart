@@ -8,12 +8,12 @@ class MeterUtil {
     return _instance;
   }
 
-  var cost = 0;
-  var costCounter = 0;
-  var curSpeed = 0.0;
-  var sumDistance = 0.0;
+  var meterCost = 0;
+  var meterCostCounter = 0;
+  var meterCurSpeed = 0.0;
+  var meterSumDistance = 0.0;
 
-  var costMode = CostMode.COST_BASE;
+  var meterCostMode = CostMode.COST_BASE;
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
   var meterTheme = MeterTheme.METER_THEME_HORSE;
 
@@ -40,7 +40,7 @@ class MeterUtil {
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
-      costMode = CostMode.COST_BASE;
+      meterCostMode = CostMode.COST_BASE;
       meterStatus = MeterStatus.METER_RUNNING;
     }
   }
@@ -63,12 +63,12 @@ class MeterUtil {
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
     prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
 
-    cost = prefCostBase;
-    costCounter = prefDistBase;
-    costMode = CostMode.COST_BASE;
-    curSpeed = 0.0;
+    meterCost = prefCostBase;
+    meterCostCounter = prefDistBase;
+    meterCostMode = CostMode.COST_BASE;
+    meterCurSpeed = 0.0;
     meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
-    sumDistance = 0.0;
+    meterSumDistance = 0.0;
   }
 }
 

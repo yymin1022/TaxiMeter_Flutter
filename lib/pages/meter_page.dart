@@ -11,12 +11,12 @@ class MeterPage extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              Text("Cost : ${MeterUtil().cost}"),
-              Text("Counter : ${MeterUtil().costCounter}"),
-              Text("Cost Mode : ${MeterUtil().costMode}"),
+              Text("Cost : ${MeterUtil().meterCost}"),
+              Text("Counter : ${MeterUtil().meterCostCounter}"),
+              Text("Cost Mode : ${MeterUtil().meterCostMode}"),
               Text("Meter Status : ${MeterUtil().meterStatus}"),
-              Text("Current Speed : ${MeterUtil().curSpeed}"),
-              Text("Drived Distance : ${MeterUtil().sumDistance}"),
+              Text("Current Speed : ${MeterUtil().meterCurSpeed}"),
+              Text("Drived Distance : ${MeterUtil().meterSumDistance}"),
             ],
           ),
         )
