@@ -44,7 +44,7 @@ class MeterUtil {
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
       meterCostMode = CostMode.COST_BASE;
-      meterStatus = MeterStatus.METER_RUNNING;
+      meterStatus = MeterStatus.METER_NOT_RUNNING;
     }
   }
 
