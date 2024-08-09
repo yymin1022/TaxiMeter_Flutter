@@ -96,6 +96,31 @@ class MeterInfo extends StatefulWidget {
 }
 
 class _MeterInfoState extends State<MeterInfo> {
+  double meterCurSpeed = 0.0;
+  double meterSumDistance = 0.0;
+  String meterCostMode = "기본 요금";
+  String meterStatus = "운행 중 아님";
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+
+    switch(widget.meterUtil.meterCostMode) {
+      case CostMode.COST_BASE: meterCostMode = "기본 요금";
+      case CostMode.COST_DISTANCE: meterCostMode = "주행 요금";
+      case CostMode.COST_TIME: meterCostMode = "시간 요금";
+    }
+
+    switch(widget.meterUtil.meterStatus) {
+      case MeterStatus.METER_GPS_ERROR: meterStatus = "GPS 연결 대기 중";
+      case MeterStatus.METER_NOT_RUNNING: meterStatus = "운행 중 아님";
+      case MeterStatus.METER_RUNNING: meterStatus = "운행 중";
+    }
+
+    meterCurSpeed = widget.meterUtil.meterCurSpeed;
+    meterSumDistance = widget.meterUtil.meterSumDistance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -105,17 +130,17 @@ class _MeterInfoState extends State<MeterInfo> {
             Column(
               children: [
                 meterInfoText("요금 종류"),
-                meterInfoText(widget.meterUtil.meterCostMode.toString()),
+                meterInfoText(meterCostMode),
                 meterInfoText("현재 속도"),
-                meterInfoText(widget.meterUtil.meterCurSpeed.toString()),
+                meterInfoText("${meterCurSpeed.toStringAsFixed(1)}km/h")
               ],
             ),
             Column(
               children: [
                 meterInfoText("운행 상태"),
-                meterInfoText(widget.meterUtil.meterStatus.toString()),
+                meterInfoText(meterStatus),
                 meterInfoText("주행 거리"),
-                meterInfoText(widget.meterUtil.meterSumDistance.toString())
+                meterInfoText("${meterSumDistance.toStringAsFixed(1)}km")
               ],
             )
           ],
