@@ -57,7 +57,10 @@ class _MeterButtonState extends State<MeterButton> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Container(
-          color: widget.btnColor,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: widget.btnColor
+          ),
           child: InkWell(
             onTap: widget.onClickFunction,
             child: Center(
