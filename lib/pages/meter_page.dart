@@ -123,31 +123,46 @@ class _MeterInfoState extends State<MeterInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                meterInfoText("요금 종류"),
-                meterInfoText(meterCostMode),
-                meterInfoText("현재 속도"),
-                meterInfoText("${meterCurSpeed.toStringAsFixed(1)}km/h")
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                meterInfoText("운행 상태"),
-                meterInfoText(meterStatus),
-                meterInfoText("주행 거리"),
-                meterInfoText("${meterSumDistance.toStringAsFixed(1)}km")
-              ],
-            )
-          ],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 30.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      meterInfoText("요금 종류"),
+                      meterInfoText(meterCostMode),
+                      Container(height: 10.0),
+                      meterInfoText("현재 속도"),
+                      meterInfoText("${meterCurSpeed.toStringAsFixed(1)}km/h")
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      meterInfoText("운행 상태"),
+                      meterInfoText(meterStatus),
+                      Container(height: 10.0),
+                      meterInfoText("주행 거리"),
+                      meterInfoText("${meterSumDistance.toStringAsFixed(1)}km")
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
