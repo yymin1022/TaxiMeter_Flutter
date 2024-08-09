@@ -71,7 +71,7 @@ class _MeterControlState extends State<MeterControl> {
           children: [
             MeterButton(
               btnColor: MeterColor.meterGreen,
-              btnText: MeterUtil().meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
+              btnText: widget.meterUtil.meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
@@ -80,7 +80,7 @@ class _MeterControlState extends State<MeterControl> {
             ),
             MeterButton(
               btnColor: MeterColor.meterRed,
-              btnText: MeterUtil().meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
+              btnText: widget.meterUtil.meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
