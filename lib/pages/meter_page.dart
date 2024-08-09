@@ -7,7 +7,6 @@ class MeterPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _MeterPageState();
-
 }
 
 class _MeterPageState extends State<MeterPage> {
