@@ -15,8 +15,8 @@ class _MeterPageState extends State<MeterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child:
-        Container(
+      body: SafeArea(
+        child: Container(
           color: MeterColor.meterBackground,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
