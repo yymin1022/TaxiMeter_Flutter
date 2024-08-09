@@ -81,6 +81,7 @@ class _MeterControlState extends State<MeterControl> {
             ),
           ],
         ),
+        Container(height: 20.0),
       ],
     );
   }
