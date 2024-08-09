@@ -128,6 +128,7 @@ class _MeterInfoState extends State<MeterInfo> {
         Row(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 meterInfoText("요금 종류"),
                 meterInfoText(meterCostMode),
@@ -136,6 +137,7 @@ class _MeterInfoState extends State<MeterInfo> {
               ],
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 meterInfoText("운행 상태"),
                 meterInfoText(meterStatus),
