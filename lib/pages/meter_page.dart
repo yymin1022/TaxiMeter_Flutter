@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:taximeter/utils/color_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 
-class MeterPage extends StatelessWidget {
+class MeterPage extends StatefulWidget {
   const MeterPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _MeterPageState();
+
+}
+
+class _MeterPageState extends State<MeterPage> {
+  var meterUtil = MeterUtil();
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +43,20 @@ class MeterPage extends StatelessWidget {
                 children: [
                   MeterButton(
                     btnColor: MeterColor.meterGreen,
-                    btnText: "야간할증 미적용",
-                    onClickFunction: (){}),
+                    btnText: MeterUtil().meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
+                    onClickFunction: (){
+                      setState(() {
+                        meterUtil.setPercNight(!meterUtil.meterIsPercNight);
+                      });
+                    }),
                   MeterButton(
                     btnColor: MeterColor.meterRed,
-                    btnText: "시외할증 미적용",
-                    onClickFunction: (){}),
+                    btnText: MeterUtil().meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
+                    onClickFunction: (){
+                      setState(() {
+                        meterUtil.setPercCity((!meterUtil.meterIsPercCity));
+                      });
+                    }),
                 ],
               ),
             ],
