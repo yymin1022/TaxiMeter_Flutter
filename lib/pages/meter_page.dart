@@ -21,48 +21,92 @@ class _MeterPageState extends State<MeterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text("Cost : ${MeterUtil().meterCost}"),
-              Text("Counter : ${MeterUtil().meterCostCounter}"),
-              Text("Cost Mode : ${MeterUtil().meterCostMode}"),
-              Text("Meter Status : ${MeterUtil().meterStatus}"),
-              Text("Current Speed : ${MeterUtil().meterCurSpeed}"),
-              Text("Drived Distance : ${MeterUtil().meterSumDistance}"),
-              Row(
-                children: [
-                  MeterButton(
-                    btnColor: MeterColor.meterBlue,
-                    btnText: "주행 시작",
-                    onClickFunction: (){}),
-                  MeterButton(
-                    btnColor: MeterColor.meterYellow,
-                    btnText: "주행 종료",
-                    onClickFunction: (){}),
-                ],
-              ),
-              Row(
-                children: [
-                  MeterButton(
-                    btnColor: MeterColor.meterGreen,
-                    btnText: MeterUtil().meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
-                    onClickFunction: (){
-                      setState(() {
-                        meterUtil.setPercNight(!meterUtil.meterIsPercNight);
-                      });
-                    }),
-                  MeterButton(
-                    btnColor: MeterColor.meterRed,
-                    btnText: MeterUtil().meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
-                    onClickFunction: (){
-                      setState(() {
-                        meterUtil.setPercCity((!meterUtil.meterIsPercCity));
-                      });
-                    }),
-                ],
-              ),
+              MeterInfo(meterUtil: meterUtil),
+              MeterControl(meterUtil: meterUtil),
             ],
           ),
         )
       )
+    );
+  }
+}
+
+class MeterControl extends StatefulWidget {
+  const MeterControl({super.key, required this.meterUtil});
+
+  final MeterUtil meterUtil;
+
+  @override
+  State<StatefulWidget> createState() => _MeterControlState();
+}
+
+class _MeterControlState extends State<MeterControl> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            MeterButton(
+              btnColor: MeterColor.meterBlue,
+              btnText: "주행 시작",
+              onClickFunction: (){}
+            ),
+            MeterButton(
+              btnColor: MeterColor.meterYellow,
+              btnText: "주행 종료",
+              onClickFunction: (){}
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            MeterButton(
+              btnColor: MeterColor.meterGreen,
+              btnText: MeterUtil().meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
+              onClickFunction: (){
+                setState(() {
+                  widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
+                });
+              }
+            ),
+            MeterButton(
+              btnColor: MeterColor.meterRed,
+              btnText: MeterUtil().meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
+              onClickFunction: (){
+                setState(() {
+                  widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
+                });
+              }
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class MeterInfo extends StatefulWidget {
+  const MeterInfo({super.key, required this.meterUtil});
+
+  final MeterUtil meterUtil;
+
+  @override
+  State<StatefulWidget> createState() => _MeterInfoState();
+}
+
+class _MeterInfoState extends State<MeterInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("Cost : ${widget.meterUtil.meterCost}"),
+        Text("Counter : ${widget.meterUtil.meterCostCounter}"),
+        Text("Cost Mode : ${widget.meterUtil.meterCostMode}"),
+        Text("Meter Status : ${widget.meterUtil.meterStatus}"),
+        Text("Current Speed : ${widget.meterUtil.meterCurSpeed}"),
+        Text("Drived Distance : ${widget.meterUtil.meterSumDistance}"),
+      ],
     );
   }
 }
