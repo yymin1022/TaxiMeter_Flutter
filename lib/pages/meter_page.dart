@@ -100,12 +100,50 @@ class _MeterInfoState extends State<MeterInfo> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Cost : ${widget.meterUtil.meterCost}"),
-        Text("Counter : ${widget.meterUtil.meterCostCounter}"),
-        Text("Cost Mode : ${widget.meterUtil.meterCostMode}"),
-        Text("Meter Status : ${widget.meterUtil.meterStatus}"),
-        Text("Current Speed : ${widget.meterUtil.meterCurSpeed}"),
-        Text("Drived Distance : ${widget.meterUtil.meterSumDistance}"),
+        Row(
+          children: [
+            Column(
+              children: [
+                const Text(
+                  "요금 종류",
+                  style: TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                Text(
+                  widget.meterUtil.meterCostMode.toString(),
+                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                const Text(
+                  "현재 속도",
+                  style: TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                Text(
+                  widget.meterUtil.meterCurSpeed.toString(),
+                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                const Text(
+                  "운행 상태",
+                  style: TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                Text(
+                  widget.meterUtil.meterStatus.toString(),
+                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                const Text(
+                  "주행 거리",
+                  style: TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+                Text(
+                  widget.meterUtil.meterSumDistance.toString(),
+                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
+                ),
+              ],
+            )
+          ],
+        ),
       ],
     );
   }
