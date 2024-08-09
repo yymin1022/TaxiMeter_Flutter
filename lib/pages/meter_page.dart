@@ -10,6 +10,7 @@ class MeterPage extends StatelessWidget {
       body: SafeArea(child:
         Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text("Cost : ${MeterUtil().meterCost}"),
               Text("Counter : ${MeterUtil().meterCostCounter}"),
