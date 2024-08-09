@@ -12,6 +12,10 @@ class MeterPage extends StatefulWidget {
 class _MeterPageState extends State<MeterPage> {
   var meterUtil = MeterUtil();
 
+  void updateMeterView() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +26,7 @@ class _MeterPageState extends State<MeterPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               MeterInfo(meterUtil: meterUtil),
-              MeterControl(meterUtil: meterUtil),
+              MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
             ],
           ),
         )
@@ -32,9 +36,10 @@ class _MeterPageState extends State<MeterPage> {
 }
 
 class MeterControl extends StatefulWidget {
-  const MeterControl({super.key, required this.meterUtil});
+  const MeterControl({super.key, required this.meterUtil, required this.updateCallback});
 
   final MeterUtil meterUtil;
+  final Function updateCallback;
 
   @override
   State<StatefulWidget> createState() => _MeterControlState();
@@ -53,6 +58,7 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.initMeter();
+                  widget.updateCallback();
                 });
               }
             ),
@@ -62,6 +68,7 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.stopMeter();
+                  widget.updateCallback();
                 });
               }
             ),
@@ -75,6 +82,7 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
+                  widget.updateCallback();
                 });
               }
             ),
@@ -84,6 +92,7 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: (){
                 setState(() {
                   widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
+                  widget.updateCallback();
                 });
               }
             ),
@@ -110,24 +119,35 @@ class _MeterInfoState extends State<MeterInfo> {
   String meterCostMode = "기본 요금";
   String meterStatus = "운행 중 아님";
 
+  void updateMeterValue() {
+    setState(() {
+      switch(widget.meterUtil.meterCostMode) {
+        case CostMode.COST_BASE: meterCostMode = "기본 요금";
+        case CostMode.COST_DISTANCE: meterCostMode = "주행 요금";
+        case CostMode.COST_TIME: meterCostMode = "시간 요금";
+      }
+
+      switch(widget.meterUtil.meterStatus) {
+        case MeterStatus.METER_GPS_ERROR: meterStatus = "GPS 연결 대기 중";
+        case MeterStatus.METER_NOT_RUNNING: meterStatus = "운행 중 아님";
+        case MeterStatus.METER_RUNNING: meterStatus = "운행 중";
+      }
+
+      meterCurSpeed = widget.meterUtil.meterCurSpeed;
+      meterSumDistance = widget.meterUtil.meterSumDistance;
+    });
+  }
+
   @override
-  void setState(VoidCallback fn) {
-    super.setState(fn);
+  void initState() {
+    super.initState();
+    updateMeterValue();
+  }
 
-    switch(widget.meterUtil.meterCostMode) {
-      case CostMode.COST_BASE: meterCostMode = "기본 요금";
-      case CostMode.COST_DISTANCE: meterCostMode = "주행 요금";
-      case CostMode.COST_TIME: meterCostMode = "시간 요금";
-    }
-
-    switch(widget.meterUtil.meterStatus) {
-      case MeterStatus.METER_GPS_ERROR: meterStatus = "GPS 연결 대기 중";
-      case MeterStatus.METER_NOT_RUNNING: meterStatus = "운행 중 아님";
-      case MeterStatus.METER_RUNNING: meterStatus = "운행 중";
-    }
-
-    meterCurSpeed = widget.meterUtil.meterCurSpeed;
-    meterSumDistance = widget.meterUtil.meterSumDistance;
+  @override
+  void didUpdateWidget(covariant MeterInfo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    updateMeterValue();
   }
 
   @override
