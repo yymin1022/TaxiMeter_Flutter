@@ -55,7 +55,7 @@ class _MeterControlState extends State<MeterControl> {
             MeterButton(
               btnColor: MeterColor.meterBlue,
               btnText: "주행 시작",
-              onClickFunction: (){
+              onClickFunction: () {
                 setState(() {
                   widget.meterUtil.initMeter();
                   widget.updateCallback();
@@ -65,7 +65,7 @@ class _MeterControlState extends State<MeterControl> {
             MeterButton(
               btnColor: MeterColor.meterYellow,
               btnText: "주행 종료",
-              onClickFunction: (){
+              onClickFunction: () {
                 setState(() {
                   widget.meterUtil.stopMeter();
                   widget.updateCallback();
@@ -79,7 +79,7 @@ class _MeterControlState extends State<MeterControl> {
             MeterButton(
               btnColor: MeterColor.meterGreen,
               btnText: widget.meterUtil.meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
-              onClickFunction: (){
+              onClickFunction: () {
                 setState(() {
                   widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
                   widget.updateCallback();
@@ -89,7 +89,7 @@ class _MeterControlState extends State<MeterControl> {
             MeterButton(
               btnColor: MeterColor.meterRed,
               btnText: widget.meterUtil.meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
-              onClickFunction: (){
+              onClickFunction: () {
                 setState(() {
                   widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
                   widget.updateCallback();
