@@ -63,7 +63,13 @@ class _MeterButtonState extends State<MeterButton> {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25.0),
-                child: Text(widget.btnText),
+                child: Text(
+                  widget.btnText,
+                  style: const TextStyle(
+                    color: MeterColor.meterBtnText,
+                    fontSize: 15.0
+                  ),
+                ),
               )
             ),
           )
