@@ -50,12 +50,20 @@ class _MeterControlState extends State<MeterControl> {
             MeterButton(
               btnColor: MeterColor.meterBlue,
               btnText: "주행 시작",
-              onClickFunction: (){}
+              onClickFunction: (){
+                setState(() {
+                  widget.meterUtil.initMeter();
+                });
+              }
             ),
             MeterButton(
               btnColor: MeterColor.meterYellow,
               btnText: "주행 종료",
-              onClickFunction: (){}
+              onClickFunction: (){
+                setState(() {
+                  widget.meterUtil.stopMeter();
+                });
+              }
             ),
           ],
         ),
