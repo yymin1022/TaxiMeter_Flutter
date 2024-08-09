@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taximeter/utils/color_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 
 class MeterPage extends StatelessWidget {
@@ -20,14 +21,14 @@ class MeterPage extends StatelessWidget {
               Text("Drived Distance : ${MeterUtil().meterSumDistance}"),
               Row(
                 children: [
-                  MeterButton(btnColor: Colors.blue, btnText: "주행 시작", onClickFunction: (){}),
-                  MeterButton(btnColor: Colors.yellow, btnText: "주행 종료", onClickFunction: (){}),
+                  MeterButton(btnColor: MeterColor.meterBlue, btnText: "주행 시작", onClickFunction: (){}),
+                  MeterButton(btnColor: MeterColor.meterYellow, btnText: "주행 종료", onClickFunction: (){}),
                 ],
               ),
               Row(
                 children: [
-                  MeterButton(btnColor: Colors.green, btnText: "야간할증 미적용", onClickFunction: (){}),
-                  MeterButton(btnColor: Colors.pink, btnText: "시외할증 미적용", onClickFunction: (){}),
+                  MeterButton(btnColor: MeterColor.meterGreen, btnText: "야간할증 미적용", onClickFunction: (){}),
+                  MeterButton(btnColor: MeterColor.meterRed, btnText: "시외할증 미적용", onClickFunction: (){}),
                 ],
               ),
             ],
@@ -54,7 +55,7 @@ class _MeterButtonState extends State<MeterButton> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Container(
           color: widget.btnColor,
           child: InkWell(
