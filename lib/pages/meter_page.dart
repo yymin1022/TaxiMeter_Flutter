@@ -203,12 +203,12 @@ class _MeterButtonState extends State<MeterButton> {
             onTap: widget.onClickFunction,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25.0),
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   widget.btnText,
                   style: const TextStyle(
                     color: MeterColor.meterBtnText,
-                    fontSize: 15.0
+                    fontSize: 17.5
                   ),
                 ),
               )
