@@ -21,14 +21,26 @@ class MeterPage extends StatelessWidget {
               Text("Drived Distance : ${MeterUtil().meterSumDistance}"),
               Row(
                 children: [
-                  MeterButton(btnColor: MeterColor.meterBlue, btnText: "주행 시작", onClickFunction: (){}),
-                  MeterButton(btnColor: MeterColor.meterYellow, btnText: "주행 종료", onClickFunction: (){}),
+                  MeterButton(
+                    btnColor: MeterColor.meterBlue,
+                    btnText: "주행 시작",
+                    onClickFunction: (){}),
+                  MeterButton(
+                    btnColor: MeterColor.meterYellow,
+                    btnText: "주행 종료",
+                    onClickFunction: (){}),
                 ],
               ),
               Row(
                 children: [
-                  MeterButton(btnColor: MeterColor.meterGreen, btnText: "야간할증 미적용", onClickFunction: (){}),
-                  MeterButton(btnColor: MeterColor.meterRed, btnText: "시외할증 미적용", onClickFunction: (){}),
+                  MeterButton(
+                    btnColor: MeterColor.meterGreen,
+                    btnText: "야간할증 미적용",
+                    onClickFunction: (){}),
+                  MeterButton(
+                    btnColor: MeterColor.meterRed,
+                    btnText: "시외할증 미적용",
+                    onClickFunction: (){}),
                 ],
               ),
             ],
