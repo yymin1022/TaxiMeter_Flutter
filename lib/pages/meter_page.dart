@@ -104,47 +104,33 @@ class _MeterInfoState extends State<MeterInfo> {
           children: [
             Column(
               children: [
-                const Text(
-                  "요금 종류",
-                  style: TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                Text(
-                  widget.meterUtil.meterCostMode.toString(),
-                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                const Text(
-                  "현재 속도",
-                  style: TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                Text(
-                  widget.meterUtil.meterCurSpeed.toString(),
-                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
+                meterInfoText("요금 종류"),
+                meterInfoText(widget.meterUtil.meterCostMode.toString()),
+                meterInfoText("현재 속도"),
+                meterInfoText(widget.meterUtil.meterCurSpeed.toString()),
               ],
             ),
             Column(
               children: [
-                const Text(
-                  "운행 상태",
-                  style: TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                Text(
-                  widget.meterUtil.meterStatus.toString(),
-                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                const Text(
-                  "주행 거리",
-                  style: TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
-                Text(
-                  widget.meterUtil.meterSumDistance.toString(),
-                  style: const TextStyle(color: MeterColor.meterTextColorWhite),
-                ),
+                meterInfoText("운행 상태"),
+                meterInfoText(widget.meterUtil.meterStatus.toString()),
+                meterInfoText("주행 거리"),
+                meterInfoText(widget.meterUtil.meterSumDistance.toString())
               ],
             )
           ],
         ),
       ],
+    );
+  }
+
+  Text meterInfoText(String str) {
+    return Text(
+      str,
+      style: const TextStyle(
+        color: MeterColor.meterTextColorWhite,
+        fontSize: 20.0,
+      )
     );
   }
 }
