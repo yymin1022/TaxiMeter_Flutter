@@ -25,6 +25,12 @@ class _MeterPageState extends State<MeterPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    meterUtil?.stopMeter();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MeterColor.meterBackground,
