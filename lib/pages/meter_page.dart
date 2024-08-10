@@ -119,8 +119,20 @@ class _MeterCostViewState extends State<MeterCostView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("${widget.meterUtil.meterCost}원"),
-        Text(widget.meterUtil.meterCostCounter.toString()),
+        Text(
+          "${widget.meterUtil.meterCost}원",
+          style: const TextStyle(
+            color: MeterColor.meterTextColorWhite,
+            fontSize: 60.0
+          ),
+        ),
+        Text(
+          widget.meterUtil.meterCostCounter.toString(),
+          style: const TextStyle(
+            color: MeterColor.meterBlue,
+            fontSize: 35.0
+          )
+        ),
       ],
     );
   }
