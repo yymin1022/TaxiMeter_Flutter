@@ -17,6 +17,15 @@ class _MeterPageState extends State<MeterPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    if(meterUtil.meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      meterUtil.initMeter().then((_) => updateMeterView());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -59,7 +68,7 @@ class _MeterControlState extends State<MeterControl> {
               btnText: "주행 시작",
               onClickFunction: () {
                 setState(() {
-                  widget.meterUtil.initMeter();
+                  widget.meterUtil.startMeter();
                   widget.updateCallback();
                 });
               }
@@ -127,7 +136,7 @@ class _MeterCostViewState extends State<MeterCostView> {
             "${widget.meterUtil.meterCost}원",
             style: const TextStyle(
               color: MeterColor.meterTextColorWhite,
-              fontSize: 60.0
+              fontSize: 75.0
             ),
           ),
           Text(
