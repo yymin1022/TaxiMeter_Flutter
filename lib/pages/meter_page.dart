@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taximeter/utils/color_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 
@@ -135,7 +136,7 @@ class _MeterCostViewState extends State<MeterCostView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            "${widget.meterUtil.meterCost}원",
+            "${NumberFormat("#,##0").format(widget.meterUtil.meterCost)}원",
             style: const TextStyle(
               color: MeterColor.meterTextColorWhite,
               fontSize: 75.0
@@ -219,7 +220,7 @@ class _MeterInfoState extends State<MeterInfo> {
                       meterInfoText(meterCostMode),
                       Container(height: 10.0),
                       meterInfoText("현재 속도"),
-                      meterInfoText("${meterCurSpeed.toStringAsFixed(1)}km/h")
+                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterCurSpeed)}km/h")
                     ],
                   ),
                 ),
@@ -234,7 +235,7 @@ class _MeterInfoState extends State<MeterInfo> {
                       meterInfoText(meterStatus),
                       Container(height: 10.0),
                       meterInfoText("주행 거리"),
-                      meterInfoText("${meterSumDistance.toStringAsFixed(1)}km")
+                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance)}km")
                     ],
                   ),
                 ),
