@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
@@ -43,7 +44,12 @@ class MeterUtil {
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1),
         (_) {
-          increaseCost(0);
+          Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high
+          ).then((pos) => (){
+            print(pos.speed);
+            increaseCost(pos.speed);
+          });
         }
       );
 
@@ -60,7 +66,7 @@ class MeterUtil {
     }
   }
 
-  void increaseCost(int curSpeed) {
+  void increaseCost(double curSpeed) {
     final curTime = DateTime.now().millisecondsSinceEpoch;
     if(lastUpdateTime == 0) {
       lastUpdateTime = curTime;
@@ -107,6 +113,8 @@ class MeterUtil {
         meterCostMode = CostMode.COST_DISTANCE;
       }
     }
+
+    updateView();
   }
 
   void setPercCity(bool isEnabled) {
