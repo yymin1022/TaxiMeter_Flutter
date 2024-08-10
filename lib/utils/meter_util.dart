@@ -71,13 +71,13 @@ class MeterUtil {
     final deltaTime = (curTime - lastUpdateTime) / 1000.0;
     lastUpdateTime = curTime;
 
-    meterCurSpeed = curSpeed.toDouble();
+    meterCurSpeed = curSpeed * 3.6;
     meterStatus = MeterStatus.METER_RUNNING;
 
     meterCostCounter -= (meterCurSpeed * deltaTime).toInt();
     meterSumDistance += meterCurSpeed * deltaTime;
 
-    if(meterCurSpeed < 4.2) {
+    if(meterCurSpeed < 15) {
       meterCostCounter -= (prefCostRunPer / prefCostTimePer * deltaTime).toInt();
 
       if(meterCostMode == CostMode.COST_DISTANCE) {
