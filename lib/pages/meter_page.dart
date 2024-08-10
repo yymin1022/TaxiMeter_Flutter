@@ -59,7 +59,7 @@ class MeterAnimation extends StatefulWidget {
 }
 
 class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProviderStateMixin {
-  MeterTheme curMeterTheme = MeterTheme.METER_THEME_HORSE;
+  MeterTheme _curMeterTheme = MeterTheme.METER_THEME_HORSE;
 
   AnimationController? _meterAnimationController;
   List<Image> _meterAnimationFrameList = [];
@@ -74,7 +74,7 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
 
     PreferenceUtil().getPrefsValueS("pref_theme").then((res) => {
       setState(() {
-        curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
+        _curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
         _loadImages();
         _meterAnimationController!.repeat();
       })
@@ -104,7 +104,7 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
   }
 
   void _loadImages() {
-    if(curMeterTheme == MeterTheme.METER_THEME_CIRCLE) {
+    if(_curMeterTheme == MeterTheme.METER_THEME_CIRCLE) {
       if(widget.meterUtil.meterCurSpeed > 50) {
         _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 104);
@@ -121,7 +121,7 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
         _meterAnimationFrameList = [Image.asset("assets/images/meter_circle/ic_circle_1.png")];
         _meterAnimationController!.duration = const Duration(milliseconds: 1000);
       }
-    } else if(curMeterTheme == MeterTheme.METER_THEME_HORSE) {
+    } else if(_curMeterTheme == MeterTheme.METER_THEME_HORSE) {
       if(widget.meterUtil.meterCurSpeed > 50) {
         _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 142);
