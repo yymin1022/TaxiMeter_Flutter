@@ -91,7 +91,7 @@ class MeterUtil {
 
     if(meterCostCounter <= 0) {
       meterCost += 100;
-      meterCostCounter = prefCostRunPer;
+      meterCostCounter += prefCostRunPer;
 
       if(meterIsPercNight) {
         final curH = int.parse(DateFormat('HH').format(DateTime.now()));
