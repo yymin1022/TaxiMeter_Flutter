@@ -12,7 +12,7 @@ class MeterPage extends StatefulWidget {
 }
 
 class _MeterPageState extends State<MeterPage> {
-  var meterUtil = MeterUtil();
+  MeterUtil? meterUtil;
 
   void updateMeterView() {
     setState(() {});
@@ -21,12 +21,13 @@ class _MeterPageState extends State<MeterPage> {
   @override
   void initState() {
     super.initState();
+    meterUtil = MeterUtil(updateView: updateMeterView);
+  }
 
-    if(meterUtil.meterStatus == MeterStatus.METER_NOT_RUNNING) {
-      meterUtil.initMeter().then((_) => updateMeterView());
-    } else {
-      updateMeterView();
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    meterUtil?.stopMeter();
   }
 
   @override
@@ -38,10 +39,10 @@ class _MeterPageState extends State<MeterPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            MeterAnimation(meterUtil: meterUtil),
-            MeterCostView(meterUtil: meterUtil),
-            MeterInfo(meterUtil: meterUtil),
-            MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
+            MeterAnimation(meterUtil: meterUtil!),
+            MeterCostView(meterUtil: meterUtil!),
+            MeterInfo(meterUtil: meterUtil!),
+            MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
           ],
         )
       )
@@ -62,7 +63,8 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
   MeterTheme _curMeterTheme = MeterTheme.METER_THEME_HORSE;
 
   AnimationController? _meterAnimationController;
-  List<Image> _meterAnimationFrameList = [];
+  final List<Image> _meterCircleFrames = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
+  final List<Image> _meterHorseFrames = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
 
   @override
   void initState() {
@@ -75,8 +77,6 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
     PreferenceUtil().getPrefsValueS("pref_theme").then((res) => {
       setState(() {
         _curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
-        _loadImages();
-        _meterAnimationController!.repeat();
       })
     });
   }
@@ -97,52 +97,46 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
         child: AnimatedBuilder(
           animation: _meterAnimationController!,
           builder: (context, child) {
-            return _meterAnimationFrameList.isNotEmpty
-                ? _meterAnimationFrameList[(_meterAnimationController!.value * _meterAnimationFrameList.length).floor() % _meterAnimationFrameList.length]
-                : Container();
+            _updateDuration();
+
+            if(_curMeterTheme == MeterTheme.METER_THEME_CIRCLE) {
+              return _meterCircleFrames[(_meterAnimationController!.value * 8).floor() % 8];
+            } else {
+              return _meterHorseFrames[(_meterAnimationController!.value * 3).floor() % 3];
+            }
           }
         )
       ),
     );
   }
 
-  void _loadImages() {
+  void _updateDuration() {
+    _meterAnimationController!.repeat();
     if(_curMeterTheme == MeterTheme.METER_THEME_CIRCLE) {
       if(widget.meterUtil.meterCurSpeed > 50) {
-        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 104);
       } else if(widget.meterUtil.meterCurSpeed > 30) {
-        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 160);
       } else if(widget.meterUtil.meterCurSpeed > 15) {
-        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 328);
       } else if(widget.meterUtil.meterCurSpeed > 0) {
-        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 1000);
       } else {
-        _meterAnimationFrameList = [Image.asset("assets/images/meter_circle/ic_circle_1.png")];
-        _meterAnimationController!.duration = const Duration(milliseconds: 1000);
+        _meterAnimationController!.stop();
       }
     } else if(_curMeterTheme == MeterTheme.METER_THEME_HORSE) {
       if(widget.meterUtil.meterCurSpeed > 50) {
-        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 142);
       } else if(widget.meterUtil.meterCurSpeed > 30) {
-        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 200);
       } else if(widget.meterUtil.meterCurSpeed > 20) {
-        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 250);
       } else if(widget.meterUtil.meterCurSpeed > 10) {
-        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 333);
       } else if(widget.meterUtil.meterCurSpeed > 0) {
-        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
         _meterAnimationController!.duration = const Duration(milliseconds: 500);
       } else {
-        _meterAnimationFrameList = [Image.asset("assets/images/meter_horse/ic_horse_1.png")];
-        _meterAnimationController!.duration = const Duration(milliseconds: 1000);
+        _meterAnimationController!.stop();
       }
     }
   }
@@ -334,7 +328,7 @@ class _MeterInfoState extends State<MeterInfo> {
                       meterInfoText(meterStatus),
                       Container(height: 10.0),
                       meterInfoText("주행 거리"),
-                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance)}km")
+                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)}km")
                     ],
                   ),
                 ),

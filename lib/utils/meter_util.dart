@@ -1,12 +1,15 @@
+import 'dart:async';
+
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
 class MeterUtil {
-  MeterUtil._privateConstructor();
-  static final MeterUtil _instance = MeterUtil._privateConstructor();
-
-  factory MeterUtil() {
-    return _instance;
+  MeterUtil({required this.updateView}) {
+    _initValue().then((res) => updateView());
   }
+
+  final Function updateView;
 
   var meterCost = 0;
   var meterCostCounter = 0;
@@ -18,7 +21,6 @@ class MeterUtil {
 
   var meterCostMode = CostMode.COST_BASE;
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
-  var meterTheme = MeterTheme.METER_THEME_HORSE;
 
   var prefCostBase = 4800;
   var prefCostRunPer = 132;
@@ -31,40 +33,106 @@ class MeterUtil {
   var prefPercNightEnd2 = 2;
   var prefPercNightStart1 = 22;
   var prefPercNightStart2 = 23;
-  var prefTheme = "horse";
 
-  Future<void> initMeter() async {
-    if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
-      await _initValue();
-    }
-  }
+  late Timer _gpsTimer;
+  int lastUpdateTime = 0;
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      meterStatus = MeterStatus.METER_GPS_ERROR;
+      increaseCost(0);
+
+      _gpsTimer = Timer.periodic(
+        const Duration(seconds: 1), (_) {
+          Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+            .then((pos) => increaseCost(pos.speed));
+        }
+      );
+
       meterStatus = MeterStatus.METER_RUNNING;
     }
   }
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
-      meterCostMode = CostMode.COST_BASE;
-      meterStatus = MeterStatus.METER_NOT_RUNNING;
+      _gpsTimer.cancel();
+      _initValue();
     }
   }
 
-  void increaseCost() {
+  void increaseCost(double curSpeed) {
+    final curTime = DateTime.now().millisecondsSinceEpoch;
+    if(lastUpdateTime == 0) {
+      lastUpdateTime = curTime;
+    }
 
+    final deltaTime = (curTime - lastUpdateTime) / 1000.0;
+    lastUpdateTime = curTime;
+
+    meterCurSpeed = curSpeed * 3.6;
+    meterStatus = MeterStatus.METER_RUNNING;
+
+    meterCostCounter -= (curSpeed * deltaTime).toInt();
+    meterSumDistance += curSpeed * deltaTime;
+
+    if(meterCurSpeed < 15) {
+      meterCostCounter -= (prefCostRunPer / prefCostTimePer * deltaTime).toInt();
+
+      if(meterCostMode == CostMode.COST_DISTANCE) {
+        meterCostMode = CostMode.COST_TIME;
+      }
+    } else {
+      if(meterCostMode == CostMode.COST_TIME) {
+        meterCostMode = CostMode.COST_DISTANCE;
+      }
+    }
+
+    if(meterCostCounter <= 0) {
+      meterCost += 100;
+      meterCostCounter += prefCostRunPer;
+
+      if(meterIsPercNight) {
+        final curH = int.parse(DateFormat('HH').format(DateTime.now()));
+        if ((curH >= 20 && curH >= prefPercNightStart1) || (curH <= 5 && curH < prefPercNightEnd1)) {
+          meterCost += (curH >= 20 && curH >= prefPercNightStart2) || (curH <= 5 && curH < prefPercNightEnd2)
+              ? prefPercNight2 : prefPercNight1;
+        }
+      }
+
+      if(meterIsPercCity) {
+        meterCost += prefPercCity;
+      }
+
+      if(meterCostMode == CostMode.COST_BASE) {
+        meterCostMode = CostMode.COST_DISTANCE;
+      }
+    }
+
+    updateView();
   }
 
   void setPercCity(bool isEnabled) {
-    if(meterIsPercCity != isEnabled) {
-      meterIsPercCity = isEnabled;
+    if(isEnabled) {
+      meterCost += prefCostBase * prefPercCity ~/ 100;
+    } else {
+      meterCost -= prefCostBase * prefPercCity ~/ 100;
     }
   }
 
   void setPercNight(bool isEnabled) {
-    if(meterIsPercNight != isEnabled) {
-      meterIsPercNight = isEnabled;
+    int curH = int.parse(DateFormat('HH').format(DateTime.now()));
+    int premiumCost = 0;
+
+    if((curH >= 20 && curH >= prefPercNightStart1) || (curH <= 5 && curH < prefPercNightEnd1)) {
+      premiumCost = (curH >= 20 && curH >= prefPercNightStart2) || (curH <= 5 && curH < prefPercNightEnd2)
+          ? prefCostBase * prefPercNight2 ~/ 100
+          : prefCostBase * prefPercNight1 ~/ 100;
+    }
+
+    if(isEnabled) {
+      meterCost += premiumCost;
+    } else {
+      meterCost -= premiumCost;
     }
   }
 
@@ -80,14 +148,17 @@ class MeterUtil {
     prefPercNightEnd2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_2") ?? 2;
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
-    prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
 
     meterCost = prefCostBase;
     meterCostCounter = prefDistBase;
-    meterCostMode = CostMode.COST_BASE;
     meterCurSpeed = 0.0;
-    meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
     meterSumDistance = 0.0;
+
+    meterIsPercCity = false;
+    meterIsPercNight = false;
+
+    meterCostMode = CostMode.COST_BASE;
+    meterStatus = MeterStatus.METER_NOT_RUNNING;
   }
 }
 
