@@ -22,6 +22,8 @@ class _MeterPageState extends State<MeterPage> {
 
     if(meterUtil.meterStatus == MeterStatus.METER_NOT_RUNNING) {
       meterUtil.initMeter().then((_) => updateMeterView());
+    } else {
+      updateMeterView();
     }
   }
 
