@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:taximeter/utils/color_util.dart';
-import 'package:taximeter/utils/meter_util.dart';
+import "package:flutter/material.dart";
+import "package:intl/intl.dart";
+import "package:taximeter/utils/color_util.dart";
+import "package:taximeter/utils/meter_util.dart";
+import "package:taximeter/utils/preference_util.dart";
 
 class MeterPage extends StatefulWidget {
   const MeterPage({super.key});
@@ -37,6 +38,7 @@ class _MeterPageState extends State<MeterPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            MeterAnimation(meterUtil: meterUtil),
             MeterCostView(meterUtil: meterUtil),
             MeterInfo(meterUtil: meterUtil),
             MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
@@ -44,6 +46,102 @@ class _MeterPageState extends State<MeterPage> {
         )
       )
     );
+  }
+}
+
+class MeterAnimation extends StatefulWidget {
+  const MeterAnimation({super.key, required this.meterUtil});
+
+  final MeterUtil meterUtil;
+
+  @override
+  State<StatefulWidget> createState() => _MeterAnimationState();
+}
+
+class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProviderStateMixin {
+  MeterTheme curMeterTheme = MeterTheme.METER_THEME_HORSE;
+
+  AnimationController? _meterAnimationController;
+  List<Image> _meterAnimationFrameList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _meterAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    PreferenceUtil().getPrefsValueS("pref_theme").then((res) => {
+      setState(() {
+        curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
+        _loadImages();
+        _meterAnimationController!.repeat();
+      })
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _meterAnimationController!.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40.0,
+      width: 40.0,
+      child: AnimatedBuilder(
+        animation: _meterAnimationController!,
+        builder: (context, child) {
+          return _meterAnimationFrameList.isNotEmpty
+              ? _meterAnimationFrameList[(_meterAnimationController!.value * _meterAnimationFrameList.length).floor() % _meterAnimationFrameList.length]
+              : Container();
+        }
+      )
+    );
+  }
+
+  void _loadImages() {
+    if(curMeterTheme == MeterTheme.METER_THEME_CIRCLE) {
+      if(widget.meterUtil.meterCurSpeed > 50) {
+        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 104);
+      } else if(widget.meterUtil.meterCurSpeed > 30) {
+        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 160);
+      } else if(widget.meterUtil.meterCurSpeed > 15) {
+        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 328);
+      } else if(widget.meterUtil.meterCurSpeed > 0) {
+        _meterAnimationFrameList = List.generate(8, (index) => Image.asset("assets/images/meter_circle/ic_circle_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 1000);
+      } else {
+        _meterAnimationFrameList = [Image.asset("assets/images/meter_circle/ic_circle_1.png")];
+        _meterAnimationController!.duration = const Duration(milliseconds: 1000);
+      }
+    } else if(curMeterTheme == MeterTheme.METER_THEME_HORSE) {
+      if(widget.meterUtil.meterCurSpeed > 50) {
+        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 142);
+      } else if(widget.meterUtil.meterCurSpeed > 30) {
+        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 200);
+      } else if(widget.meterUtil.meterCurSpeed > 20) {
+        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 250);
+      } else if(widget.meterUtil.meterCurSpeed > 10) {
+        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 333);
+      } else if(widget.meterUtil.meterCurSpeed > 0) {
+        _meterAnimationFrameList = List.generate(3, (index) => Image.asset("assets/images/meter_horse/ic_horse_${index + 1}.png"));
+        _meterAnimationController!.duration = const Duration(milliseconds: 500);
+      } else {
+        _meterAnimationFrameList = [Image.asset("assets/images/meter_horse/ic_horse_1.png")];
+        _meterAnimationController!.duration = const Duration(milliseconds: 1000);
+      }
+    }
   }
 }
 
