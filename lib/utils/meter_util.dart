@@ -41,7 +41,9 @@ class MeterUtil {
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      meterStatus = MeterStatus.METER_GPS_ERROR;
       increaseCost(0);
+
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
           Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
