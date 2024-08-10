@@ -335,7 +335,7 @@ class _MeterInfoState extends State<MeterInfo> {
                       meterInfoText(meterStatus),
                       Container(height: 10.0),
                       meterInfoText("주행 거리"),
-                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance)}km")
+                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)}km")
                     ],
                   ),
                 ),
