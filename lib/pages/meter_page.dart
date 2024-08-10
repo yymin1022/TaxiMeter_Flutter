@@ -25,6 +25,7 @@ class _MeterPageState extends State<MeterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              MeterCostView(meterUtil: meterUtil),
               MeterInfo(meterUtil: meterUtil),
               MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
             ],
@@ -102,6 +103,28 @@ class _MeterControlState extends State<MeterControl> {
       ],
     );
   }
+}
+
+class MeterCostView extends StatefulWidget {
+  const MeterCostView({super.key, required this.meterUtil});
+
+  final MeterUtil meterUtil;
+
+  @override
+  State<StatefulWidget> createState() => _MeterCostViewState();
+}
+
+class _MeterCostViewState extends State<MeterCostView> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("${widget.meterUtil.meterCost}원"),
+        Text(widget.meterUtil.meterCostCounter.toString()),
+      ],
+    );
+  }
+
 }
 
 class MeterInfo extends StatefulWidget {
