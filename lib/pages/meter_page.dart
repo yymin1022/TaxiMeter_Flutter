@@ -118,24 +118,27 @@ class MeterCostView extends StatefulWidget {
 class _MeterCostViewState extends State<MeterCostView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          "${widget.meterUtil.meterCost}원",
-          style: const TextStyle(
-            color: MeterColor.meterTextColorWhite,
-            fontSize: 60.0
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            "${widget.meterUtil.meterCost}원",
+            style: const TextStyle(
+              color: MeterColor.meterTextColorWhite,
+              fontSize: 60.0
+            ),
           ),
-        ),
-        Text(
-          widget.meterUtil.meterCostCounter.toString(),
-          style: const TextStyle(
-            color: MeterColor.meterBlue,
-            fontSize: 35.0
-          )
-        ),
-      ],
+          Text(
+            widget.meterUtil.meterCostCounter.toString(),
+            style: const TextStyle(
+              color: MeterColor.meterBlue,
+              fontSize: 35.0
+            )
+          ),
+        ],
+      ),
     );
   }
 
