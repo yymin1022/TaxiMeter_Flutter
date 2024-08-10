@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:taximeter/utils/preference_util.dart';
 
 class MeterUtil {
@@ -32,14 +34,25 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
   var prefTheme = "horse";
 
+  late Timer _gpsTimer;
+
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      _gpsTimer = Timer.periodic(
+        const Duration(seconds: 1),
+        (_) {
+          increaseCost();
+        }
+      );
+
       meterStatus = MeterStatus.METER_RUNNING;
     }
   }
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
+      _gpsTimer.cancel();
+
       meterCostMode = CostMode.COST_BASE;
       meterStatus = MeterStatus.METER_NOT_RUNNING;
     }
