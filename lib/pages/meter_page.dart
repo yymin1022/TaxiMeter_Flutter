@@ -23,6 +23,7 @@ class _MeterPageState extends State<MeterPage> {
         child: Container(
           color: MeterColor.meterBackground,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               MeterCostView(meterUtil: meterUtil),
