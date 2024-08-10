@@ -31,18 +31,16 @@ class _MeterPageState extends State<MeterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MeterColor.meterBackground,
       body: SafeArea(
-        child: Container(
-          color: MeterColor.meterBackground,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              MeterCostView(meterUtil: meterUtil),
-              MeterInfo(meterUtil: meterUtil),
-              MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            MeterCostView(meterUtil: meterUtil),
+            MeterInfo(meterUtil: meterUtil),
+            MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
+          ],
         )
       )
     );
