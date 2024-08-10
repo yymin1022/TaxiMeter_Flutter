@@ -89,17 +89,20 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 90.0,
-      width: 90.0,
-      child: AnimatedBuilder(
-        animation: _meterAnimationController!,
-        builder: (context, child) {
-          return _meterAnimationFrameList.isNotEmpty
-              ? _meterAnimationFrameList[(_meterAnimationController!.value * _meterAnimationFrameList.length).floor() % _meterAnimationFrameList.length]
-              : Container();
-        }
-      )
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: SizedBox(
+        height: 90.0,
+        width: 90.0,
+        child: AnimatedBuilder(
+          animation: _meterAnimationController!,
+          builder: (context, child) {
+            return _meterAnimationFrameList.isNotEmpty
+                ? _meterAnimationFrameList[(_meterAnimationController!.value * _meterAnimationFrameList.length).floor() % _meterAnimationFrameList.length]
+                : Container();
+          }
+        )
+      ),
     );
   }
 
