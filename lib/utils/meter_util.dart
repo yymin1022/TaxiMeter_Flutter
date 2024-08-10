@@ -42,13 +42,11 @@ class MeterUtil {
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       _gpsTimer = Timer.periodic(
-        const Duration(seconds: 1),
-        (_) {
+        const Duration(seconds: 1), (_) {
           Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high
-          ).then((pos) => (){
-            print(pos.speed);
-            increaseCost(pos.speed);
+          ).then((pos) => {
+            increaseCost(pos.speed)
           });
         }
       );
