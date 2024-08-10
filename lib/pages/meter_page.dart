@@ -118,6 +118,7 @@ class _MeterCostViewState extends State<MeterCostView> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           "${widget.meterUtil.meterCost}원",
