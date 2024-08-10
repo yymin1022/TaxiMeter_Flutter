@@ -112,8 +112,10 @@ class MeterUtil {
   }
 
   void setPercCity(bool isEnabled) {
-    if(meterIsPercCity != isEnabled) {
-      meterIsPercCity = isEnabled;
+    if(isEnabled) {
+      meterCost += prefCostBase * prefPercCity ~/ 100;
+    } else {
+      meterCost -= prefCostBase * prefPercCity ~/ 100;
     }
   }
 
