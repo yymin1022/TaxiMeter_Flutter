@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
 class MeterUtil {
@@ -35,13 +36,14 @@ class MeterUtil {
   var prefTheme = "horse";
 
   late Timer _gpsTimer;
+  int lastUpdateTime = 0;
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1),
         (_) {
-          increaseCost();
+          increaseCost(0);
         }
       );
 
@@ -58,8 +60,53 @@ class MeterUtil {
     }
   }
 
-  void increaseCost() {
+  void increaseCost(int curSpeed) {
+    final curTime = DateTime.now().millisecondsSinceEpoch;
+    if(lastUpdateTime == 0) {
+      lastUpdateTime = curTime;
+    }
 
+    final deltaTime = (curTime - lastUpdateTime) / 1000.0;
+    lastUpdateTime = curTime;
+
+    meterCurSpeed = curSpeed.toDouble();
+    meterStatus = MeterStatus.METER_RUNNING;
+
+    meterCostCounter -= (meterCurSpeed * deltaTime).toInt();
+    meterSumDistance += meterCurSpeed * deltaTime;
+
+    if(meterCurSpeed < 4.2) {
+      meterCostCounter -= (prefCostRunPer / prefCostTimePer * deltaTime).toInt();
+
+      if(meterCostMode == CostMode.COST_DISTANCE) {
+        meterCostMode = CostMode.COST_TIME;
+      }
+    } else {
+      if(meterCostMode == CostMode.COST_TIME) {
+        meterCostMode = CostMode.COST_DISTANCE;
+      }
+    }
+
+    if(meterCostCounter <= 0) {
+      meterCost += 100;
+      meterCostCounter = prefCostRunPer;
+
+      if(meterIsPercNight) {
+        final curH = int.parse(DateFormat('HH').format(DateTime.now()));
+        if ((curH >= 20 && curH >= prefPercNightStart1) || (curH <= 5 && curH < prefPercNightEnd1)) {
+          meterCost += (curH >= 20 && curH >= prefPercNightStart2) || (curH <= 5 && curH < prefPercNightEnd2)
+              ? prefPercNight2 : prefPercNight1;
+        }
+      }
+
+      if(meterIsPercCity) {
+        meterCost += prefPercCity;
+      }
+
+      if(meterCostMode == CostMode.COST_BASE) {
+        meterCostMode = CostMode.COST_DISTANCE;
+      }
+    }
   }
 
   void setPercCity(bool isEnabled) {
