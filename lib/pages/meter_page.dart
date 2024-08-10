@@ -90,8 +90,8 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40.0,
-      width: 40.0,
+      height: 90.0,
+      width: 90.0,
       child: AnimatedBuilder(
         animation: _meterAnimationController!,
         builder: (context, child) {
