@@ -20,11 +20,11 @@ class MeterUtil {
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
   var meterTheme = MeterTheme.METER_THEME_HORSE;
 
-  var prefCostBase = 0;
-  var prefCostRunPer = 0;
-  var prefCostTimePer = 0;
-  var prefDistBase = 0;
-  var prefPercCity = 0;
+  var prefCostBase = 4800;
+  var prefCostRunPer = 132;
+  var prefCostTimePer = 31;
+  var prefDistBase = 1600;
+  var prefPercCity = 20;
   var prefPercNight1 = 20;
   var prefPercNight2 = 40;
   var prefPercNightEnd1 = 4;
@@ -33,10 +33,14 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
   var prefTheme = "horse";
 
-  void initMeter() async {
+  Future<void> initMeter() async {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       await _initValue();
+    }
+  }
 
+  void startMeter() {
+    if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       meterStatus = MeterStatus.METER_RUNNING;
     }
   }
