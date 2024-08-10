@@ -21,7 +21,6 @@ class MeterUtil {
 
   var meterCostMode = CostMode.COST_BASE;
   var meterStatus = MeterStatus.METER_NOT_RUNNING;
-  var meterTheme = MeterTheme.METER_THEME_HORSE;
 
   var prefCostBase = 4800;
   var prefCostRunPer = 132;
@@ -34,7 +33,6 @@ class MeterUtil {
   var prefPercNightEnd2 = 2;
   var prefPercNightStart1 = 22;
   var prefPercNightStart2 = 23;
-  var prefTheme = "horse";
 
   late Timer _gpsTimer;
   int lastUpdateTime = 0;
@@ -137,7 +135,6 @@ class MeterUtil {
     prefPercNightEnd2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_2") ?? 2;
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
-    prefTheme = await PreferenceUtil().getPrefsValueS("pref_theme") ?? "horse";
 
     meterCost = prefCostBase;
     meterCostCounter = prefDistBase;
@@ -149,7 +146,6 @@ class MeterUtil {
 
     meterCostMode = CostMode.COST_BASE;
     meterStatus = MeterStatus.METER_NOT_RUNNING;
-    meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
   }
 }
 
