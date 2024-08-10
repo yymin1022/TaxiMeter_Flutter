@@ -1,12 +1,11 @@
 import 'package:taximeter/utils/preference_util.dart';
 
 class MeterUtil {
-  MeterUtil._privateConstructor();
-  static final MeterUtil _instance = MeterUtil._privateConstructor();
-
-  factory MeterUtil() {
-    return _instance;
+  MeterUtil({required this.updateView}) {
+    _initValue().then((res) => updateView());
   }
+
+  final Function updateView;
 
   var meterCost = 0;
   var meterCostCounter = 0;
@@ -32,12 +31,6 @@ class MeterUtil {
   var prefPercNightStart1 = 22;
   var prefPercNightStart2 = 23;
   var prefTheme = "horse";
-
-  Future<void> initMeter() async {
-    if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
-      await _initValue();
-    }
-  }
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
