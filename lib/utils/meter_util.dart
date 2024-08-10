@@ -58,9 +58,7 @@ class MeterUtil {
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
       _gpsTimer.cancel();
-
-      meterCostMode = CostMode.COST_BASE;
-      meterStatus = MeterStatus.METER_NOT_RUNNING;
+      _initValue();
     }
   }
 
@@ -143,10 +141,15 @@ class MeterUtil {
 
     meterCost = prefCostBase;
     meterCostCounter = prefDistBase;
-    meterCostMode = CostMode.COST_BASE;
     meterCurSpeed = 0.0;
-    meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
     meterSumDistance = 0.0;
+
+    meterIsPercCity = false;
+    meterIsPercNight = false;
+
+    meterCostMode = CostMode.COST_BASE;
+    meterStatus = MeterStatus.METER_NOT_RUNNING;
+    meterTheme = prefTheme == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
   }
 }
 
