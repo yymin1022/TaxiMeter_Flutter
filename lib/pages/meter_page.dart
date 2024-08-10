@@ -12,7 +12,7 @@ class MeterPage extends StatefulWidget {
 }
 
 class _MeterPageState extends State<MeterPage> {
-  var meterUtil = MeterUtil();
+  MeterUtil? meterUtil;
 
   void updateMeterView() {
     setState(() {});
@@ -21,12 +21,7 @@ class _MeterPageState extends State<MeterPage> {
   @override
   void initState() {
     super.initState();
-
-    if(meterUtil.meterStatus == MeterStatus.METER_NOT_RUNNING) {
-      meterUtil.initMeter().then((_) => updateMeterView());
-    } else {
-      updateMeterView();
-    }
+    meterUtil = MeterUtil(updateView: updateMeterView);
   }
 
   @override
@@ -38,10 +33,10 @@ class _MeterPageState extends State<MeterPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            MeterAnimation(meterUtil: meterUtil),
-            MeterCostView(meterUtil: meterUtil),
-            MeterInfo(meterUtil: meterUtil),
-            MeterControl(meterUtil: meterUtil, updateCallback: updateMeterView),
+            MeterAnimation(meterUtil: meterUtil!),
+            MeterCostView(meterUtil: meterUtil!),
+            MeterInfo(meterUtil: meterUtil!),
+            MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
           ],
         )
       )
