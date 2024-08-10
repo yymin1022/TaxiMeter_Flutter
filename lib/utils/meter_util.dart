@@ -118,8 +118,19 @@ class MeterUtil {
   }
 
   void setPercNight(bool isEnabled) {
-    if(meterIsPercNight != isEnabled) {
-      meterIsPercNight = isEnabled;
+    int curH = int.parse(DateFormat('HH').format(DateTime.now()));
+    int premiumCost = 0;
+
+    if((curH >= 20 && curH >= prefPercNightStart1) || (curH <= 5 && curH < prefPercNightEnd1)) {
+      premiumCost = (curH >= 20 && curH >= prefPercNightStart2) || (curH <= 5 && curH < prefPercNightEnd2)
+          ? prefCostBase * prefPercNight2 ~/ 100
+          : prefCostBase * prefPercNight1 ~/ 100;
+    }
+
+    if(isEnabled) {
+      meterCost += premiumCost;
+    } else {
+      meterCost -= premiumCost;
     }
   }
 
