@@ -83,8 +83,8 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
 
   @override
   void dispose() {
-    super.dispose();
     _meterAnimationController!.dispose();
+    super.dispose();
   }
 
   @override
