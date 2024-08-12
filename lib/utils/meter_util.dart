@@ -44,7 +44,9 @@ class MeterUtil {
 
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
-          Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+          Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            timeLimit: const Duration(seconds: 1))
             .then((pos) => increaseCost(pos.speed));
         }
       );
