@@ -114,6 +114,7 @@ class MeterUtil {
   }
 
   void setPercCity(bool isEnabled) {
+    meterIsPercCity = isEnabled;
     if(isEnabled) {
       meterCost += prefCostBase * prefPercCity ~/ 100;
     } else {
@@ -122,6 +123,8 @@ class MeterUtil {
   }
 
   void setPercNight(bool isEnabled) {
+    meterIsPercNight = isEnabled;
+
     int curH = int.parse(DateFormat('HH').format(DateTime.now()));
     int premiumCost = 0;
 
