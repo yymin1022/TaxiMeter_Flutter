@@ -44,10 +44,15 @@ class MeterUtil {
 
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
-          Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            timeLimit: const Duration(seconds: 1))
-            .then((pos) => increaseCost(pos.speed));
+          try {
+            Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.best,
+                timeLimit: const Duration(seconds: 1))
+                .then((pos) => increaseCost(pos.speed));
+          } catch(e) {
+            print(e);
+        }
+
         }
       );
 
