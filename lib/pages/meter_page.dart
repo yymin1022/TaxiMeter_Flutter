@@ -332,7 +332,6 @@ class _MeterCostViewState extends State<MeterCostView> {
       ),
     );
   }
-
 }
 
 class MeterInfo extends StatefulWidget {
