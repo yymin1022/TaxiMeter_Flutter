@@ -50,8 +50,8 @@ class MeterUtil {
                 desiredAccuracy: LocationAccuracy.high,
                 timeLimit: const Duration(seconds: 1))
                 .then((pos) => increaseCost(pos));
-          } catch(e) {
-            print(e);
+          } on TimeoutException catch(_) {
+            increaseCost(null);
           }
         }
       );
@@ -68,34 +68,36 @@ class MeterUtil {
   }
 
   void increaseCost(Position? curPosition) {
+    if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      return;
+    }
+
     final curTime = DateTime.now().millisecondsSinceEpoch;
-    if(_lastUpdateTime == 0 && curPosition != null) {
+    if(_lastUpdateTime == 0) {
       _lastPosition = curPosition;
       _lastUpdateTime = curTime;
       return;
     }
 
-    if(_lastPosition == null || curPosition == null) {
-      return;
-    }
-
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
-    final curDistance = Geolocator.distanceBetween(
-      _lastPosition!.latitude,
-      _lastPosition!.longitude,
-      curPosition.latitude,
-      curPosition.longitude,
-    );
+    if(_lastPosition != null && curPosition != null) {
+      final curDistance = Geolocator.distanceBetween(
+        _lastPosition!.latitude,
+        _lastPosition!.longitude,
+        curPosition.latitude,
+        curPosition.longitude,
+      );
 
-    _lastPosition = curPosition;
-    _lastUpdateTime = curTime;
+      final curSpeed = curDistance / deltaTime;
+      meterCurSpeed = curSpeed * 3.6;
+      meterStatus = MeterStatus.METER_RUNNING;
 
-    final curSpeed = curDistance / deltaTime;
-    meterCurSpeed = curSpeed * 3.6;
-    meterStatus = MeterStatus.METER_RUNNING;
-
-    meterCostCounter -= (curSpeed * deltaTime).toInt();
-    meterSumDistance += curSpeed * deltaTime;
+      meterCostCounter -= (curSpeed * deltaTime).toInt();
+      meterSumDistance += curSpeed * deltaTime;
+    } else {
+      meterCurSpeed = 0;
+      meterStatus = MeterStatus.METER_GPS_ERROR;
+    }
 
     if(meterCurSpeed < 15) {
       meterCostCounter -= (prefCostRunPer / prefCostTimePer * deltaTime).toInt();
@@ -108,6 +110,9 @@ class MeterUtil {
         meterCostMode = CostMode.COST_DISTANCE;
       }
     }
+
+    _lastPosition = curPosition;
+    _lastUpdateTime = curTime;
 
     if(meterCostCounter <= 0) {
       meterCost += 100;
