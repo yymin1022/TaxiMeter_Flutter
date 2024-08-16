@@ -226,9 +226,11 @@ class _MeterControlState extends State<MeterControl> {
               btnText: AppLocalizations.of(context)!.meter_btn_stop,
               onClickFunction: () {
                 setState(() {
-                  widget.meterUtil.stopMeter();
-                  widget.updateCallback();
-                  _showExitDialog();
+                  if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
+                    widget.meterUtil.stopMeter();
+                    widget.updateCallback();
+                    _showStopDialog();
+                  }
                 });
               }
             ),
@@ -276,7 +278,7 @@ class _MeterControlState extends State<MeterControl> {
     );
   }
 
-  void _showExitDialog() {
+  void _showStopDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
