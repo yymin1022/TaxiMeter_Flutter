@@ -226,6 +226,7 @@ class _MeterControlState extends State<MeterControl> {
                 setState(() {
                   widget.meterUtil.stopMeter();
                   widget.updateCallback();
+                  _showExitDialog();
                 });
               }
             ),
@@ -266,6 +267,32 @@ class _MeterControlState extends State<MeterControl> {
         ),
         Container(height: 20.0),
       ],
+    );
+  }
+
+  void _showExitDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(30.0),
+          content: Text(
+            "요금 : ${NumberFormat("#,##0").format(widget.meterUtil.meterCost)}원\n"
+            "주행 거리 : ${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)}km",
+            style: const TextStyle(fontSize: 17.0),
+          ),
+          title: const Text("주행 종료"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "확인",
+                style: TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.pop(context)
+            ),
+          ],
+        );
+      }
     );
   }
 }
