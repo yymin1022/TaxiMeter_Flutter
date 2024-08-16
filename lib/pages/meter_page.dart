@@ -37,14 +37,27 @@ class _MeterPageState extends State<MeterPage> {
       body: SafeArea(
         child: PopScope(
           canPop: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.end,
+          child: Stack(
             children: [
-              MeterAnimation(meterUtil: meterUtil!),
-              MeterCostView(meterUtil: meterUtil!),
-              MeterInfo(meterUtil: meterUtil!),
-              MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: MeterColor.meterTextColorWhite,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MeterAnimation(meterUtil: meterUtil!),
+                  MeterCostView(meterUtil: meterUtil!),
+                  MeterInfo(meterUtil: meterUtil!),
+                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                ],
+              )
             ],
           ),
         )
