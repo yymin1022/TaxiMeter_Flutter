@@ -35,8 +35,8 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
 
   late Timer _gpsTimer;
-  Position? lastPosition;
-  int lastUpdateTime = 0;
+  Position? _lastPosition;
+  int _lastUpdateTime = 0;
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
@@ -52,8 +52,7 @@ class MeterUtil {
                 .then((pos) => increaseCost(pos));
           } catch(e) {
             print(e);
-        }
-
+          }
         }
       );
 
@@ -70,26 +69,26 @@ class MeterUtil {
 
   void increaseCost(Position? curPosition) {
     final curTime = DateTime.now().millisecondsSinceEpoch;
-    if(lastUpdateTime == 0 && curPosition != null) {
-      lastPosition = curPosition;
-      lastUpdateTime = curTime;
+    if(_lastUpdateTime == 0 && curPosition != null) {
+      _lastPosition = curPosition;
+      _lastUpdateTime = curTime;
       return;
     }
 
-    if(lastPosition == null || curPosition == null) {
+    if(_lastPosition == null || curPosition == null) {
       return;
     }
 
-    final deltaTime = (curTime - lastUpdateTime) / 1000.0;
+    final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
     final curDistance = Geolocator.distanceBetween(
-      lastPosition!.latitude,
-      lastPosition!.longitude,
+      _lastPosition!.latitude,
+      _lastPosition!.longitude,
       curPosition.latitude,
       curPosition.longitude,
     );
 
-    lastPosition = curPosition;
-    lastUpdateTime = curTime;
+    _lastPosition = curPosition;
+    _lastUpdateTime = curTime;
 
     final curSpeed = curDistance / deltaTime;
     meterCurSpeed = curSpeed * 3.6;
