@@ -32,11 +32,11 @@ class _MeterPageState extends State<MeterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MeterColor.meterBackground,
-      body: SafeArea(
-        child: PopScope(
-          canPop: false,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: MeterColor.meterBackground,
+        body: SafeArea(
           child: Stack(
             children: [
               IconButton(
@@ -44,8 +44,11 @@ class _MeterPageState extends State<MeterPage> {
                   Icons.arrow_back_ios_new,
                   color: MeterColor.meterTextColorWhite,
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  bool? isExit = await _showExitDialog();
+                  if(context.mounted && isExit == true) {
+                    Navigator.pop(context);
+                  }
                 },
               ),
               Column(
@@ -62,6 +65,37 @@ class _MeterPageState extends State<MeterPage> {
           ),
         )
       )
+    );
+  }
+
+  Future<bool?> _showExitDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(30.0),
+          content: const Text(
+            "미터기 화면을 벗어나면 운행이 종료됩니다.",
+            style: TextStyle(fontSize: 17.0),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "아니오",
+                style: TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: const Text(
+                "예",
+                style: TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      }
     );
   }
 }
