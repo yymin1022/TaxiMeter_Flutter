@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
@@ -24,7 +23,7 @@ class TaxiMeterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Taxi Meter',
+      title: "Taxi Meter",
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
@@ -58,18 +57,18 @@ class _TaxiMeterMainState extends State<TaxiMeterMain> {
         child: _pageList[_pageIndex]
       ),
       bottomNavigationBar: NavigationBar(
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.settings),
-            label: 'Setting',
+            icon: const Icon(Icons.settings),
+            label: AppLocalizations.of(context)!.nav_setting,
           ),
           NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.nav_home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.money),
-            label: 'Donation',
+            icon: const Icon(Icons.money),
+            label: AppLocalizations.of(context)!.nav_donation,
           ),
         ],
         selectedIndex: _pageIndex,
