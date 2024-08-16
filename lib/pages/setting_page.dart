@@ -204,7 +204,7 @@ class _SettingPageState extends State<SettingPage> {
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.setting_cost_custom_per_distance
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_per_time
                   ),
                 ),
                 TextField(
