@@ -191,6 +191,15 @@ class _MeterControlState extends State<MeterControl> {
                   widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
                   widget.updateCallback();
                 });
+
+                if(widget.meterUtil.meterIsPercNight) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("야간할증은 정해진 시간에만 적용됩니다."),
+                      duration: Duration(seconds: 2),
+                    )
+                  );
+                }
               }
             ),
             MeterButton(
