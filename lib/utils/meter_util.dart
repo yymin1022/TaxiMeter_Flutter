@@ -179,6 +179,9 @@ class MeterUtil {
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
 
+    _lastPosition = null;
+    _lastUpdateTime = 0;
+
     meterCost = prefCostBase;
     meterCostCounter = prefDistBase;
     meterCurSpeed = 0.0;
