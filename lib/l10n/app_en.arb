@@ -1,4 +1,8 @@
 {
   "@@locale": "en",
-  "app_title": "Taxi Meter"
+  "app_title": "Taxi Meter",
+
+  "nav_donation": "Donation",
+  "nav_home": "Home",
+  "nav_setting": "Setting"
 }
