@@ -35,20 +35,21 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
 
   late Timer _gpsTimer;
+  Position? lastPosition;
   int lastUpdateTime = 0;
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       meterStatus = MeterStatus.METER_GPS_ERROR;
-      increaseCost(0);
+      increaseCost(null);
 
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.best,
+                desiredAccuracy: LocationAccuracy.high,
                 timeLimit: const Duration(seconds: 1))
-                .then((pos) => increaseCost(pos.speed));
+                .then((pos) => increaseCost(pos));
           } catch(e) {
             print(e);
         }
@@ -67,15 +68,30 @@ class MeterUtil {
     }
   }
 
-  void increaseCost(double curSpeed) {
+  void increaseCost(Position? curPosition) {
     final curTime = DateTime.now().millisecondsSinceEpoch;
-    if(lastUpdateTime == 0) {
+    if(lastUpdateTime == 0 && curPosition != null) {
+      lastPosition = curPosition;
       lastUpdateTime = curTime;
+      return;
+    }
+
+    if(lastPosition == null || curPosition == null) {
+      return;
     }
 
     final deltaTime = (curTime - lastUpdateTime) / 1000.0;
+    final curDistance = Geolocator.distanceBetween(
+      lastPosition!.latitude,
+      lastPosition!.longitude,
+      curPosition.latitude,
+      curPosition.longitude,
+    );
+
+    lastPosition = curPosition;
     lastUpdateTime = curTime;
 
+    final curSpeed = curDistance / deltaTime;
     meterCurSpeed = curSpeed * 3.6;
     meterStatus = MeterStatus.METER_RUNNING;
 
