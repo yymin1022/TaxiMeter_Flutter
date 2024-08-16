@@ -4,5 +4,9 @@
 
   "nav_donation": "Donation",
   "nav_home": "Home",
-  "nav_setting": "Setting"
+  "nav_setting": "Setting",
+
+  "main_subtitle": "Touch to Start",
+  "main_title_meter": "Meter",
+  "main_title_taxi": "Taxi"
 }
