@@ -35,15 +35,18 @@ class _MeterPageState extends State<MeterPage> {
     return Scaffold(
       backgroundColor: MeterColor.meterBackground,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            MeterAnimation(meterUtil: meterUtil!),
-            MeterCostView(meterUtil: meterUtil!),
-            MeterInfo(meterUtil: meterUtil!),
-            MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-          ],
+        child: PopScope(
+          canPop: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              MeterAnimation(meterUtil: meterUtil!),
+              MeterCostView(meterUtil: meterUtil!),
+              MeterInfo(meterUtil: meterUtil!),
+              MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+            ],
+          ),
         )
       )
     );
