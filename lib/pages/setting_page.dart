@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:taximeter/utils/preference_util.dart';
 import 'package:taximeter/utils/settings_data.dart';
@@ -35,42 +37,46 @@ class _SettingPageState extends State<SettingPage> {
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: ListView(
           children: [
-            const SettingListTitle("미터기 설정"),
+            SettingListTitle(AppLocalizations.of(context)!.setting_title_setup),
             ListTile(
-              title: Text("위치"),
-              subtitle: Text(SettingsDataLocation.getName(curLocation).ko),
+              title: Text(AppLocalizations.of(context)!.setting_setup_location),
+              subtitle: Text(Localizations.localeOf(context) == const Locale("ko")
+                  ? SettingsDataLocation.getName(curLocation).ko
+                  : SettingsDataLocation.getName(curLocation).en),
               onTap: (){
                 _showLocationDialog();
               },
             ),
             ListTile(
-              title: Text("미터기 테마"),
-              subtitle: Text(SettingsDataTheme.getName(curTheme).ko),
+              title: Text(AppLocalizations.of(context)!.setting_setup_theme),
+              subtitle: Text(Localizations.localeOf(context) == const Locale("ko")
+                  ? SettingsDataTheme.getName(curTheme).ko
+                  : SettingsDataTheme.getName(curTheme).en),
               onTap: (){
                 _showThemeDialog();
               },
             ),
-            const SettingListTitle("미터기 정보"),
+            SettingListTitle(AppLocalizations.of(context)!.setting_title_info),
             ListTile(
-              title: Text("요금 정보"),
+              title: Text(AppLocalizations.of(context)!.setting_info_cost),
               subtitle: Text(_getCostInfoText()),
               onTap: (){},
             ),
             ListTile(
-              title: Text("요금정보 DB 버전"),
+              title: Text(AppLocalizations.of(context)!.setting_info_cost_db),
               subtitle: Text(curCostVersion),
               onTap: (){},
             ),
-            const SettingListTitle("개발자 정보"),
+            SettingListTitle(AppLocalizations.of(context)!.setting_title_developer),
             ListTile(
-              title: Text("Dev. LR"),
-              subtitle: Text("중앙대학교 소프트웨어학부 2019"),
+              title: Text(AppLocalizations.of(context)!.setting_developer_nickname),
+              subtitle: Text(AppLocalizations.of(context)!.setting_developer_university),
               onTap: (){},
             ),
-            const SettingListWebItem("개발자 블로그", "https://dev-lr.com"),
-            const SettingListWebItem("개발자 GitHub", "https://github.com/yymin1022"),
-            const SettingListWebItem("개발자 Instagram", "https://instagram.com/useful_min"),
-            const SettingListWebItem("개인정보 처리방침", "https://defcon.or.kr/privacy")
+            SettingListWebItem(AppLocalizations.of(context)!.setting_developer_blog, "https://dev-lr.com"),
+            SettingListWebItem(AppLocalizations.of(context)!.setting_developer_github, "https://github.com/yymin1022"),
+            SettingListWebItem(AppLocalizations.of(context)!.setting_developer_instagram, "https://instagram.com/useful_min"),
+            SettingListWebItem(AppLocalizations.of(context)!.setting_privacy_policy, "https://defcon.or.kr/privacy"),
           ],
         ),
       )
@@ -117,13 +123,23 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   String _getCostInfoText() {
-    if(percNight1 == percNight2) {
-      return "기본요금 : $costBase원 (최초 ${distBase / 1000}km)\n거리요금 $costRunPer당 100원\n시간요금 $costTimePer초당 100원\n"
-          "시외할증 $percCity%\n야간할증\n - $percNight1% ($percNightStart1:00 ~ $percNightEnd1:00)";
-    } else {
-      return "기본요금 : $costBase원 (최초 ${distBase / 1000}km)\n거리요금 $costRunPer당 100원\n시간요금 $costTimePer초당 100원\n"
-          "시외할증 $percCity%\n야간할증\n - $percNight1% ($percNightStart1:00 ~ $percNightEnd1:00)\n - $percNight2% ($percNightStart2:00 ~ $percNightEnd2:00)";
-    }
+    return sprintf(
+      percNight1 == percNight2
+        ? AppLocalizations.of(context)!.setting_cost_info_1
+        : AppLocalizations.of(context)!.setting_cost_info_2,
+        [
+          costBase,
+          distBase / 1000,
+          costRunPer,
+          costTimePer,
+          percCity,
+          percNight1,
+          percNightStart1,
+          percNightEnd1,
+          percNight2,
+          percNightStart2,
+          percNightEnd2
+        ]);
   }
 
   void _setPrefCostData(String location,
@@ -162,7 +178,7 @@ class _SettingPageState extends State<SettingPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("요금정보 직접 설정"),
+          title: Text(AppLocalizations.of(context)!.setting_dialog_cost_custom_title),
           contentPadding: const EdgeInsets.all(20.0),
           content: SingleChildScrollView(
             child: ListBody(
@@ -171,71 +187,71 @@ class _SettingPageState extends State<SettingPage> {
                   controller: inputControllerCostBase,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "기본요금"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_base
                   ),
                 ),
                 TextField(
                   controller: inputControllerCostRunPer,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "거리요금 기준 거리 (미터)"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_per_distance
                   ),
                 ),
                 TextField(
                   controller: inputControllerCostTimePer,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "거리요금 기준 시간 (초)"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_per_time
                   ),
                 ),
                 TextField(
                   controller: inputControllerDistBase,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "기본요금 주행 거리 (미터)"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_base_distance
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercCity,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "시외할증 비율"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_percentage_outcity
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNight,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "야간할증 비율"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_percentage_night
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNightStart,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "야간할증 시작 (24시간 단위)"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_percentage_night_start
                   ),
                 ),
                 TextField(
                   controller: inputControllerPercNightEnd,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    labelText: "야간할증 종료 (24시간 단위)"
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.setting_cost_custom_percentage_night_end
                   ),
                 ),
                 Container(
                   height: 20.0,
                 ),
                 ElevatedButton(
-                  child: Text("저장"),
+                  child: Text(AppLocalizations.of(context)!.setting_dialog_cost_custom_save),
                   onPressed: () {
                     Navigator.of(context).pop();
 
@@ -256,8 +272,8 @@ class _SettingPageState extends State<SettingPage> {
                           inputPercNightEnd, inputPercNightEnd);
                     } catch(e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("입력한 정보가 올바르지 않습니다."),
+                        SnackBar(
+                          content: Text(AppLocalizations.of(context)!.setting_dialog_cost_custom_save_error),
                         )
                       );
                     }
@@ -278,13 +294,16 @@ class _SettingPageState extends State<SettingPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("위치"),
+          title: Text(AppLocalizations.of(context)!.setting_dialog_location_title),
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataLocation.values.map((data) {
                 return RadioListTile(
-                  title: Text(data.ko),
+                  title: Text(
+                    Localizations.localeOf(context) == const Locale("ko")
+                      ? data.ko
+                      : data.en),
                   groupValue: curLocation,
                   value: data.code,
                   onChanged: (value) async {
@@ -323,13 +342,16 @@ class _SettingPageState extends State<SettingPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("미터기 테마"),
+          title: Text(AppLocalizations.of(context)!.setting_dialog_theme_title),
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
           content: SingleChildScrollView(
             child: ListBody(
               children: SettingsDataTheme.values.map((data) {
                 return RadioListTile(
-                  title: Text(data.ko),
+                  title: Text(
+                    Localizations.localeOf(context) == const Locale("ko")
+                      ? data.ko
+                      : data.en),
                   groupValue: curTheme,
                   value: data.code,
                   onChanged: (value) {

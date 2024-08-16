@@ -35,17 +35,24 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
 
   late Timer _gpsTimer;
-  int lastUpdateTime = 0;
+  Position? _lastPosition;
+  int _lastUpdateTime = 0;
 
   void startMeter() {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       meterStatus = MeterStatus.METER_GPS_ERROR;
-      increaseCost(0);
+      increaseCost(null);
 
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
-          Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-            .then((pos) => increaseCost(pos.speed));
+          try {
+            Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.high,
+                timeLimit: const Duration(seconds: 1))
+                .then((pos) => increaseCost(pos));
+          } on TimeoutException catch(_) {
+            increaseCost(null);
+          }
         }
       );
 
@@ -60,20 +67,37 @@ class MeterUtil {
     }
   }
 
-  void increaseCost(double curSpeed) {
-    final curTime = DateTime.now().millisecondsSinceEpoch;
-    if(lastUpdateTime == 0) {
-      lastUpdateTime = curTime;
+  void increaseCost(Position? curPosition) {
+    if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
+      return;
     }
 
-    final deltaTime = (curTime - lastUpdateTime) / 1000.0;
-    lastUpdateTime = curTime;
+    final curTime = DateTime.now().millisecondsSinceEpoch;
+    if(_lastUpdateTime == 0) {
+      _lastPosition = curPosition;
+      _lastUpdateTime = curTime;
+      return;
+    }
 
-    meterCurSpeed = curSpeed * 3.6;
-    meterStatus = MeterStatus.METER_RUNNING;
+    final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
+    if(_lastPosition != null && curPosition != null) {
+      final curDistance = Geolocator.distanceBetween(
+        _lastPosition!.latitude,
+        _lastPosition!.longitude,
+        curPosition.latitude,
+        curPosition.longitude,
+      );
 
-    meterCostCounter -= (curSpeed * deltaTime).toInt();
-    meterSumDistance += curSpeed * deltaTime;
+      final curSpeed = curDistance / deltaTime;
+      meterCurSpeed = curSpeed * 3.6;
+      meterStatus = MeterStatus.METER_RUNNING;
+
+      meterCostCounter -= (curSpeed * deltaTime).toInt();
+      meterSumDistance += curSpeed * deltaTime;
+    } else {
+      meterCurSpeed = 0;
+      meterStatus = MeterStatus.METER_GPS_ERROR;
+    }
 
     if(meterCurSpeed < 15) {
       meterCostCounter -= (prefCostRunPer / prefCostTimePer * deltaTime).toInt();
@@ -86,6 +110,9 @@ class MeterUtil {
         meterCostMode = CostMode.COST_DISTANCE;
       }
     }
+
+    _lastPosition = curPosition;
+    _lastUpdateTime = curTime;
 
     if(meterCostCounter <= 0) {
       meterCost += 100;
@@ -112,6 +139,7 @@ class MeterUtil {
   }
 
   void setPercCity(bool isEnabled) {
+    meterIsPercCity = isEnabled;
     if(isEnabled) {
       meterCost += prefCostBase * prefPercCity ~/ 100;
     } else {
@@ -120,6 +148,8 @@ class MeterUtil {
   }
 
   void setPercNight(bool isEnabled) {
+    meterIsPercNight = isEnabled;
+
     int curH = int.parse(DateFormat('HH').format(DateTime.now()));
     int premiumCost = 0;
 
@@ -148,6 +178,9 @@ class MeterUtil {
     prefPercNightEnd2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_end_2") ?? 2;
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
+
+    _lastPosition = null;
+    _lastUpdateTime = 0;
 
     meterCost = prefCostBase;
     meterCostCounter = prefDistBase;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taximeter/pages/meter_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -15,12 +16,12 @@ class MainPage extends StatelessWidget {
             }
           ));
         },
-        child: const Center(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Icon(
+              const Icon(
                 Icons.local_taxi,
                 size: 224.0
               ),
@@ -28,16 +29,16 @@ class MainPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "택시",
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.main_title_taxi,
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 48.0,
                       fontWeight: FontWeight.bold
                     )
                   ),
                   Text(
-                    "미터기",
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.main_title_meter,
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 48.0
                     )
@@ -45,8 +46,8 @@ class MainPage extends StatelessWidget {
                 ],
               ),
               Text(
-                "터치하여 시작하기",
-                style: TextStyle(
+                AppLocalizations.of(context)!.main_subtitle,
+                style: const TextStyle(
                   color: Colors.black45,
                   fontSize: 24.0
                 )

@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
+import "package:sprintf/sprintf.dart";
 import "package:taximeter/utils/color_util.dart";
 import "package:taximeter/utils/meter_util.dart";
 import "package:taximeter/utils/preference_util.dart";
@@ -32,20 +34,70 @@ class _MeterPageState extends State<MeterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MeterColor.meterBackground,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            MeterAnimation(meterUtil: meterUtil!),
-            MeterCostView(meterUtil: meterUtil!),
-            MeterInfo(meterUtil: meterUtil!),
-            MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-          ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: MeterColor.meterBackground,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: MeterColor.meterTextColorWhite,
+                ),
+                onPressed: () async {
+                  bool? isExit = await _showExitDialog();
+                  if(context.mounted && isExit == true) {
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MeterAnimation(meterUtil: meterUtil!),
+                  MeterCostView(meterUtil: meterUtil!),
+                  MeterInfo(meterUtil: meterUtil!),
+                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                ],
+              )
+            ],
+          ),
         )
       )
+    );
+  }
+
+  Future<bool?> _showExitDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(30.0),
+          content: Text(
+            AppLocalizations.of(context)!.meter_dialog_exit_content,
+            style: const TextStyle(fontSize: 17.0),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                AppLocalizations.of(context)!.meter_dialog_exit_no,
+                style: const TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text(
+                AppLocalizations.of(context)!.meter_dialog_exit_ok,
+                style: const TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      }
     );
   }
 }
@@ -161,7 +213,7 @@ class _MeterControlState extends State<MeterControl> {
           children: [
             MeterButton(
               btnColor: MeterColor.meterBlue,
-              btnText: "주행 시작",
+              btnText: AppLocalizations.of(context)!.meter_btn_start,
               onClickFunction: () {
                 setState(() {
                   widget.meterUtil.startMeter();
@@ -171,11 +223,14 @@ class _MeterControlState extends State<MeterControl> {
             ),
             MeterButton(
               btnColor: MeterColor.meterYellow,
-              btnText: "주행 종료",
+              btnText: AppLocalizations.of(context)!.meter_btn_stop,
               onClickFunction: () {
                 setState(() {
-                  widget.meterUtil.stopMeter();
-                  widget.updateCallback();
+                  if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
+                    widget.meterUtil.stopMeter();
+                    widget.updateCallback();
+                    _showStopDialog();
+                  }
                 });
               }
             ),
@@ -185,17 +240,30 @@ class _MeterControlState extends State<MeterControl> {
           children: [
             MeterButton(
               btnColor: MeterColor.meterGreen,
-              btnText: widget.meterUtil.meterIsPercNight ? "야간할증 적용" : "야간할증 미적용",
+              btnText: widget.meterUtil.meterIsPercNight
+                ? AppLocalizations.of(context)!.meter_btn_percentage_night_true
+                : AppLocalizations.of(context)!.meter_btn_percentage_night_false,
               onClickFunction: () {
                 setState(() {
                   widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
                   widget.updateCallback();
                 });
+
+                if(widget.meterUtil.meterIsPercNight) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context)!.meter_snack_percentage_night),
+                      duration: const Duration(seconds: 2),
+                    )
+                  );
+                }
               }
             ),
             MeterButton(
               btnColor: MeterColor.meterRed,
-              btnText: widget.meterUtil.meterIsPercCity ? "시외할증 적용" : "시외할증 미적용",
+              btnText: widget.meterUtil.meterIsPercCity
+                ? AppLocalizations.of(context)!.meter_btn_percentage_outcity_true
+                : AppLocalizations.of(context)!.meter_btn_percentage_outcity_false,
               onClickFunction: () {
                 setState(() {
                   widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
@@ -207,6 +275,31 @@ class _MeterControlState extends State<MeterControl> {
         ),
         Container(height: 20.0),
       ],
+    );
+  }
+
+  void _showStopDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(30.0),
+          content: Text(
+            sprintf(AppLocalizations.of(context)!.meter_dialog_stop_content, [NumberFormat("#,##0").format(widget.meterUtil.meterCost), NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)]),
+            style: const TextStyle(fontSize: 17.0),
+          ),
+          title: Text(AppLocalizations.of(context)!.meter_dialog_stop_title),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                AppLocalizations.of(context)!.meter_dialog_stop_ok,
+                style: const TextStyle(fontSize: 17.0),
+              ),
+              onPressed: () => Navigator.pop(context)
+            ),
+          ],
+        );
+      }
     );
   }
 }
@@ -229,7 +322,7 @@ class _MeterCostViewState extends State<MeterCostView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            "${NumberFormat("#,##0").format(widget.meterUtil.meterCost)}원",
+            sprintf(AppLocalizations.of(context)!.meter_cost, [NumberFormat("#,##0").format(widget.meterUtil.meterCost)]),
             style: const TextStyle(
               color: MeterColor.meterTextColorWhite,
               fontSize: 75.0
@@ -246,7 +339,6 @@ class _MeterCostViewState extends State<MeterCostView> {
       ),
     );
   }
-
 }
 
 class MeterInfo extends StatefulWidget {
@@ -267,15 +359,15 @@ class _MeterInfoState extends State<MeterInfo> {
   void updateMeterValue() {
     setState(() {
       switch(widget.meterUtil.meterCostMode) {
-        case CostMode.COST_BASE: meterCostMode = "기본 요금";
-        case CostMode.COST_DISTANCE: meterCostMode = "주행 요금";
-        case CostMode.COST_TIME: meterCostMode = "시간 요금";
+        case CostMode.COST_BASE: meterCostMode = AppLocalizations.of(context)!.meter_info_cost_mode_base;
+        case CostMode.COST_DISTANCE: meterCostMode = AppLocalizations.of(context)!.meter_info_cost_mode_distance;
+        case CostMode.COST_TIME: meterCostMode = AppLocalizations.of(context)!.meter_info_cost_mode_time;
       }
 
       switch(widget.meterUtil.meterStatus) {
-        case MeterStatus.METER_GPS_ERROR: meterStatus = "GPS 연결 대기 중";
-        case MeterStatus.METER_NOT_RUNNING: meterStatus = "운행 중 아님";
-        case MeterStatus.METER_RUNNING: meterStatus = "운행 중";
+        case MeterStatus.METER_GPS_ERROR: meterStatus = AppLocalizations.of(context)!.meter_info_status_gps_error;
+        case MeterStatus.METER_NOT_RUNNING: meterStatus = AppLocalizations.of(context)!.meter_info_status_not_running;
+        case MeterStatus.METER_RUNNING: meterStatus = AppLocalizations.of(context)!.meter_info_status_running;
       }
 
       meterCurSpeed = widget.meterUtil.meterCurSpeed;
@@ -286,7 +378,6 @@ class _MeterInfoState extends State<MeterInfo> {
   @override
   void initState() {
     super.initState();
-    updateMeterValue();
   }
 
   @override
@@ -309,11 +400,11 @@ class _MeterInfoState extends State<MeterInfo> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      meterInfoText("요금 종류"),
+                      meterInfoText(AppLocalizations.of(context)!.meter_info_cost_mode_title),
                       meterInfoText(meterCostMode),
                       Container(height: 10.0),
-                      meterInfoText("현재 속도"),
-                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterCurSpeed)}km/h")
+                      meterInfoText(AppLocalizations.of(context)!.meter_info_speed_title),
+                      meterInfoText(sprintf(AppLocalizations.of(context)!.meter_info_speed_data, [NumberFormat("#,##0.0").format(widget.meterUtil.meterCurSpeed)])),
                     ],
                   ),
                 ),
@@ -324,11 +415,11 @@ class _MeterInfoState extends State<MeterInfo> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      meterInfoText("운행 상태"),
+                      meterInfoText(AppLocalizations.of(context)!.meter_info_status_title),
                       meterInfoText(meterStatus),
                       Container(height: 10.0),
-                      meterInfoText("주행 거리"),
-                      meterInfoText("${NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)}km")
+                      meterInfoText(AppLocalizations.of(context)!.meter_info_distance_title),
+                      meterInfoText(sprintf(AppLocalizations.of(context)!.meter_info_distance_data, [NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)])),
                     ],
                   ),
                 ),
