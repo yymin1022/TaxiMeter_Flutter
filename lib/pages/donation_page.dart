@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DonationPage extends StatelessWidget {
+class DonationPage extends StatefulWidget {
   const DonationPage({super.key});
 
+  @override
+  State<DonationPage> createState() => _DonationPageState();
+}
+
+class _DonationPageState extends State<DonationPage> {
   void onBtnClick(String skuID) {
     print("Button Clicked! $skuID");
   }
