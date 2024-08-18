@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:taximeter/utils/donation_util.dart';
 
 class DonationPage extends StatefulWidget {
@@ -9,8 +12,33 @@ class DonationPage extends StatefulWidget {
 }
 
 class _DonationPageState extends State<DonationPage> {
+  late StreamSubscription<List<PurchaseDetails>> _purchaseDetailStream;
+  bool isStoreEnabled = false;
+
   void onBtnClick(SkuID skuID) {
+    if(!isStoreEnabled) {
+      print("Failed to initialize Appstore");
+      return;
+    }
+
     print("Button Clicked! $skuID");
+  }
+
+  @override
+  void initState() {
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    _purchaseDetailStream = purchaseUpdated.listen((purchaseDetailsList) {
+      //TODO: Listen to Purchase Update
+    }, onDone: () {
+      _purchaseDetailStream.cancel();
+    }, onError: (error) {
+      //TODO: Appstore Connect Fail Snackbar
+    }) as StreamSubscription<List<PurchaseDetails>>;
+
+    InAppPurchase.instance.isAvailable().then(
+      (isEnabled) => setState(() {isStoreEnabled = true;}
+    ));
+    super.initState();
   }
 
   @override
