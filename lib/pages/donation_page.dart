@@ -16,16 +16,26 @@ class _DonationPageState extends State<DonationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            DonationButton(btnOnClick: onBtnClick, btnText: "Donation 1000", skuID: SkuID.donation_1000),
-            DonationButton(btnOnClick: onBtnClick, btnText: "Donation 5000", skuID: SkuID.donation_5000),
-            DonationButton(btnOnClick: onBtnClick, btnText: "Donation 10000", skuID: SkuID.donation_10000),
-            DonationButton(btnOnClick: onBtnClick, btnText: "Donation 50000", skuID: SkuID.donation_50000),
-            DonationButton(btnOnClick: onBtnClick, btnText: "Advertisement Remove", skuID: SkuID.ad_remove),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 1000", skuID: SkuID.donation_1000),
+              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 5000", skuID: SkuID.donation_5000),
+              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 10000", skuID: SkuID.donation_10000),
+            ],
+          ),
+          const SizedBox(height: 50.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 50000", skuID: SkuID.donation_50000),
+              DonationButton(btnOnClick: onBtnClick, btnText: "Advertisement Remove", skuID: SkuID.ad_remove)
+            ],
+          )
+        ],
       )
     );
   }
