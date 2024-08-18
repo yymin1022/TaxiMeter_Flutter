@@ -1,4 +1,4 @@
-enum SKU_ID {
+enum SkuID {
   ad_remove,
   donation_1000,
   donation_5000,
