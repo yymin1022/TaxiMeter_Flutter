@@ -128,7 +128,7 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
 
     PreferenceUtil().getPrefsValueS("pref_theme").then((res) => {
       setState(() {
-        _curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
+        _curMeterTheme = res == "circle" ? MeterTheme.METER_THEME_CIRCLE : MeterTheme.METER_THEME_HORSE;
       })
     });
   }
