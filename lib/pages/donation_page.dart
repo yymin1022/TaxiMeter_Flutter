@@ -15,15 +15,6 @@ class _DonationPageState extends State<DonationPage> {
   late StreamSubscription<List<PurchaseDetails>> _purchaseDetailStream;
   bool isStoreEnabled = false;
 
-  void onBtnClick(SkuID skuID) {
-    if(!isStoreEnabled) {
-      print("Failed to initialize Appstore");
-      return;
-    }
-
-    print("Button Clicked! $skuID");
-  }
-
   @override
   void initState() {
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
@@ -68,16 +59,32 @@ class _DonationPageState extends State<DonationPage> {
     );
   }
 
+  void onBtnClick(SkuID skuID) async {
+    if(!isStoreEnabled) {
+      print("Failed to initialize Appstore");
+      return;
+    }
+
+    print("Button Clicked! $skuID");
+
+    ProductDetailsResponse productResponse = await InAppPurchase.instance.queryProductDetails({skuID.name});
+    PurchaseParam purchaseParam = PurchaseParam(productDetails: productResponse.productDetails[0]);
+    InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
+  }
+
   void _processPurchase(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if(purchaseDetails.status == PurchaseStatus.pending) {
         //TODO: Loading UI
+        print("Loading...");
       } else {
         if(purchaseDetails.status == PurchaseStatus.error) {
           //TODO: Error Snackbar
+          print("Error Purchase");
         } else if(purchaseDetails.status == PurchaseStatus.purchased
             || purchaseDetails.status == PurchaseStatus.restored) {
           //TODO: Success Snackbar
+          print("Success Purchase");
         }
 
         if(purchaseDetails.pendingCompletePurchase) {
@@ -103,7 +110,7 @@ class _DonationButtonState extends State<DonationButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => widget.btnOnClick(widget.skuID),
+      onTap: () async => await widget.btnOnClick(widget.skuID),
       child: Column(
         children: [
           skuIcon(),
