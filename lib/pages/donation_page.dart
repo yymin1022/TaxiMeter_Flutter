@@ -60,6 +60,7 @@ class _DonationButtonState extends State<DonationButton> {
       child: Column(
         children: [
           skuIcon(),
+          const SizedBox(height: 10.0),
           Text(widget.btnText),
         ],
       ),
