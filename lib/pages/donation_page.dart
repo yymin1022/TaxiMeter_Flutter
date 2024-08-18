@@ -28,7 +28,7 @@ class _DonationPageState extends State<DonationPage> {
   void initState() {
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
     _purchaseDetailStream = purchaseUpdated.listen((purchaseDetailsList) {
-      //TODO: Listen to Purchase Update
+      _processPurchase(purchaseDetailsList);
     }, onDone: () {
       _purchaseDetailStream.cancel();
     }, onError: (error) {
@@ -66,6 +66,25 @@ class _DonationPageState extends State<DonationPage> {
         ],
       )
     );
+  }
+
+  void _processPurchase(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      if(purchaseDetails.status == PurchaseStatus.pending) {
+        //TODO: Loading UI
+      } else {
+        if(purchaseDetails.status == PurchaseStatus.error) {
+          //TODO: Error Snackbar
+        } else if(purchaseDetails.status == PurchaseStatus.purchased
+            || purchaseDetails.status == PurchaseStatus.restored) {
+          //TODO: Success Snackbar
+        }
+
+        if(purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
   }
 }
 
