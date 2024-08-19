@@ -109,7 +109,6 @@ class _DonationPageState extends State<DonationPage> {
         );
       } else if((purchaseDetail.status == PurchaseStatus.purchased
           || purchaseDetail.status == PurchaseStatus.restored) && mounted) {
-        print(purchaseDetail.productID);
         if(purchaseDetail.productID == SkuID.ad_remove.name) {
           PreferenceUtil().setPrefsValue("ad_remove", true);
         }
