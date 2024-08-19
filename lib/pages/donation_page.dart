@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:taximeter/utils/donation_util.dart';
 
@@ -24,9 +25,9 @@ class _DonationPageState extends State<DonationPage> {
       _purchaseDetailStream.cancel();
     }, onError: (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Failed to connect to Appstore"),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.donation_error_connect),
+          duration: const Duration(seconds: 2),
         )
       );
     }) as StreamSubscription<List<PurchaseDetails>>;
@@ -46,17 +47,17 @@ class _DonationPageState extends State<DonationPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 1000", skuID: SkuID.donation_1000),
-              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 5000", skuID: SkuID.donation_5000),
-              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 10000", skuID: SkuID.donation_10000),
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_1000, skuID: SkuID.donation_1000),
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_5000, skuID: SkuID.donation_5000),
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_10000, skuID: SkuID.donation_10000),
             ],
           ),
           const SizedBox(height: 50.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DonationButton(btnOnClick: onBtnClick, btnText: "Donation 50000", skuID: SkuID.donation_50000),
-              DonationButton(btnOnClick: onBtnClick, btnText: "Advertisement Remove", skuID: SkuID.ad_remove)
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove)
             ],
           )
         ],
@@ -67,9 +68,9 @@ class _DonationPageState extends State<DonationPage> {
   void onBtnClick(SkuID skuID) async {
     if(!isStoreEnabled || !mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Failed to connect to Appstore"),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.donation_error_connect),
+          duration: const Duration(seconds: 2),
         )
       );
       return;
@@ -82,9 +83,9 @@ class _DonationPageState extends State<DonationPage> {
     } catch(e) {
       if(mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Failed to process purchase"),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.donation_error_process),
+            duration: const Duration(seconds: 2),
           )
         );
       }
@@ -95,17 +96,17 @@ class _DonationPageState extends State<DonationPage> {
     for(var purchaseDetail in purchaseDetailsList) {
       if(purchaseDetail.status == PurchaseStatus.error && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Failed to process purchase"),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.donation_error_process),
+            duration: const Duration(seconds: 2),
           )
         );
       } else if((purchaseDetail.status == PurchaseStatus.purchased
           || purchaseDetail.status == PurchaseStatus.restored) && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Thanks for Purchasing!"),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.donation_purchase_done),
+            duration: const Duration(seconds: 2),
           )
         );
       }
