@@ -2,6 +2,16 @@
   "@@locale": "ko",
   "app_title": "택시미터기",
 
+  "donation_btn_ad_remove": "광고 제거",
+  "donation_btn_donate_1000": "콜라 사주기",
+  "donation_btn_donate_5000": "커피 사주기",
+  "donation_btn_donate_10000": "빅맥 사주기",
+  "donation_btn_donate_50000": "뷔페식사 사주기",
+  "donation_info_text": "광고 제거를 제외한 결제항목은 미터기 개발자에게 도네이션하는 결제입니다.\n환불을 희망하는 경우, 앱스토어 내 상세 페이지를 참고하시어\n개발자에게 이메일을 보내주세요.",
+  "donation_error_connect": "앱스토어 연결에 실패하였습니다",
+  "donation_error_process": "결제 진행에 실패하였습니다",
+  "donation_purchase_done": "구매해주셔서 감사드립니다!",
+
   "nav_donation": "결제",
   "nav_home": "홈",
   "nav_setting": "설정",
