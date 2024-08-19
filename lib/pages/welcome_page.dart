@@ -71,7 +71,7 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () { widget.goNext(); },
+      onPressed: () { widget.goNext(); },
       child: const Text("Welcome Page 3. Location Info")
     );
   }
@@ -92,7 +92,7 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () { widget.goNext(); },
+      onPressed: () { widget.goNext(); },
       child: const Text("Welcome Page 2. Permission")
     );
   }
