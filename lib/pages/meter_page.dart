@@ -61,6 +61,7 @@ class _MeterPageState extends State<MeterPage> {
                   MeterCostView(meterUtil: meterUtil!),
                   MeterInfo(meterUtil: meterUtil!),
                   MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                  MeterAdvertisement(),
                 ],
               )
             ],
@@ -102,6 +103,36 @@ class _MeterPageState extends State<MeterPage> {
   }
 }
 
+class MeterAdvertisement extends StatefulWidget {
+  const MeterAdvertisement({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _MeterAdvertisementState();
+}
+
+class _MeterAdvertisementState extends State<MeterAdvertisement> {
+  bool isAdRemoval = false;
+
+  @override
+  void didUpdateWidget(covariant MeterAdvertisement oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    PreferenceUtil().getPrefesValueB("ad_remove")
+      .then((res) => setState(() {
+        isAdRemoval = res ?? false;
+      }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if(isAdRemoval) {
+      return const SizedBox(height: 0, width: 0);
+    } else {
+      return const Text("CAULY Advertisement View");
+    }
+  }
+}
+
 class MeterAnimation extends StatefulWidget {
   const MeterAnimation({super.key, required this.meterUtil});
 
@@ -128,7 +159,7 @@ class _MeterAnimationState extends State<MeterAnimation> with SingleTickerProvid
 
     PreferenceUtil().getPrefsValueS("pref_theme").then((res) => {
       setState(() {
-        _curMeterTheme = res == "horse" ? MeterTheme.METER_THEME_HORSE : MeterTheme.METER_THEME_CIRCLE;
+        _curMeterTheme = res == "circle" ? MeterTheme.METER_THEME_CIRCLE : MeterTheme.METER_THEME_HORSE;
       })
     });
   }

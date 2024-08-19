@@ -46,6 +46,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   sprintf: ^7.0.0
+  in_app_purchase: ^3.2.0
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:
