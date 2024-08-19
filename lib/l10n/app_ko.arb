@@ -16,6 +16,7 @@
   "nav_home": "홈",
   "nav_setting": "설정",
 
+  "main_snack_permission_error": "위치정보 권한이 거부되었습니다. 스마트폰 설정에서 부여해주세요.",
   "main_subtitle": "터치하여 시작하기",
   "main_title_meter": "미터기",
   "main_title_taxi": "택시",
