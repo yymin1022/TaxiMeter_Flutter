@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taximeter/utils/color_util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -13,7 +14,7 @@ class _WelcomePageState extends State<WelcomePage> {
   late final List<Widget> _welcomePages = [
     WelcomePageInit(goNext: goNext),
     WelcomePagePermission(goNext: goNext),
-    WelcomePageLocation(goNext: goNext)
+    WelcomePageLocation(goNext: goNext),
   ];
 
   @override
@@ -68,8 +69,8 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
           const SizedBox(height: 20.0),
           OutlinedButton(
             onPressed: () { widget.goNext(); },
-            child: Text(AppLocalizations.of(context)!.welcome_btn_next)
-          )
+            child: Text(AppLocalizations.of(context)!.welcome_btn_next),
+          ),
         ],
       ),
     );
@@ -92,7 +93,7 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () { widget.goNext(); },
-      child: const Text("Welcome Page 3. Location Info")
+      child: const Text("Welcome Page 3. Location Info"),
     );
   }
 }
@@ -107,13 +108,62 @@ class WelcomePagePermission extends StatefulWidget {
 }
 
 class _WelcomePagePermissionState extends State<WelcomePagePermission> {
-  //TODO: Location Permission
+  bool isGranted = false;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () { widget.goNext(); },
-      child: const Text("Welcome Page 2. Permission")
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.gps_fixed,
+            size: 100.0,
+          ),
+          const SizedBox(height: 20.0),
+          Text(
+            AppLocalizations.of(context)!.welcome_permission_text,
+            style: const TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20.0),
+          OutlinedButton(
+            onPressed: () {
+              if(!isGranted) {
+                requestPermissions();
+              }
+            },
+            child: Text(isGranted
+                ? AppLocalizations.of(context)!.welcome_permission_btn_done
+                : AppLocalizations.of(context)!.welcome_permission_btn,
+              style: TextStyle(
+                color: isGranted ? MeterColor.btnTextDisabled : MeterColor.btnTextEnabled
+              ),
+            ),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              if(isGranted) {
+                widget.goNext();
+              } else {
+                // TODO: Show Snackbar
+              }
+            },
+            child: Text(
+              AppLocalizations.of(context)!.welcome_btn_next,
+              style: TextStyle(
+                color: isGranted ? MeterColor.btnTextEnabled : MeterColor.btnTextDisabled
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  Future<void> requestPermissions() async {
+    // TODO: Request Permission
   }
 }
