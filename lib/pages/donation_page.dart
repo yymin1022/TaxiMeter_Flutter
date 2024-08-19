@@ -65,7 +65,7 @@ class _DonationPageState extends State<DonationPage> {
   }
 
   void onBtnClick(SkuID skuID) async {
-    if(!isStoreEnabled) {
+    if(!isStoreEnabled || !mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Failed to connect to Appstore"),
@@ -80,26 +80,28 @@ class _DonationPageState extends State<DonationPage> {
       PurchaseParam purchaseParam = PurchaseParam(productDetails: productResponse.productDetails[0]);
       InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
     } catch(e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Failed to process purchase"),
-          duration: Duration(seconds: 2),
-        )
-      );
-    }
-  }
-
-  void _processPurchase(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if(purchaseDetails.status == PurchaseStatus.error) {
+      if(mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Failed to process purchase"),
             duration: Duration(seconds: 2),
           )
         );
-      } else if(purchaseDetails.status == PurchaseStatus.purchased
-          || purchaseDetails.status == PurchaseStatus.restored) {
+      }
+    }
+  }
+
+  void _processPurchase(List<PurchaseDetails> purchaseDetailsList) async {
+    for(var purchaseDetail in purchaseDetailsList) {
+      if(purchaseDetail.status == PurchaseStatus.error && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to process purchase"),
+            duration: Duration(seconds: 2),
+          )
+        );
+      } else if((purchaseDetail.status == PurchaseStatus.purchased
+          || purchaseDetail.status == PurchaseStatus.restored) && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Thanks for Purchasing!"),
@@ -108,10 +110,10 @@ class _DonationPageState extends State<DonationPage> {
         );
       }
 
-      if(purchaseDetails.pendingCompletePurchase) {
-        await InAppPurchase.instance.completePurchase(purchaseDetails);
+      if(purchaseDetail.pendingCompletePurchase) {
+        await InAppPurchase.instance.completePurchase(purchaseDetail);
       }
-    });
+    }
   }
 }
 
