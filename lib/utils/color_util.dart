@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MeterColor {
+  static const Color btnTextDisabled = Color(0xFFAAAAAA);
+  static const Color btnTextEnabled = Color(0xFF333333);
+
   static const Color meterBackground = Color(0xFF111111);
   static const Color meterBlue = Color(0xFF87CEEB);
   static const Color meterGreen = Color(0xFF99EE90);
