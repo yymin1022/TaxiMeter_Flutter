@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
+
   @override
   State<StatefulWidget> createState() => _WelcomePageState();
 }
