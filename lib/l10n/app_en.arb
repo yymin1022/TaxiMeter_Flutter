@@ -83,5 +83,6 @@
   "welcome_init_text": "Welcome to Taxi Meter!\nBefore start using, some setup must be done.\nPress Next button to start setup.",
   "welcome_permission_btn": "Grant Location Permission",
   "welcome_permission_btn_done": "Already Granted",
-  "welcome_permission_text": "Location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work."
+  "welcome_permission_text": "Location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work.",
+  "welcome_snack_permission_not_granted": "Location permission is not granted yet"
 }
