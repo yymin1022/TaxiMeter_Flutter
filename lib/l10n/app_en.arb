@@ -84,5 +84,7 @@
   "welcome_permission_btn": "Grant Location Permission",
   "welcome_permission_btn_done": "Already Granted",
   "welcome_permission_text": "Location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work.",
-  "welcome_snack_permission_not_granted": "Location permission is not granted yet"
+  "welcome_snack_permission_not_granted": "Location permission is not granted yet",
+  "welcome_snack_permission_error_retry": "Location permission is not granted. Please Retry.",
+  "welcome_snack_permission_error_setting": "Location permission is PERMANENTLY not granted. Goto System Settings for grant."
 }
