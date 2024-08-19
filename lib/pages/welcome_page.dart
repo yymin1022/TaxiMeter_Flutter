@@ -132,7 +132,11 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
           OutlinedButton(
             onPressed: () {
               if(!isGranted) {
-                requestPermissions();
+                requestPermissions().then(
+                  (res) => setState(() {
+                    isGranted = res;
+                  })
+                );
               }
             },
             child: Text(
@@ -149,7 +153,12 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
               if(isGranted) {
                 widget.goNext();
               } else {
-                // TODO: Show Snackbar
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.welcome_snack_permission_not_granted),
+                    duration: const Duration(seconds: 2),
+                  )
+                );
               }
             },
             child: Text(
@@ -164,7 +173,8 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
     );
   }
 
-  Future<void> requestPermissions() async {
+  Future<bool> requestPermissions() async {
     // TODO: Request Permission
+    return true;
   }
 }
