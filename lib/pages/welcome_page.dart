@@ -177,13 +177,21 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
   Future<bool> requestPermissions() async {
     LocationPermission permissionResult = await Geolocator.requestPermission();
 
-    print(permissionResult);
-
-    if(permissionResult == LocationPermission.deniedForever) {
-      // TODO: Show goto settings Snackbar
+    if(permissionResult == LocationPermission.deniedForever && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.welcome_snack_permission_error_setting),
+          duration: const Duration(seconds: 2),
+        )
+      );
       return false;
-    } else if(permissionResult == LocationPermission.denied) {
-      // TODO: Show retry Snackbar
+    } else if(permissionResult == LocationPermission.denied && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.welcome_snack_permission_error_retry),
+          duration: const Duration(seconds: 2),
+        )
+      );
       return false;
     }
 
