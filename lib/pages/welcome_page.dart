@@ -49,9 +49,29 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () { widget.goNext(); },
-      child: const Text("Welcome Page 1. Init")
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Image(
+            image: AssetImage("assets/images/logo/app_icon.png"),
+            height: 100.0,
+          ),
+          const SizedBox(height: 20.0),
+          const Text(
+            textAlign: TextAlign.center,
+            "택시미터기 앱에 오신 것을 환영합니다!\n사용에 앞서, 각종 설정과 안내를 도와드리겠습니다.\n다음 버튼을 눌러 진행해주세요.",
+            style: TextStyle(fontSize: 20.0),
+          ),
+          const SizedBox(height: 20.0),
+          OutlinedButton(
+            onPressed: () { widget.goNext(); },
+            child: const Text("Welcome Page 1. Init")
+          )
+        ],
+      ),
     );
   }
 }
