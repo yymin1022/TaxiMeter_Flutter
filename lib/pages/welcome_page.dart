@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taximeter/utils/color_util.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -93,6 +94,12 @@ class WelcomePageLocation extends StatefulWidget {
 }
 
 class _WelcomePageLocationState extends State<WelcomePageLocation> {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseUtil().updateCostInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
