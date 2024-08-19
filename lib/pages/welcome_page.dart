@@ -88,13 +88,43 @@ class WelcomePageLocation extends StatefulWidget {
 }
 
 class _WelcomePageLocationState extends State<WelcomePageLocation> {
-  //TODO: Warning Text / Location Setup Info
-
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () { widget.goNext(); },
-      child: const Text("Welcome Page 3. Location Info"),
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.checklist,
+            size: 100.0,
+          ),
+          const SizedBox(height: 20.0),
+          Text(
+            AppLocalizations.of(context)!.welcome_info_warning_text,
+            style: const TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30.0),
+          Text(
+            AppLocalizations.of(context)!.welcome_info_location_text,
+            style: const TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30.0),
+          Text(
+            AppLocalizations.of(context)!.welcome_info_gps_text,
+            style: const TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30.0),
+          OutlinedButton(
+            onPressed: () { widget.goNext(); },
+            child: Text(AppLocalizations.of(context)!.welcome_btn_done),
+          ),
+        ],
+      ),
     );
   }
 }
