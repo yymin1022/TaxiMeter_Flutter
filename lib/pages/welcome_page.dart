@@ -47,8 +47,6 @@ class WelcomePageInit extends StatefulWidget {
 }
 
 class _WelcomePageInitState extends State<WelcomePageInit> {
-  //TODO: Welcome Message
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,7 +62,7 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
           const SizedBox(height: 20.0),
           Text(
             AppLocalizations.of(context)!.welcome_init_text,
-            style: TextStyle(fontSize: 20.0),
+            style: const TextStyle(fontSize: 20.0),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20.0),
