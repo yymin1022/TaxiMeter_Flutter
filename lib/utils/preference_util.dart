@@ -57,6 +57,8 @@ class PreferenceUtil {
         prefs!.setString(key, value);
       } else if(value is int) {
         prefs!.setInt(key, value);
+      } else if(value is bool) {
+        prefs!.setBool(key, value);
       }
     }
   }
