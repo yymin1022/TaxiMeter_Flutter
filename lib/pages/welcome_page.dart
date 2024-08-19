@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taximeter/utils/color_util.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -174,7 +175,18 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
   }
 
   Future<bool> requestPermissions() async {
-    // TODO: Request Permission
+    LocationPermission permissionResult = await Geolocator.requestPermission();
+
+    print(permissionResult);
+
+    if(permissionResult == LocationPermission.deniedForever) {
+      // TODO: Show goto settings Snackbar
+      return false;
+    } else if(permissionResult == LocationPermission.denied) {
+      // TODO: Show retry Snackbar
+      return false;
+    }
+
     return true;
   }
 }
