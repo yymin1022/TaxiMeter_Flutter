@@ -135,7 +135,8 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
                 requestPermissions();
               }
             },
-            child: Text(isGranted
+            child: Text(
+              isGranted
                 ? AppLocalizations.of(context)!.welcome_permission_btn_done
                 : AppLocalizations.of(context)!.welcome_permission_btn,
               style: TextStyle(
