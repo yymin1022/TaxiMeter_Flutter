@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taximeter/pages/meter_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -10,11 +11,24 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       body: InkWell(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return const MeterPage();
-            }
-          ));
+          Geolocator.checkPermission()
+            .then((res) {
+              if(res == LocationPermission.always
+                || res == LocationPermission.whileInUse) {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const MeterPage();
+                  }
+                ));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.main_snack_permission_error),
+                    duration: const Duration(seconds: 2),
+                  )
+                );
+              }
+          });
         },
         child: Center(
           child: Column(

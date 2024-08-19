@@ -75,6 +75,7 @@ flutter:
   assets:
    - assets/images/meter_circle/
    - assets/images/meter_horse/
+   - assets/images/logo/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

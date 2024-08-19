@@ -3,7 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
+import 'package:taximeter/pages/welcome_page.dart';
 import 'package:taximeter/utils/firebase_util.dart';
+import 'package:taximeter/utils/preference_util.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +51,23 @@ class _TaxiMeterMainState extends State<TaxiMeterMain> {
     const MainPage(),
     const DonationPage()
   ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    PreferenceUtil().getPrefesValueB("is_setup_done")
+      .then((res) => setState(() {
+        if(res != true) {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const WelcomePage();
+            }
+          ));
+        }
+      }
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {

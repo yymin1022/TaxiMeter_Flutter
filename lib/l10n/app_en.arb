@@ -16,6 +16,7 @@
   "nav_home": "Home",
   "nav_setting": "Setting",
 
+  "main_snack_permission_error": "Location Permission is denied. Please grant at System Settings.",
   "main_subtitle": "Touch to Start",
   "main_title_meter": "Meter",
   "main_title_taxi": "Taxi",
@@ -74,5 +75,18 @@
   "setting_setup_theme": "Theme",
   "setting_title_developer": "Developer Info",
   "setting_title_info": "Meter Info",
-  "setting_title_setup": "Meter Setup"
+  "setting_title_setup": "Meter Setup",
+
+  "welcome_btn_done": "Done",
+  "welcome_btn_next": "Next",
+  "welcome_info_gps_text": "Meter function depends on Realtime GPS Information. If inside building or tunnel, meter might stopped. Please check whether Location Permission is granted properly.",
+  "welcome_info_location_text": "You can choose location for taxi cost at Setting Menu inside application. Major cities in South Korea are supported, and you can even custom your own cost info.",
+  "welcome_info_warning_text": "!! Warning !!\nReceiving money using this application may be punished under the laws of the Republic of Korea.",
+  "welcome_init_text": "Welcome to Taxi Meter!\nBefore start using, some setup must be done.\nPress Next button to start setup.",
+  "welcome_permission_btn": "Grant Location Permission",
+  "welcome_permission_btn_done": "Already Granted",
+  "welcome_permission_text": "Location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work.",
+  "welcome_snack_permission_not_granted": "Location permission is not granted yet",
+  "welcome_snack_permission_error_retry": "Location permission is not granted. Please Retry.",
+  "welcome_snack_permission_error_setting": "Location permission is PERMANENTLY not granted. Goto System Settings for grant."
 }
