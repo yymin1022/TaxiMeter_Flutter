@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
+import 'package:wakelock/wakelock.dart';
 
 class MeterUtil {
   MeterUtil({required this.updateView}) {
@@ -57,11 +58,13 @@ class MeterUtil {
       );
 
       meterStatus = MeterStatus.METER_RUNNING;
+      Wakelock.enable();
     }
   }
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
+      Wakelock.disable();
       _gpsTimer.cancel();
       _initValue();
     }
