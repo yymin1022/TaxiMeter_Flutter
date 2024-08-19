@@ -55,9 +55,9 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Image(
-            image: AssetImage("assets/images/logo/app_icon.png"),
-            height: 100.0,
+          const Icon(
+            Icons.local_taxi,
+            size: 100.0,
           ),
           const SizedBox(height: 20.0),
           Text(
