@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taximeter/utils/color_util.dart';
+import 'package:taximeter/utils/preference_util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -33,8 +34,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void goNext() {
     setState(() {
-      if(_welcomeIdx == 2) {
-        Navigator.of(context).pop();
+      if(_welcomeIdx == 2 && mounted) {
+        PreferenceUtil().setPrefsValue("is_setup_done", true)
+          .then((res) => Navigator.of(context).pop());
       } else {
         _welcomeIdx++;
       }
