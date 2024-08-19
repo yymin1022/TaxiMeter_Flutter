@@ -66,23 +66,18 @@ class _DonationPageState extends State<DonationPage> {
 
   void onBtnClick(SkuID skuID) async {
     if(!isStoreEnabled) {
-      print("Failed to initialize Appstore");
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Failed to connect to Appstore"),
-            duration: Duration(seconds: 2),
-          )
+        const SnackBar(
+          content: Text("Failed to connect to Appstore"),
+          duration: Duration(seconds: 2),
+        )
       );
       return;
     }
 
-    print("Button Clicked! $skuID");
-
     try {
-      ProductDetailsResponse productResponse = await InAppPurchase.instance
-          .queryProductDetails({skuID.name});
-      PurchaseParam purchaseParam = PurchaseParam(
-          productDetails: productResponse.productDetails[0]);
+      ProductDetailsResponse productResponse = await InAppPurchase.instance.queryProductDetails({skuID.name});
+      PurchaseParam purchaseParam = PurchaseParam(productDetails: productResponse.productDetails[0]);
       InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
     } catch(e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -96,33 +91,25 @@ class _DonationPageState extends State<DonationPage> {
 
   void _processPurchase(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if(purchaseDetails.status == PurchaseStatus.pending) {
-        //TODO: Loading UI
-        print("Loading...");
-      } else {
-        if(purchaseDetails.status == PurchaseStatus.error) {
-          //TODO: Error Snackbar
-          print("Error Purchase");
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Failed to process purchase"),
-              duration: Duration(seconds: 2),
-            )
-          );
-        } else if(purchaseDetails.status == PurchaseStatus.purchased
-            || purchaseDetails.status == PurchaseStatus.restored) {
-          //TODO: Success Snackbar
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Thanks for Purchasing!"),
-              duration: Duration(seconds: 2),
-            )
-          );
-        }
+      if(purchaseDetails.status == PurchaseStatus.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to process purchase"),
+            duration: Duration(seconds: 2),
+          )
+        );
+      } else if(purchaseDetails.status == PurchaseStatus.purchased
+          || purchaseDetails.status == PurchaseStatus.restored) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Thanks for Purchasing!"),
+            duration: Duration(seconds: 2),
+          )
+        );
+      }
 
-        if(purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchase.instance.completePurchase(purchaseDetails);
-        }
+      if(purchaseDetails.pendingCompletePurchase) {
+        await InAppPurchase.instance.completePurchase(purchaseDetails);
       }
     });
   }
