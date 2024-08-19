@@ -20,10 +20,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: _welcomePages[_welcomeIdx],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: _welcomePages[_welcomeIdx],
+        ),
       ),
     );
   }
