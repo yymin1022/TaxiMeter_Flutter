@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -61,15 +62,15 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
             height: 100.0,
           ),
           const SizedBox(height: 20.0),
-          const Text(
-            textAlign: TextAlign.center,
-            "택시미터기 앱에 오신 것을 환영합니다!\n사용에 앞서, 각종 설정과 안내를 도와드리겠습니다.\n다음 버튼을 눌러 진행해주세요.",
+          Text(
+            AppLocalizations.of(context)!.welcome_init_text,
             style: TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20.0),
           OutlinedButton(
             onPressed: () { widget.goNext(); },
-            child: const Text("다음")
+            child: Text(AppLocalizations.of(context)!.welcome_btn_next)
           )
         ],
       ),
