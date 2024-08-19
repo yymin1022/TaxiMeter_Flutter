@@ -18,6 +18,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: _welcomePages[_welcomeIdx],
       ),
@@ -68,7 +69,7 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
           const SizedBox(height: 20.0),
           OutlinedButton(
             onPressed: () { widget.goNext(); },
-            child: const Text("Welcome Page 1. Init")
+            child: const Text("다음")
           )
         ],
       ),
