@@ -9,10 +9,10 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   int _welcomeIdx = 0;
-  final List<Widget> _welcomePages = const [
-    WelcomePageInit(),
-    WelcomePagePermission(),
-    WelcomePageLocation()
+  late final List<Widget> _welcomePages = [
+    WelcomePageInit(goNext: goNext),
+    WelcomePagePermission(goNext: goNext),
+    WelcomePageLocation(goNext: goNext)
   ];
 
   @override
@@ -23,10 +23,22 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
+
+  void goNext() {
+    setState(() {
+      if(_welcomeIdx == 2) {
+        Navigator.of(context).pop();
+      } else {
+        _welcomeIdx++;
+      }
+    });
+  }
 }
 
 class WelcomePageInit extends StatefulWidget {
-  const WelcomePageInit({super.key});
+  const WelcomePageInit({super.key, required this.goNext});
+
+  final Function goNext;
 
   @override
   State<StatefulWidget> createState() => _WelcomePageInitState();
@@ -37,12 +49,17 @@ class _WelcomePageInitState extends State<WelcomePageInit> {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Welcome Page 1. Init");
+    return ElevatedButton(
+      onPressed: () { widget.goNext(); },
+      child: const Text("Welcome Page 1. Init")
+    );
   }
 }
 
 class WelcomePageLocation extends StatefulWidget {
-  const WelcomePageLocation({super.key});
+  const WelcomePageLocation({super.key, required this.goNext});
+
+  final Function goNext;
 
   @override
   State<StatefulWidget> createState() => _WelcomePageLocationState();
@@ -53,12 +70,17 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Welcome Page 3. Location Info");
+    return ElevatedButton(
+        onPressed: () { widget.goNext(); },
+      child: const Text("Welcome Page 3. Location Info")
+    );
   }
 }
 
 class WelcomePagePermission extends StatefulWidget {
-  const WelcomePagePermission({super.key});
+  const WelcomePagePermission({super.key, required this.goNext});
+
+  final Function goNext;
 
   @override
   State<StatefulWidget> createState() => _WelcomePagePermissionState();
@@ -69,6 +91,9 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Welcome Page 2. Permission");
+    return ElevatedButton(
+        onPressed: () { widget.goNext(); },
+      child: const Text("Welcome Page 2. Permission")
+    );
   }
 }
