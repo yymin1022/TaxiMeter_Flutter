@@ -74,5 +74,8 @@
   "setting_setup_theme": "Theme",
   "setting_title_developer": "Developer Info",
   "setting_title_info": "Meter Info",
-  "setting_title_setup": "Meter Setup"
+  "setting_title_setup": "Meter Setup",
+
+  "welcome_btn_next": "Next",
+  "welcome_init_text": "Welcome to Taxi Meter!\nBefore start using, some setup must be done.\nPress Next button to start setup."
 }
