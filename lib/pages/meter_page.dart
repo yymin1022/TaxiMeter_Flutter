@@ -41,6 +41,17 @@ class _MeterPageState extends State<MeterPage> {
         body: SafeArea(
           child: Stack(
             children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MeterAnimation(meterUtil: meterUtil!),
+                  MeterCostView(meterUtil: meterUtil!),
+                  MeterInfo(meterUtil: meterUtil!),
+                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                  MeterAdvertisement(),
+                ],
+              ),
               IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
@@ -53,17 +64,6 @@ class _MeterPageState extends State<MeterPage> {
                   }
                 },
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MeterAnimation(meterUtil: meterUtil!),
-                  MeterCostView(meterUtil: meterUtil!),
-                  MeterInfo(meterUtil: meterUtil!),
-                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  MeterAdvertisement(),
-                ],
-              )
             ],
           ),
         )
