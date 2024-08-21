@@ -27,8 +27,10 @@ class _WelcomePageState extends State<WelcomePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: _welcomePages[_welcomeIdx]
+          child: Center(
+            child: SingleChildScrollView(
+              child: _welcomePages[_welcomeIdx]
+            ),
           ),
         ),
       ),
