@@ -79,13 +79,13 @@
 
   "welcome_btn_done": "완료",
   "welcome_btn_next": "다음",
-  "welcome_info_gps_text": "미터기 기능은 실시간 GPS 정보에 의존하여 동작합니다. 건물이나 터널 내부에서는 동작하지 않을 수 있습니다. 올바른 동작을 위해서 위치정보 권한이 올바르게 부여되었는지 확인해주세요.",
+  "welcome_info_gps_text": "미터기 기능은 실시간 GPS에 의존하여 동작합니다. 건물이나 터널 내부에서는 동작하지 않을 수 있습니다. 올바른 동작을 위해서 위치정보 권한이 올바르게 부여되었는지 확인해주세요.",
   "welcome_info_location_text": "택시 요금정보는 앱 내 설정에서 변경할 수 있습니다. 대한민국의 주요 광역시와 도별 요금정보가 제공되며, 미지원 지역의 경우는 요금정보를 직접 설정할 수 있습니다.",
   "welcome_info_warning_text": "!! 경고 !!\n본 앱을 이용해 요금을 청구하는 경우에는 대한민국 법률에 의하여 처벌될 수 있습니다.",
   "welcome_init_text": "환영합니다!\n시작하기에 앞서, 권한 설정과 정보 안내가 필요합니다.\n시작하려면 다음 버튼을 클릭해주세요.",
   "welcome_permission_btn": "위치정보 권한 부여",
   "welcome_permission_btn_done": "이미 부여되었습니다",
-  "welcome_permission_text": "미터기 기능을 위해서는 위치정보 권한이 필수적으로 요구됩니다.\n권한이 부여되지 않는 경우, GPS 정보에 접근할 수 없어 미터기 기능이 동작하지 않습니다.",
+  "welcome_permission_text": "미터기 기능은 GPS에 기반한 실시간 이동 정보를 기반으로 동작하기에 위치정보 권한이 필수적으로 요구됩니다.\n권한이 부여되지 않는 경우, GPS 정보에 접근할 수 없어 미터기 기능이 동작하지 않습니다.",
   "welcome_snack_permission_not_granted": "위치정보 권한이 아직 부여되지 않았습니다.",
   "welcome_snack_permission_error_retry": "위치정보 권한이 부여되지 않았습니다. 다시 시도해주세요.",
   "welcome_snack_permission_error_setting": "위치정보 권한이 영구적으로 거부되었습니다. 시스템 설정에서 직접 부여해주세요."
