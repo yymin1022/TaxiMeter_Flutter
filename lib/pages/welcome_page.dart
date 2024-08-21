@@ -195,9 +195,9 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
           ),
           OutlinedButton(
             onPressed: () {
-              if(isGranted) {
-                widget.goNext();
-              } else {
+              widget.goNext();
+
+              if(!isGranted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(AppLocalizations.of(context)!.welcome_snack_permission_not_granted),
