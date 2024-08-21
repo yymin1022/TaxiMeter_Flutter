@@ -53,16 +53,18 @@ class _MeterPageState extends State<MeterPage> {
                   }
                 },
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MeterAnimation(meterUtil: meterUtil!),
-                  MeterCostView(meterUtil: meterUtil!),
-                  MeterInfo(meterUtil: meterUtil!),
-                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  MeterAdvertisement(),
-                ],
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    MeterAnimation(meterUtil: meterUtil!),
+                    MeterCostView(meterUtil: meterUtil!),
+                    MeterInfo(meterUtil: meterUtil!),
+                    MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                    MeterAdvertisement(),
+                  ],
+                ),
               )
             ],
           ),
