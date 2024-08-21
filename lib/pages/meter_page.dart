@@ -258,9 +258,9 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: () {
                 setState(() {
                   if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
+                    _showStopDialog();
                     widget.meterUtil.stopMeter();
                     widget.updateCallback();
-                    _showStopDialog();
                   }
                 });
               }
