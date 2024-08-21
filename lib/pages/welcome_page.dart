@@ -101,7 +101,9 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
   @override
   void initState() {
     super.initState();
-    FirebaseUtil().updateCostInfo();
+
+    FirebaseUtil().initFirebase()
+      .then((res) => FirebaseUtil().updateCostInfo());
   }
 
   @override
