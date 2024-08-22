@@ -7,10 +7,12 @@
   "donation_btn_donate_5000": "Buy a coffee",
   "donation_btn_donate_10000": "Buy a BigMac",
   "donation_btn_donate_50000": "Buy a Dinner Course",
+  "donation_btn_restore": "Restore Purchase",
   "donation_info_text": "Purchase Items except Advertise Remove are donation for Developer.\nIf you want to get refund, read Appstore Detail Page and send me an E-mail\n",
   "donation_error_connect": "Failed to connect with Appstore",
   "donation_error_process": "Failed to process purchase",
   "donation_purchase_done": "Thanks for purchasing!",
+  "donation_restore_done": "Restored old purchases",
 
   "nav_donation": "Donation",
   "nav_home": "Home",
