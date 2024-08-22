@@ -37,6 +37,7 @@ class MeterUtil {
 
   late Timer _gpsTimer;
   Position? _lastPosition;
+  double _lastSpeed = 0.0;
   int _lastUpdateTime = 0;
 
   void startMeter() {
@@ -48,7 +49,7 @@ class MeterUtil {
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.bestForNavigation,
+              desiredAccuracy: LocationAccuracy.high,
               timeLimit: const Duration(seconds: 1))
                 .then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
@@ -92,11 +93,18 @@ class MeterUtil {
       );
 
       final curSpeed = curDistance / deltaTime;
-      meterCurSpeed = curSpeed * 3.6;
-      meterStatus = MeterStatus.METER_RUNNING;
+      if((curSpeed - _lastSpeed).abs() > 2.7) {
+        meterCurSpeed = 0;
+        meterStatus = MeterStatus.METER_GPS_ERROR;
+      } else {
+        _lastSpeed = curSpeed;
+        meterCurSpeed = curSpeed * 3.6;
+        meterStatus = MeterStatus.METER_RUNNING;
 
-      meterCostCounter -= (curSpeed * deltaTime).toInt();
-      meterSumDistance += curSpeed * deltaTime;
+        meterCostCounter -= (curSpeed * deltaTime).toInt();
+        meterSumDistance += curSpeed * deltaTime;
+      }
+
     } else {
       meterCurSpeed = 0;
       meterStatus = MeterStatus.METER_GPS_ERROR;
