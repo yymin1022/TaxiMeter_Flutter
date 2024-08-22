@@ -58,7 +58,8 @@ class _DonationPageState extends State<DonationPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove)
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove),
+              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_restore, skuID: null),
             ],
           ),
           const SizedBox(height: 100.0),
@@ -132,7 +133,7 @@ class DonationButton extends StatefulWidget {
 
   final Function btnOnClick;
   final String btnText;
-  final SkuID skuID;
+  final SkuID? skuID;
 
   @override
   State<StatefulWidget> createState() => _DonationButtonState();
@@ -154,8 +155,15 @@ class _DonationButtonState extends State<DonationButton> {
   }
 
   Icon skuIcon() {
+    if(widget.skuID == null) {
+      return const Icon(
+        Icons.restore,
+        size: 75.0,
+      );
+    }
+
     IconData skuIcon;
-    switch(widget.skuID) {
+    switch(widget.skuID!) {
       case SkuID.ad_remove:
         skuIcon = Icons.money_off;
       case SkuID.donation_1000:
