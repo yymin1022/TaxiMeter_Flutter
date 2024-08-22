@@ -259,8 +259,6 @@ class _MeterControlState extends State<MeterControl> {
                 setState(() {
                   if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
                     _showStopDialog();
-                    widget.meterUtil.stopMeter();
-                    widget.updateCallback();
                   }
                 });
               }
@@ -326,7 +324,11 @@ class _MeterControlState extends State<MeterControl> {
                 AppLocalizations.of(context)!.meter_dialog_stop_ok,
                 style: const TextStyle(fontSize: 17.0),
               ),
-              onPressed: () => Navigator.pop(context)
+              onPressed: () {
+                widget.meterUtil.stopMeter();
+                widget.updateCallback();
+                Navigator.pop(context);
+              }
             ),
           ],
         );
