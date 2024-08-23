@@ -49,6 +49,7 @@
   "meter_info_status_running": "운행 중",
   "meter_info_status_title": "운행 상태",
   "meter_snack_percentage_night": "야간할증은 지정된 시간에만 적용됩니다.",
+  "meter_snack_warning_location_accuracy": "부정확한 위치정보로 인해 미터기 동작이 원활하지 않을 수 있습니다.",
 
   "setting_cost_custom_base": "기본요금",
   "setting_cost_custom_base_distance": "기본요금 주행거리",
