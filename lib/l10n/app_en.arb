@@ -49,6 +49,7 @@
   "meter_info_status_running": "Running",
   "meter_info_status_title": "Status",
   "meter_snack_percentage_night": "Night Percentage will be applied at Setted Time",
+  "meter_snack_warning_location_accuracy": "Meter might be unstable because of Non-precise Location Information.",
 
   "setting_cost_custom_base": "Base Cost",
   "setting_cost_custom_base_distance": "Distance for Base Cost",
