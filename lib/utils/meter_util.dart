@@ -122,7 +122,6 @@ class MeterUtil {
         meterCostCounter -= (curSpeed * deltaTime).toInt();
         meterSumDistance += curSpeed * deltaTime;
       }
-
     } else {
       meterCurSpeed = 0;
       meterStatus = MeterStatus.METER_GPS_ERROR;
