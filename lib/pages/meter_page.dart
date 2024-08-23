@@ -247,7 +247,7 @@ class _MeterControlState extends State<MeterControl> {
               btnText: AppLocalizations.of(context)!.meter_btn_start,
               onClickFunction: () {
                 setState(() {
-                  widget.meterUtil.startMeter();
+                  widget.meterUtil.startMeter(context);
                   widget.updateCallback();
                 });
               }
