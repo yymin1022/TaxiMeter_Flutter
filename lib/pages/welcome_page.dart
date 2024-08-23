@@ -27,7 +27,11 @@ class _WelcomePageState extends State<WelcomePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: _welcomePages[_welcomeIdx],
+          child: Center(
+            child: SingleChildScrollView(
+              child: _welcomePages[_welcomeIdx]
+            ),
+          ),
         ),
       ),
     );
@@ -97,7 +101,9 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
   @override
   void initState() {
     super.initState();
-    FirebaseUtil().updateCostInfo();
+
+    FirebaseUtil().initFirebase()
+      .then((res) => FirebaseUtil().updateCostInfo());
   }
 
   @override
@@ -193,9 +199,9 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
           ),
           OutlinedButton(
             onPressed: () {
-              if(isGranted) {
-                widget.goNext();
-              } else {
+              widget.goNext();
+
+              if(!isGranted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(AppLocalizations.of(context)!.welcome_snack_permission_not_granted),

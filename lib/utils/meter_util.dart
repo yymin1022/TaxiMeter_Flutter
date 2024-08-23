@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
@@ -37,18 +40,34 @@ class MeterUtil {
 
   late Timer _gpsTimer;
   Position? _lastPosition;
+  double _lastSpeed = 0.0;
   int _lastUpdateTime = 0;
 
-  void startMeter() {
+  void startMeter(BuildContext context) async {
     if(meterStatus == MeterStatus.METER_NOT_RUNNING) {
       meterStatus = MeterStatus.METER_GPS_ERROR;
       increaseCost(null);
+
+      if(Platform.isIOS) {
+        Geolocator.requestTemporaryFullAccuracy(purposeKey: "METER_UTIL")
+          .then((accuracyStatus) async {
+            if (accuracyStatus != LocationAccuracyStatus.precise) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!
+                        .meter_snack_percentage_night),
+                    duration: const Duration(seconds: 2),
+                  )
+              );
+            }
+          });
+      }
 
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.high,
+                desiredAccuracy: LocationAccuracy.bestForNavigation,
                 timeLimit: const Duration(seconds: 1))
                 .then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
@@ -92,11 +111,17 @@ class MeterUtil {
       );
 
       final curSpeed = curDistance / deltaTime;
-      meterCurSpeed = curSpeed * 3.6;
-      meterStatus = MeterStatus.METER_RUNNING;
+      if((curSpeed - _lastSpeed).abs() > 2.7) {
+        meterCurSpeed = 0;
+        meterStatus = MeterStatus.METER_GPS_ERROR;
+      } else {
+        _lastSpeed = curSpeed;
+        meterCurSpeed = curSpeed * 3.6;
+        meterStatus = MeterStatus.METER_RUNNING;
 
-      meterCostCounter -= (curSpeed * deltaTime).toInt();
-      meterSumDistance += curSpeed * deltaTime;
+        meterCostCounter -= (curSpeed * deltaTime).toInt();
+        meterSumDistance += curSpeed * deltaTime;
+      }
     } else {
       meterCurSpeed = 0;
       meterStatus = MeterStatus.METER_GPS_ERROR;

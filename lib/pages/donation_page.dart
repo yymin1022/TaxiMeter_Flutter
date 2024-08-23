@@ -48,17 +48,18 @@ class _DonationPageState extends State<DonationPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_1000, skuID: SkuID.donation_1000),
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_5000, skuID: SkuID.donation_5000),
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_10000, skuID: SkuID.donation_10000),
+              DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_1000, skuID: SkuID.donation_1000),
+              DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_5000, skuID: SkuID.donation_5000),
+              DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_10000, skuID: SkuID.donation_10000),
             ],
           ),
           const SizedBox(height: 50.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
-              DonationButton(btnOnClick: onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove)
+              DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
+              DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove),
+              DonationButton(btnOnClick: _restorePurchase, btnText: AppLocalizations.of(context)!.donation_btn_restore, skuID: null),
             ],
           ),
           const SizedBox(height: 100.0),
@@ -71,7 +72,7 @@ class _DonationPageState extends State<DonationPage> {
     );
   }
 
-  void onBtnClick(SkuID skuID) async {
+  void _onBtnClick(SkuID skuID) async {
     if(!isStoreEnabled || !mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -125,6 +126,21 @@ class _DonationPageState extends State<DonationPage> {
       }
     }
   }
+
+  void _restorePurchase() async {
+    if(mounted) {
+      InAppPurchase.instance.restorePurchases()
+        .then((res) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.donation_restore_done),
+              duration: const Duration(seconds: 2),
+            )
+          );
+        }
+      );
+    }
+  }
 }
 
 class DonationButton extends StatefulWidget {
@@ -132,7 +148,7 @@ class DonationButton extends StatefulWidget {
 
   final Function btnOnClick;
   final String btnText;
-  final SkuID skuID;
+  final SkuID? skuID;
 
   @override
   State<StatefulWidget> createState() => _DonationButtonState();
@@ -142,7 +158,9 @@ class _DonationButtonState extends State<DonationButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async => await widget.btnOnClick(widget.skuID),
+      onTap: () async => widget.skuID != null
+        ? await widget.btnOnClick(widget.skuID)
+        : await widget.btnOnClick(),
       child: Column(
         children: [
           skuIcon(),
@@ -154,8 +172,15 @@ class _DonationButtonState extends State<DonationButton> {
   }
 
   Icon skuIcon() {
+    if(widget.skuID == null) {
+      return const Icon(
+        Icons.restore,
+        size: 75.0,
+      );
+    }
+
     IconData skuIcon;
-    switch(widget.skuID) {
+    switch(widget.skuID!) {
       case SkuID.ad_remove:
         skuIcon = Icons.money_off;
       case SkuID.donation_1000:

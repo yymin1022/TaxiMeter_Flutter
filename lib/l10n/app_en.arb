@@ -2,15 +2,17 @@
   "@@locale": "en",
   "app_title": "Taxi Meter",
 
-  "donation_btn_ad_remove": "Advertisement Remove",
+  "donation_btn_ad_remove": "Ad Remove",
   "donation_btn_donate_1000": "Buy a coke",
   "donation_btn_donate_5000": "Buy a coffee",
   "donation_btn_donate_10000": "Buy a BigMac",
-  "donation_btn_donate_50000": "Buy a Dinner Course",
+  "donation_btn_donate_50000": "Buy a Dinner",
+  "donation_btn_restore": "Restore Purchase",
   "donation_info_text": "Purchase Items except Advertise Remove are donation for Developer.\nIf you want to get refund, read Appstore Detail Page and send me an E-mail\n",
   "donation_error_connect": "Failed to connect with Appstore",
   "donation_error_process": "Failed to process purchase",
   "donation_purchase_done": "Thanks for purchasing!",
+  "donation_restore_done": "Restored old purchases",
 
   "nav_donation": "Donation",
   "nav_home": "Home",
@@ -47,6 +49,7 @@
   "meter_info_status_running": "Running",
   "meter_info_status_title": "Status",
   "meter_snack_percentage_night": "Night Percentage will be applied at Setted Time",
+  "meter_snack_warning_location_accuracy": "Meter might be unstable because of Non-precise Location Information.",
 
   "setting_cost_custom_base": "Base Cost",
   "setting_cost_custom_base_distance": "Distance for Base Cost",
@@ -85,7 +88,7 @@
   "welcome_init_text": "Welcome to Taxi Meter!\nBefore start using, some setup must be done.\nPress Next button to start setup.",
   "welcome_permission_btn": "Grant Location Permission",
   "welcome_permission_btn_done": "Already Granted",
-  "welcome_permission_text": "Location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work.",
+  "welcome_permission_text": "Taxi Meter function works based on Current Driving Information from GPS. So location permission must be granted for Taxi Meter.\nIf not, application cannot access to GPS so Meter function cannot work.",
   "welcome_snack_permission_not_granted": "Location permission is not granted yet",
   "welcome_snack_permission_error_retry": "Location permission is not granted. Please Retry.",
   "welcome_snack_permission_error_setting": "Location permission is PERMANENTLY not granted. Goto System Settings for grant."

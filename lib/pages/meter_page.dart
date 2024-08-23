@@ -41,6 +41,17 @@ class _MeterPageState extends State<MeterPage> {
         body: SafeArea(
           child: Stack(
             children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MeterAnimation(meterUtil: meterUtil!),
+                  MeterCostView(meterUtil: meterUtil!),
+                  MeterInfo(meterUtil: meterUtil!),
+                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                  MeterAdvertisement(),
+                ],
+              ),
               IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
@@ -53,17 +64,6 @@ class _MeterPageState extends State<MeterPage> {
                   }
                 },
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MeterAnimation(meterUtil: meterUtil!),
-                  MeterCostView(meterUtil: meterUtil!),
-                  MeterInfo(meterUtil: meterUtil!),
-                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  MeterAdvertisement(),
-                ],
-              )
             ],
           ),
         )
@@ -247,7 +247,7 @@ class _MeterControlState extends State<MeterControl> {
               btnText: AppLocalizations.of(context)!.meter_btn_start,
               onClickFunction: () {
                 setState(() {
-                  widget.meterUtil.startMeter();
+                  widget.meterUtil.startMeter(context);
                   widget.updateCallback();
                 });
               }
@@ -258,8 +258,6 @@ class _MeterControlState extends State<MeterControl> {
               onClickFunction: () {
                 setState(() {
                   if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
-                    widget.meterUtil.stopMeter();
-                    widget.updateCallback();
                     _showStopDialog();
                   }
                 });
@@ -326,7 +324,11 @@ class _MeterControlState extends State<MeterControl> {
                 AppLocalizations.of(context)!.meter_dialog_stop_ok,
                 style: const TextStyle(fontSize: 17.0),
               ),
-              onPressed: () => Navigator.pop(context)
+              onPressed: () {
+                widget.meterUtil.stopMeter();
+                widget.updateCallback();
+                Navigator.pop(context);
+              }
             ),
           ],
         );
