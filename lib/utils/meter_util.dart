@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -47,34 +48,36 @@ class MeterUtil {
       meterStatus = MeterStatus.METER_GPS_ERROR;
       increaseCost(null);
 
-      Geolocator.requestTemporaryFullAccuracy(purposeKey: "METER_UTIL")
-        .then((accuracyStatus) {
-          print(Geolocator.getLocationAccuracy());
-          if(accuracyStatus != LocationAccuracyStatus.precise) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.meter_snack_percentage_night),
-                duration: const Duration(seconds: 2),
-              )
-            );
-          }
-
-          _gpsTimer = Timer.periodic(
-              const Duration(seconds: 1), (_) {
-            try {
-              Geolocator.getCurrentPosition(
-                  desiredAccuracy: LocationAccuracy.high,
-                  timeLimit: const Duration(seconds: 1))
-                  .then((pos) => increaseCost(pos));
-            } on TimeoutException catch(_) {
-              increaseCost(null);
+      if(Platform.isIOS) {
+        Geolocator.requestTemporaryFullAccuracy(purposeKey: "METER_UTIL")
+          .then((accuracyStatus) async {
+            if (accuracyStatus != LocationAccuracyStatus.precise) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!
+                        .meter_snack_percentage_night),
+                    duration: const Duration(seconds: 2),
+                  )
+              );
             }
-          }
-          );
+          });
+      }
 
-          meterStatus = MeterStatus.METER_RUNNING;
-          Wakelock.enable();
-        });
+      _gpsTimer = Timer.periodic(
+        const Duration(seconds: 1), (_) {
+          try {
+            Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.bestForNavigation,
+                timeLimit: const Duration(seconds: 1))
+                .then((pos) => increaseCost(pos));
+          } on TimeoutException catch(_) {
+            increaseCost(null);
+          }
+        }
+      );
+
+      meterStatus = MeterStatus.METER_RUNNING;
+      Wakelock.enable();
     }
   }
 
