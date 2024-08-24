@@ -40,7 +40,6 @@ class MeterUtil {
 
   late Timer _gpsTimer;
   Position? _lastPosition;
-  double _lastSpeed = 0.0;
   int _lastUpdateTime = 0;
 
   void startMeter(BuildContext context) async {
@@ -115,7 +114,6 @@ class MeterUtil {
         meterCurSpeed = 0;
         meterStatus = MeterStatus.METER_GPS_ERROR;
       } else {
-        _lastSpeed = curSpeed;
         meterCurSpeed = curSpeed * 3.6;
         meterStatus = MeterStatus.METER_RUNNING;
 
