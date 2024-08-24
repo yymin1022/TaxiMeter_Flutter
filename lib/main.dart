@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taximeter/cauly/cauly_android.dart';
+import 'package:taximeter/cauly/cauly.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
