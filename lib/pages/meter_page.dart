@@ -504,6 +504,7 @@ class _MeterButtonState extends State<MeterButton> {
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   widget.btnText,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: MeterColor.meterBtnText,
                     fontSize: 17.5
