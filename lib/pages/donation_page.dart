@@ -100,6 +100,7 @@ class _DonationPageState extends State<DonationPage> {
   }
 
   void _processPurchase(List<PurchaseDetails> purchaseDetailsList) async {
+    int successCount = 0;
     for(var purchaseDetail in purchaseDetailsList) {
       if(purchaseDetail.status == PurchaseStatus.error && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -113,16 +114,20 @@ class _DonationPageState extends State<DonationPage> {
         if(purchaseDetail.productID == SkuID.ad_remove.name) {
           PreferenceUtil().setPrefsValue("ad_remove", true);
         }
+        successCount++;
+      }
+
+      if(purchaseDetail.pendingCompletePurchase) {
+        await InAppPurchase.instance.completePurchase(purchaseDetail);
+      }
+
+      if(successCount > 0) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.donation_purchase_done),
             duration: const Duration(seconds: 2),
           )
         );
-      }
-
-      if(purchaseDetail.pendingCompletePurchase) {
-        await InAppPurchase.instance.completePurchase(purchaseDetail);
       }
     }
   }
