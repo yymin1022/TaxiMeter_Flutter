@@ -33,8 +33,8 @@ class _MeterPageState extends State<MeterPage> {
   }
 
   @override
-  void didUpdateWidget(covariant MeterPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     PreferenceUtil().getPrefesValueB("ad_remove")
         .then((res) => setState(() {
