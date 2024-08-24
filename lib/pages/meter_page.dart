@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
 import "package:sprintf/sprintf.dart";
@@ -51,7 +52,7 @@ class _MeterPageState extends State<MeterPage> {
                   MeterCostView(meterUtil: meterUtil!),
                   MeterInfo(meterUtil: meterUtil!),
                   MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  MeterAdvertisement(),
+                  const MeterAdvertisement(),
                 ],
               ),
               IconButton(
@@ -137,7 +138,6 @@ class _MeterAdvertisementState extends State<MeterAdvertisement> {
     if(isAdRemoval || _bannerAdView == null) {
       return const SizedBox(height: 0, width: 0);
     } else {
-      print("Loading Advertisement...");
       return SizedBox(
         height: _bannerAdView!.bannerSizeHeight.toDouble(),
         child: AdWidget(ad: _bannerAdView!),
@@ -161,7 +161,7 @@ class _MeterAdvertisementState extends State<MeterAdvertisement> {
           debugPrint('BannerAdListener onShowLandingScreen!!!');
         },
       ),
-      adInfo: const AdInfo("test App Code", BannerHeightEnum.adaptive, 320, 50))
+      adInfo: AdInfo(dotenv.get("CAULY_APP_CODE"), BannerHeightEnum.adaptive, 320, 50))
     ..load();
   }
 }
