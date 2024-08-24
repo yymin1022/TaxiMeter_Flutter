@@ -24,8 +24,6 @@ Future<void> main() async {
 
   if(Platform.isAndroid) {
     CaulyAndroid.instance.initialize();
-  } else {
-    CaulyIos.instance.initialize();
   }
 
   runApp(const TaxiMeterApp());
