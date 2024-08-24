@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taximeter/cauly/mobile_ads.dart';
 import 'package:taximeter/pages/donation_page.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
     firebaseUtil.updateCostInfo();
   }
 
+  await dotenv.load(fileName: ".env");
   MobileAds.instance.initialize();
 
   runApp(const TaxiMeterApp());
