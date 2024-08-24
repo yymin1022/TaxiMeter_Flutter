@@ -48,6 +48,7 @@ dependencies:
   sprintf: ^7.0.0
   in_app_purchase: ^3.2.0
   wakelock: ^0.6.2
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:
