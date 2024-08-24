@@ -16,6 +16,9 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		EE3001132C79DB2000F822D3 /* Cauly.h in Sources */ = {isa = PBXBuildFile; fileRef = EE639F712C79D9D000212344 /* Cauly.h */; };
+		EE3001172C79DB9700F822D3 /* libCauly-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3001162C79DB9700F822D3 /* libCauly-universal.a */; };
+		EE639F662C79D7F100212344 /* FLNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE639F652C79D7F100212344 /* FLNativeView.m */; };
 		EEBBBAB42C68A2B300868F92 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EEBBBAB32C68A2B300868F92 /* InfoPlist.xcstrings */; };
 		F6274B5BC60FFFFDAC9269EF /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A90A275B4F6345C7E38982B9 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +72,12 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A90A275B4F6345C7E38982B9 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE1990F02C75F689005D687C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		EE3001162C79DB9700F822D3 /* libCauly-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCauly-universal.a"; path = "Runner/Cauly/libCauly-universal.a"; sourceTree = "<group>"; };
+		EE639F652C79D7F100212344 /* FLNativeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLNativeView.m; sourceTree = "<group>"; };
+		EE639F672C79D7FE00212344 /* FLNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLNativeView.h; sourceTree = "<group>"; };
+		EE639F712C79D9D000212344 /* Cauly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cauly.h; sourceTree = "<group>"; };
+		EE639F732C79DA0500212344 /* CaulyAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CaulyAdView.h; sourceTree = "<group>"; };
+		EE639F742C79DA1E00212344 /* CaulyAdSetting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CaulyAdSetting.h; sourceTree = "<group>"; };
 		EEBBBAAF2C68A09000868F92 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		EEBBBAB02C68A09000868F92 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		EEBBBAB32C68A2B300868F92 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -79,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE3001172C79DB9700F822D3 /* libCauly-universal.a in Frameworks */,
 				F6274B5BC60FFFFDAC9269EF /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +161,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				EE639F702C79D9C400212344 /* Cauly */,
 				EE1990F02C75F689005D687C /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -161,6 +172,8 @@
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				EEBBBAB32C68A2B300868F92 /* InfoPlist.xcstrings */,
+				EE639F652C79D7F100212344 /* FLNativeView.m */,
+				EE639F672C79D7FE00212344 /* FLNativeView.h */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -168,10 +181,21 @@
 		B08B29502126C4FA60AD8148 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE3001162C79DB9700F822D3 /* libCauly-universal.a */,
 				A90A275B4F6345C7E38982B9 /* Pods_Runner.framework */,
 				1EF0ED3CE0B484EC96B2E426 /* Pods_RunnerTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE639F702C79D9C400212344 /* Cauly */ = {
+			isa = PBXGroup;
+			children = (
+				EE639F712C79D9D000212344 /* Cauly.h */,
+				EE639F732C79DA0500212344 /* CaulyAdView.h */,
+				EE639F742C79DA1E00212344 /* CaulyAdSetting.h */,
+			);
+			path = Cauly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,7 +403,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 		EA502B1A59321D4D02986EBE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -413,8 +437,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE3001132C79DB2000F822D3 /* Cauly.h in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				EE639F662C79D7F100212344 /* FLNativeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,11 +537,16 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 69XM48U34A;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Runner/Cauly",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.taximeter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -694,11 +725,16 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 69XM48U34A;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Runner/Cauly",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.taximeter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -719,11 +755,16 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 69XM48U34A;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Runner/Cauly",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.taximeter;
 				PRODUCT_NAME = "$(TARGET_NAME)";

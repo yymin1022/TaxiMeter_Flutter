@@ -1,8 +1,7 @@
 #import "GeneratedPluginRegistrant.h"
 
-#import "cauly/Cauly.h"
-#import "cauly/CaulyAdSetting.h"
-#import "cauly/CaulyAdView.h"
-#import "cauly/CaulyInterstitialAd.h"
-#import "cauly/CaulyNativeAd.h"
-#import "cauly/CaulyNativeAdItem.h"
+#import "Cauly/Cauly.h"
+#import "Cauly/CaulyAdSetting.h"
+#import "Cauly/CaulyAdView.h"
+
+#import "FLNativeView.h"

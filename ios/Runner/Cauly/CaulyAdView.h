@@ -1,10 +1,12 @@
 //
 //  CaulyAdView.h
-//  Cauly
+//  Runner
 //
-//  Created by Neil Kwon on 9/2/15.
-//  Copyright (c) 2015 Cauly. All rights reserved.
+//  Created by 유용민 on 8/24/24.
 //
+
+#ifndef CaulyAdView_h
+#define CaulyAdView_h
 
 #import <UIKit/UIKit.h>
 #import "CaulyAdSetting.h"
@@ -50,8 +52,6 @@
 
 @property (nonatomic, readonly) NSString * errorMsg;
 
-
-
-
-
 @end
+
+#endif /* CaulyAdView_h */
