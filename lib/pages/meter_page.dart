@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
 import "package:sprintf/sprintf.dart";
+import "package:taximeter/cauly/ad_containers.dart";
+import "package:taximeter/cauly/ad_listeners.dart";
 import "package:taximeter/utils/color_util.dart";
 import "package:taximeter/utils/meter_util.dart";
 import "package:taximeter/utils/preference_util.dart";
@@ -112,6 +114,13 @@ class MeterAdvertisement extends StatefulWidget {
 
 class _MeterAdvertisementState extends State<MeterAdvertisement> {
   bool isAdRemoval = false;
+  BannerAd? _bannerAdView;
+
+  @override
+  void initState() {
+    super.initState();
+    _createBannerAdView();
+  }
 
   @override
   void didUpdateWidget(covariant MeterAdvertisement oldWidget) {
@@ -125,11 +134,35 @@ class _MeterAdvertisementState extends State<MeterAdvertisement> {
 
   @override
   Widget build(BuildContext context) {
-    if(isAdRemoval) {
+    if(isAdRemoval || _bannerAdView == null) {
       return const SizedBox(height: 0, width: 0);
     } else {
-      return const Text("CAULY Advertisement View");
+      print("Loading Advertisement...");
+      return SizedBox(
+        height: _bannerAdView!.bannerSizeHeight.toDouble(),
+        child: AdWidget(ad: _bannerAdView!),
+      );
     }
+  }
+
+  void _createBannerAdView() {
+    _bannerAdView = BannerAd(
+      listener: BannerAdListener(
+        onReceiveAd: (ad) {
+          debugPrint('BannerAdListener onReceiveAd!!!');
+        },
+        onFailedToReceiveAd: (ad, errorCode, errorMessage) {
+          debugPrint('BannerAdListener onFailedToReceiveAd : $errorCode $errorMessage');
+        },
+        onCloseLandingScreen: (ad) {
+          debugPrint('BannerAdListener onCloseLandingScreen!!!');
+        },
+        onShowLandingScreen: (ad) {
+          debugPrint('BannerAdListener onShowLandingScreen!!!');
+        },
+      ),
+      adInfo: const AdInfo("test App Code", BannerHeightEnum.adaptive, 320, 50))
+    ..load();
   }
 }
 
