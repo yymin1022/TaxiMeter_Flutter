@@ -111,7 +111,7 @@ class MeterUtil {
       );
 
       final curSpeed = curDistance / deltaTime;
-      if((curSpeed - _lastSpeed).abs() > 2.7) {
+      if(curPosition.accuracy.toInt() >= 35) {
         meterCurSpeed = 0;
         meterStatus = MeterStatus.METER_GPS_ERROR;
       } else {
