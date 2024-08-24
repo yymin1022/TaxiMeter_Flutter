@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taximeter/cauly/mobile_ads.dart';
 import 'package:taximeter/pages/donation_page.dart';
 import 'package:taximeter/pages/main_page.dart';
 import 'package:taximeter/pages/setting_page.dart';
@@ -15,6 +16,8 @@ Future<void> main() async {
   if(await firebaseUtil.isUpdateAvail()) {
     firebaseUtil.updateCostInfo();
   }
+
+  MobileAds.instance.initialize();
 
   runApp(const TaxiMeterApp());
 }
