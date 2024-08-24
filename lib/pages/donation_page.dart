@@ -120,15 +120,15 @@ class _DonationPageState extends State<DonationPage> {
       if(purchaseDetail.pendingCompletePurchase) {
         await InAppPurchase.instance.completePurchase(purchaseDetail);
       }
+    }
 
-      if(successCount > 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.donation_purchase_done),
-            duration: const Duration(seconds: 2),
-          )
-        );
-      }
+    if(successCount > 0 && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.donation_purchase_done),
+          duration: const Duration(seconds: 2),
+        )
+      );
     }
   }
 
