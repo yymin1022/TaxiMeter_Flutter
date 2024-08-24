@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,7 +21,12 @@ Future<void> main() async {
   }
 
   await dotenv.load(fileName: ".env");
-  CaulyAndroid.instance.initialize();
+
+  if(Platform.isAndroid) {
+    CaulyAndroid.instance.initialize();
+  } else {
+    CaulyIos.instance.initialize();
+  }
 
   runApp(const TaxiMeterApp());
 }

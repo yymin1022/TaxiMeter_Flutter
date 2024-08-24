@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:taximeter/cauly/ad_instance_manager.dart';
-import 'package:taximeter/cauly/ad_listeners.dart';
 import 'package:taximeter/cauly/cauly.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
