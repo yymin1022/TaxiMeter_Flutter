@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:taximeter/cauly//cauly_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:taximeter/cauly/ad_instance_manager.dart';
+import 'package:taximeter/cauly/ad_listeners.dart';
+import 'package:taximeter/cauly/cauly.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import 'ad_instance_manager.dart';
-import 'ad_listeners.dart';
 
 class AdInfo {
   /// Default constructor for [AdInfo].

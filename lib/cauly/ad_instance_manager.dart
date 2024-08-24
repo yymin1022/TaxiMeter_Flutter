@@ -3,8 +3,7 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'ad_containers.dart';
+import 'package:taximeter/cauly/ad_containers.dart';
 
 /// Loads and disposes [BannerAds] and [InterstitialAds].
 AdInstanceManager instanceManager = AdInstanceManager(

@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
-
-import 'ad_containers.dart';
+import 'package:taximeter/cauly/ad_containers.dart';
 
 /// The callback type to handle an event occurring for an [Ad].
 typedef AdEventCallback = void Function(Ad ad);

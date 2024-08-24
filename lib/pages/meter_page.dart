@@ -1,4 +1,7 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
@@ -114,13 +117,24 @@ class MeterAdvertisement extends StatefulWidget {
 }
 
 class _MeterAdvertisementState extends State<MeterAdvertisement> {
+  static const String VIEW_TYPE = 'bannerViewType';
+
+  // Pass parameters to the platform side.
+  static const Map<String, dynamic> creationParams = <String, dynamic>{
+    "param": "bannerViewParam"
+  };
+
   bool isAdRemoval = false;
   BannerAd? _bannerAdView;
 
   @override
   void initState() {
     super.initState();
-    _createBannerAdView();
+    if(Platform.isAndroid) {
+      _createBannerAdViewAndroid();
+    } else {
+      _createBannerAdViewIOS();
+    }
   }
 
   @override
@@ -135,34 +149,56 @@ class _MeterAdvertisementState extends State<MeterAdvertisement> {
 
   @override
   Widget build(BuildContext context) {
-    if(isAdRemoval || _bannerAdView == null) {
+    if(isAdRemoval) {
       return const SizedBox(height: 0, width: 0);
     } else {
+      return _setAdView();
+    }
+  }
+
+  Widget _setAdView() {
+    if(Platform.isAndroid) {
       return SizedBox(
         height: _bannerAdView!.bannerSizeHeight.toDouble(),
         child: AdWidget(ad: _bannerAdView!),
       );
+    } else {
+      return const SizedBox(
+        height: 50,
+        child: UiKitView(
+          viewType: VIEW_TYPE,
+          layoutDirection: null,
+          creationParams: creationParams,
+          creationParamsCodec: StandardMessageCodec(),
+        ),
+      );
     }
   }
 
-  void _createBannerAdView() {
+  void _createBannerAdViewAndroid() async {
     _bannerAdView = BannerAd(
-      listener: BannerAdListener(
-        onReceiveAd: (ad) {
-          debugPrint('BannerAdListener onReceiveAd!!!');
-        },
-        onFailedToReceiveAd: (ad, errorCode, errorMessage) {
-          debugPrint('BannerAdListener onFailedToReceiveAd : $errorCode $errorMessage');
-        },
-        onCloseLandingScreen: (ad) {
-          debugPrint('BannerAdListener onCloseLandingScreen!!!');
-        },
-        onShowLandingScreen: (ad) {
-          debugPrint('BannerAdListener onShowLandingScreen!!!');
-        },
-      ),
-      adInfo: AdInfo(dotenv.get("CAULY_APP_CODE"), BannerHeightEnum.adaptive, 320, 50))
-    ..load();
+        listener: BannerAdListener(
+          onReceiveAd: (ad) {
+            debugPrint('BannerAdListener onReceiveAd!!!');
+          },
+          onFailedToReceiveAd: (ad, errorCode, errorMessage) {
+            debugPrint('BannerAdListener onFailedToReceiveAd : $errorCode $errorMessage');
+          },
+          onCloseLandingScreen: (ad) {
+            debugPrint('BannerAdListener onCloseLandingScreen!!!');
+          },
+          onShowLandingScreen: (ad) {
+            debugPrint('BannerAdListener onShowLandingScreen!!!');
+          },
+        ),
+        adInfo: AdInfo(
+          dotenv.get("CAULY_APP_CODE_ANDROID"), BannerHeightEnum.adaptive, 320, 50))
+      ..load();
+  }
+
+  void _createBannerAdViewIOS() async {
+    const platform = MethodChannel('samples.flutter.dev/caulyIos');
+    await platform.invokeMethod('initialize', <String, dynamic>{'identifier':'TAXI_METER', 'code': dotenv.get("CAULY_APP_CODE_IOS"), 'useDynamicReload': true, 'closeLanding': true });
   }
 }
 
