@@ -19,6 +19,7 @@ class MeterPage extends StatefulWidget {
 }
 
 class _MeterPageState extends State<MeterPage> {
+  bool isAdRemoval = false;
   MeterUtil? meterUtil;
 
   void updateMeterView() {
@@ -29,6 +30,16 @@ class _MeterPageState extends State<MeterPage> {
   void initState() {
     super.initState();
     meterUtil = MeterUtil(updateView: updateMeterView);
+  }
+
+  @override
+  void didUpdateWidget(covariant MeterPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    PreferenceUtil().getPrefesValueB("ad_remove")
+        .then((res) => setState(() {
+      isAdRemoval = res ?? false;
+    }));
   }
 
   @override
@@ -54,7 +65,7 @@ class _MeterPageState extends State<MeterPage> {
                   MeterCostView(meterUtil: meterUtil!),
                   MeterInfo(meterUtil: meterUtil!),
                   MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  const MeterAdvertisement(),
+                  isAdRemoval ? const SizedBox.shrink() : const MeterAdvertisement(),
                 ],
               ),
               IconButton(
@@ -116,7 +127,6 @@ class MeterAdvertisement extends StatefulWidget {
 }
 
 class _MeterAdvertisementState extends State<MeterAdvertisement> {
-  bool isAdRemoval = false;
   BannerAd? _bannerAdView;
 
   @override
@@ -131,25 +141,7 @@ class _MeterAdvertisementState extends State<MeterAdvertisement> {
   }
 
   @override
-  void didUpdateWidget(covariant MeterAdvertisement oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    PreferenceUtil().getPrefesValueB("ad_remove")
-      .then((res) => setState(() {
-        isAdRemoval = res ?? false;
-      }));
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if(isAdRemoval) {
-      return const SizedBox(height: 0, width: 0);
-    } else {
-      return _caulyView();
-    }
-  }
-
-  Widget _caulyView() {
     if(Platform.isAndroid) {
       return SizedBox(
         height: _bannerAdView!.bannerSizeHeight.toDouble(),
