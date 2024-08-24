@@ -1,5 +1,15 @@
+def caulyProperties = new Properties()
+def caulyPropertiesFile = rootProject.file('cauly.properties')
+if (caulyPropertiesFile.exists()) {
+    caulyProperties.load(new FileInputStream(caulyPropertiesFile))
+}
+
+ext.caulyAccessKey = caulyProperties["cauly_aws_access_key"]
+ext.caulySecretKey = caulyProperties["cauly_aws_secret_key"]
+
 buildscript {
     ext.kotlin_version = '1.9.0'
+
     repositories {
         google()
         mavenCentral()
@@ -14,6 +24,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+        maven {
+            url "s3://repo.cauly.net/releases"
+            credentials(AwsCredentials) {
+                accessKey caulyAccessKey
+                secretKey caulySecretKey
+            }
+        }
     }
 }
 
