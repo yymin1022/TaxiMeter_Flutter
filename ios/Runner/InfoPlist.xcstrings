@@ -70,6 +70,18 @@
           }
         }
       }
+    },
+    "NSUserTrackingUsageDescription" : {
+      "comment" : "Privacy - Tracking Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This app needs access to Privacy Data when showing advertisement."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

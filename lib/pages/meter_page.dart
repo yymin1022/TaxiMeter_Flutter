@@ -1,7 +1,12 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
 import "package:sprintf/sprintf.dart";
+import "package:taximeter/cauly/cauly.dart";
 import "package:taximeter/utils/color_util.dart";
 import "package:taximeter/utils/meter_util.dart";
 import "package:taximeter/utils/preference_util.dart";
@@ -14,6 +19,7 @@ class MeterPage extends StatefulWidget {
 }
 
 class _MeterPageState extends State<MeterPage> {
+  bool isAdRemoval = false;
   MeterUtil? meterUtil;
 
   void updateMeterView() {
@@ -24,6 +30,16 @@ class _MeterPageState extends State<MeterPage> {
   void initState() {
     super.initState();
     meterUtil = MeterUtil(updateView: updateMeterView);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    PreferenceUtil().getPrefesValueB("ad_remove")
+        .then((res) => setState(() {
+      isAdRemoval = res ?? false;
+    }));
   }
 
   @override
@@ -49,7 +65,7 @@ class _MeterPageState extends State<MeterPage> {
                   MeterCostView(meterUtil: meterUtil!),
                   MeterInfo(meterUtil: meterUtil!),
                   MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  MeterAdvertisement(),
+                  isAdRemoval ? const SizedBox.shrink() : const MeterAdvertisement(),
                 ],
               ),
               IconButton(
@@ -111,25 +127,58 @@ class MeterAdvertisement extends StatefulWidget {
 }
 
 class _MeterAdvertisementState extends State<MeterAdvertisement> {
-  bool isAdRemoval = false;
+  BannerAd? _bannerAdView;
 
   @override
-  void didUpdateWidget(covariant MeterAdvertisement oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void initState() {
+    super.initState();
 
-    PreferenceUtil().getPrefesValueB("ad_remove")
-      .then((res) => setState(() {
-        isAdRemoval = res ?? false;
-      }));
+    if(Platform.isAndroid) {
+      _createBannerAdViewAndroid();
+    } else {
+      _createBannerAdViewIOS();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if(isAdRemoval) {
-      return const SizedBox(height: 0, width: 0);
+    if(Platform.isAndroid) {
+      return SizedBox(
+        height: _bannerAdView!.bannerSizeHeight.toDouble(),
+        child: AdWidget(ad: _bannerAdView!),
+      );
     } else {
-      return const Text("CAULY Advertisement View");
+      return const SizedBox(
+        height: 50,
+        child: UiKitView(
+          viewType: 'bannerViewType',
+          layoutDirection: null,
+          creationParams: {"param": "bannerViewParam"},
+          creationParamsCodec: StandardMessageCodec(),
+        ),
+      );
     }
+  }
+
+  void _createBannerAdViewAndroid() {
+    _bannerAdView = BannerAd(
+      listener: BannerAdListener(
+        onReceiveAd: (ad) {
+          debugPrint('BannerAdListener onReceiveAd!!!');
+        },
+        onFailedToReceiveAd: (ad, errorCode, errorMessage) {
+          debugPrint('BannerAdListener onFailedToReceiveAd : $errorCode $errorMessage');
+        },
+      ),
+      adInfo: AdInfo(
+        dotenv.get("CAULY_APP_CODE_ANDROID"),
+        BannerHeightEnum.adaptive, 320, 50));
+    _bannerAdView!.load();
+  }
+
+  void _createBannerAdViewIOS() {
+    const methodChannel = MethodChannel('samples.flutter.dev/caulyIos');
+    methodChannel.invokeMethod('initialize', <String, dynamic>{'identifier':'TAXI_METER', 'code': dotenv.get("CAULY_APP_CODE_IOS"), 'useDynamicReload': true, 'closeLanding': true });
   }
 }
 
@@ -504,6 +553,7 @@ class _MeterButtonState extends State<MeterButton> {
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   widget.btnText,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: MeterColor.meterBtnText,
                     fontSize: 17.5
