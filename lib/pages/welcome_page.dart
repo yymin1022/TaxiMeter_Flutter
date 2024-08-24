@@ -199,8 +199,6 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
           ),
           OutlinedButton(
             onPressed: () {
-              widget.goNext();
-
               if(!isGranted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -208,6 +206,8 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
                     duration: const Duration(seconds: 2),
                   )
                 );
+              } else {
+                widget.goNext();
               }
             },
             child: Text(
