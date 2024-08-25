@@ -54,7 +54,7 @@ class MeterUtil {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(AppLocalizations.of(context)!
-                        .meter_snack_percentage_night),
+                        .meter_snack_warning_location_accuracy),
                     duration: const Duration(seconds: 2),
                   )
               );
