@@ -144,6 +144,10 @@ class MeterUtil {
       meterCost += 100;
       meterCostCounter += prefCostRunPer;
 
+      if(meterCostCounter < 0) {
+        meterCostCounter = 0;
+      }
+
       if(meterIsPercNight) {
         final curH = int.parse(DateFormat('HH').format(DateTime.now()));
         if ((curH >= 20 && curH >= prefPercNightStart1) || (curH <= 5 && curH < prefPercNightEnd1)) {
