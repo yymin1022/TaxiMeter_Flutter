@@ -52,11 +52,11 @@ class MeterUtil {
           .then((accuracyStatus) async {
             if (accuracyStatus != LocationAccuracyStatus.precise) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!
-                        .meter_snack_warning_location_accuracy),
-                    duration: const Duration(seconds: 2),
-                  )
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!
+                      .meter_snack_warning_location_accuracy),
+                  duration: const Duration(seconds: 2),
+                )
               );
             }
           });
@@ -66,9 +66,9 @@ class MeterUtil {
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.bestForNavigation,
-                timeLimit: const Duration(seconds: 1))
-                .then((pos) => increaseCost(pos));
+              desiredAccuracy: LocationAccuracy.bestForNavigation,
+              timeLimit: const Duration(seconds: 1))
+              .then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
             increaseCost(null);
           }
