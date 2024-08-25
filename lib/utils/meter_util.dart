@@ -52,11 +52,11 @@ class MeterUtil {
           .then((accuracyStatus) async {
             if (accuracyStatus != LocationAccuracyStatus.precise) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!
-                        .meter_snack_percentage_night),
-                    duration: const Duration(seconds: 2),
-                  )
+                SnackBar(
+                  content: Text(AppLocalizations.of(context)!
+                      .meter_snack_warning_location_accuracy),
+                  duration: const Duration(seconds: 2),
+                )
               );
             }
           });
@@ -66,9 +66,9 @@ class MeterUtil {
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.bestForNavigation,
-                timeLimit: const Duration(seconds: 1))
-                .then((pos) => increaseCost(pos));
+              desiredAccuracy: LocationAccuracy.bestForNavigation,
+              timeLimit: const Duration(seconds: 1))
+              .then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
             increaseCost(null);
           }
@@ -107,10 +107,10 @@ class MeterUtil {
         _lastPosition!.longitude,
         curPosition.latitude,
         curPosition.longitude,
-      );
+      ).toInt();
 
       final curSpeed = curDistance / deltaTime;
-      if(curPosition.accuracy.toInt() > 35) {
+      if(curPosition.accuracy.toInt() > 100) {
         meterCurSpeed = 0;
         meterStatus = MeterStatus.METER_GPS_ERROR;
       } else {
@@ -143,6 +143,10 @@ class MeterUtil {
     if(meterCostCounter <= 0) {
       meterCost += 100;
       meterCostCounter += prefCostRunPer;
+
+      if(meterCostCounter < 0) {
+        meterCostCounter = 0;
+      }
 
       if(meterIsPercNight) {
         final curH = int.parse(DateFormat('HH').format(DateTime.now()));
