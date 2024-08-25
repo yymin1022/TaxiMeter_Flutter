@@ -107,7 +107,7 @@ class MeterUtil {
         _lastPosition!.longitude,
         curPosition.latitude,
         curPosition.longitude,
-      );
+      ).toInt();
 
       final curSpeed = curDistance / deltaTime;
       if(curPosition.accuracy.toInt() > 35) {
