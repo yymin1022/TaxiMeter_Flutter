@@ -66,7 +66,7 @@ class MeterUtil {
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.bestForNavigation,
+              desiredAccuracy: LocationAccuracy.best,
               timeLimit: const Duration(seconds: 1))
               .then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
