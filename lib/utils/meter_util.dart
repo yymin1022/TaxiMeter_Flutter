@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class MeterUtil {
   MeterUtil({required this.updateView}) {
@@ -76,13 +76,13 @@ class MeterUtil {
       );
 
       meterStatus = MeterStatus.METER_RUNNING;
-      Wakelock.enable();
+      WakelockPlus.enable();
     }
   }
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
-      Wakelock.disable();
+      WakelockPlus.disable();
       _gpsTimer.cancel();
       _initValue();
     }
