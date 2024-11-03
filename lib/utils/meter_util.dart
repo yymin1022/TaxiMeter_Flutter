@@ -39,6 +39,7 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
 
   late Timer _gpsTimer;
+  late LocationSettings _locationSettings;
   Position? _lastPosition;
   int _lastUpdateTime = 0;
 
@@ -62,13 +63,25 @@ class MeterUtil {
           });
       }
 
+      if(Platform.isAndroid) {
+        _locationSettings = AndroidSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: const Duration(seconds: 1)
+        );
+      } else {
+        _locationSettings = AppleSettings(
+            accuracy: LocationAccuracy.best,
+            activityType: ActivityType.otherNavigation,
+            timeLimit: const Duration(seconds: 1)
+        );
+      }
+
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.best,
-              timeLimit: const Duration(seconds: 1))
-              .then((pos) => increaseCost(pos));
+              locationSettings: _locationSettings
+            ).then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
             increaseCost(null);
           }
