@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:taximeter/utils/preference_util.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class MeterUtil {
   MeterUtil({required this.updateView}) {
@@ -39,6 +39,7 @@ class MeterUtil {
   var prefPercNightStart2 = 23;
 
   late Timer _gpsTimer;
+  late LocationSettings _locationSettings;
   Position? _lastPosition;
   int _lastUpdateTime = 0;
 
@@ -50,7 +51,7 @@ class MeterUtil {
       if(Platform.isIOS) {
         Geolocator.requestTemporaryFullAccuracy(purposeKey: "METER_UTIL")
           .then((accuracyStatus) async {
-            if (accuracyStatus != LocationAccuracyStatus.precise) {
+            if (accuracyStatus != LocationAccuracyStatus.precise && context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(AppLocalizations.of(context)!
@@ -62,13 +63,25 @@ class MeterUtil {
           });
       }
 
+      if(Platform.isAndroid) {
+        _locationSettings = AndroidSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: const Duration(seconds: 1)
+        );
+      } else {
+        _locationSettings = AppleSettings(
+            accuracy: LocationAccuracy.best,
+            activityType: ActivityType.otherNavigation,
+            timeLimit: const Duration(seconds: 1)
+        );
+      }
+
       _gpsTimer = Timer.periodic(
         const Duration(seconds: 1), (_) {
           try {
             Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.bestForNavigation,
-              timeLimit: const Duration(seconds: 1))
-              .then((pos) => increaseCost(pos));
+              locationSettings: _locationSettings
+            ).then((pos) => increaseCost(pos));
           } on TimeoutException catch(_) {
             increaseCost(null);
           }
@@ -76,13 +89,13 @@ class MeterUtil {
       );
 
       meterStatus = MeterStatus.METER_RUNNING;
-      Wakelock.enable();
+      WakelockPlus.enable();
     }
   }
 
   void stopMeter() {
     if(meterStatus != MeterStatus.METER_NOT_RUNNING) {
-      Wakelock.disable();
+      WakelockPlus.disable();
       _gpsTimer.cancel();
       _initValue();
     }
@@ -103,10 +116,10 @@ class MeterUtil {
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
     if(_lastPosition != null && curPosition != null) {
       final curDistance = double.parse(Geolocator.distanceBetween(
-        double.parse(_lastPosition!.latitude.toStringAsFixed(4)),
-        double.parse(_lastPosition!.longitude.toStringAsFixed(4)),
-        double.parse(curPosition.latitude.toStringAsFixed(4)),
-        double.parse(curPosition.longitude.toStringAsFixed(4)),
+        _lastPosition!.latitude,
+        _lastPosition!.longitude,
+        curPosition.latitude,
+        curPosition.longitude,
       ).toStringAsFixed(1));
 
       final curSpeed = curDistance / deltaTime;
