@@ -50,7 +50,7 @@ class MeterUtil {
       if(Platform.isIOS) {
         Geolocator.requestTemporaryFullAccuracy(purposeKey: "METER_UTIL")
           .then((accuracyStatus) async {
-            if (accuracyStatus != LocationAccuracyStatus.precise) {
+            if (accuracyStatus != LocationAccuracyStatus.precise && context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(AppLocalizations.of(context)!
