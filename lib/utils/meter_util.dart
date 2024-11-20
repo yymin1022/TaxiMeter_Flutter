@@ -71,8 +71,8 @@ class MeterUtil {
         );
       } else {
         _locationSettings = AppleSettings(
-            accuracy: LocationAccuracy.best,
-            activityType: ActivityType.otherNavigation,
+            accuracy: LocationAccuracy.bestForNavigation,
+            activityType: ActivityType.automotiveNavigation,
             timeLimit: const Duration(seconds: 1)
         );
       }
