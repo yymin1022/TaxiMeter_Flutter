@@ -157,7 +157,7 @@ class WelcomePagePermission extends StatefulWidget {
 }
 
 class _WelcomePagePermissionState extends State<WelcomePagePermission> {
-  bool isGranted = false;
+  bool isTriedGrant = false;
 
   @override
   Widget build(BuildContext context) {
@@ -180,31 +180,11 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
           const SizedBox(height: 20.0),
           OutlinedButton(
             onPressed: () {
-              if(!isGranted) {
+              if(!isTriedGrant) {
                 requestPermissions().then(
                   (res) => setState(() {
-                    isGranted = res;
+                    isTriedGrant = true;
                   })
-                );
-              }
-            },
-            child: Text(
-              isGranted
-                ? AppLocalizations.of(context)!.welcome_permission_btn_done
-                : AppLocalizations.of(context)!.welcome_permission_btn,
-              style: TextStyle(
-                color: isGranted ? MeterColor.btnTextDisabled : MeterColor.btnTextEnabled
-              ),
-            ),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              if(!isGranted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(AppLocalizations.of(context)!.welcome_snack_permission_not_granted),
-                    duration: const Duration(seconds: 2),
-                  )
                 );
               } else {
                 widget.goNext();
@@ -212,8 +192,8 @@ class _WelcomePagePermissionState extends State<WelcomePagePermission> {
             },
             child: Text(
               AppLocalizations.of(context)!.welcome_btn_next,
-              style: TextStyle(
-                color: isGranted ? MeterColor.btnTextEnabled : MeterColor.btnTextDisabled
+              style: const TextStyle(
+                color: MeterColor.btnTextEnabled
               ),
             ),
           ),
