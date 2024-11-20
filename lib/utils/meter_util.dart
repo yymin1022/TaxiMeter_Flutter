@@ -73,6 +73,8 @@ class MeterUtil {
         _locationSettings = AppleSettings(
           accuracy: LocationAccuracy.bestForNavigation,
           activityType: ActivityType.automotiveNavigation,
+          allowBackgroundLocationUpdates: true,
+          showBackgroundLocationIndicator: true,
           timeLimit: const Duration(seconds: 1)
         );
       }
