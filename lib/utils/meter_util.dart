@@ -65,15 +65,15 @@ class MeterUtil {
 
       if(Platform.isAndroid) {
         _locationSettings = AndroidSettings(
-            accuracy: LocationAccuracy.high,
-            intervalDuration: const Duration(milliseconds: 500),
-            timeLimit: const Duration(seconds: 1)
+          accuracy: LocationAccuracy.high,
+          intervalDuration: const Duration(milliseconds: 500),
+          timeLimit: const Duration(seconds: 1)
         );
       } else {
         _locationSettings = AppleSettings(
-            accuracy: LocationAccuracy.bestForNavigation,
-            activityType: ActivityType.automotiveNavigation,
-            timeLimit: const Duration(seconds: 1)
+          accuracy: LocationAccuracy.bestForNavigation,
+          activityType: ActivityType.automotiveNavigation,
+          timeLimit: const Duration(seconds: 1)
         );
       }
 
