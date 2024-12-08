@@ -119,11 +119,11 @@ class MeterUtil {
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
     if(_lastPosition != null && curPosition != null) {
       final curDistance = double.parse(Geolocator.distanceBetween(
-        _lastPosition!.latitude,
-        _lastPosition!.longitude,
-        curPosition.latitude,
-        curPosition.longitude,
-      ).toStringAsFixed(1));
+          double.parse(_lastPosition!.latitude.toStringAsFixed(5)),
+          double.parse(_lastPosition!.longitude.toStringAsFixed(5)),
+          double.parse(curPosition.latitude.toStringAsFixed(5)),
+          double.parse(curPosition.longitude.toStringAsFixed(5)),
+        ).toStringAsFixed(1));
 
       final curSpeed = curDistance / deltaTime;
       if(curPosition.accuracy.toInt() > 100) {
