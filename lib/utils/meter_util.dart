@@ -66,7 +66,7 @@ class MeterUtil {
       if(Platform.isAndroid) {
         _locationSettings = AndroidSettings(
           accuracy: LocationAccuracy.high,
-          intervalDuration: const Duration(milliseconds: 500),
+          intervalDuration: const Duration(milliseconds: 300),
           timeLimit: const Duration(seconds: 1)
         );
       } else {
