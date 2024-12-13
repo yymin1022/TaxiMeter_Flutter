@@ -40,7 +40,6 @@ class MeterUtil {
 
   late Timer _gpsTimer;
   late LocationSettings _locationSettings;
-  Position? _lastPosition;
   int _lastUpdateTime = 0;
 
   void startMeter(BuildContext context) async {
@@ -72,7 +71,7 @@ class MeterUtil {
             notificationText: AppLocalizations.of(context)!.meter_noti_gps_text,
             setOngoing: true
           ),
-          intervalDuration: const Duration(milliseconds: 100),
+          intervalDuration: const Duration(milliseconds: 0),
           timeLimit: const Duration(seconds: 1)
         );
       } else {
@@ -118,25 +117,18 @@ class MeterUtil {
 
     final curTime = DateTime.now().millisecondsSinceEpoch;
     if(_lastUpdateTime == 0) {
-      _lastPosition = curPosition;
       _lastUpdateTime = curTime;
       return;
     }
 
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
-    if(_lastPosition != null && curPosition != null) {
-      final curDistance = double.parse(Geolocator.distanceBetween(
-          double.parse(_lastPosition!.latitude.toStringAsFixed(5)),
-          double.parse(_lastPosition!.longitude.toStringAsFixed(5)),
-          double.parse(curPosition.latitude.toStringAsFixed(5)),
-          double.parse(curPosition.longitude.toStringAsFixed(5)),
-        ).toStringAsFixed(1));
-
-      final curSpeed = curDistance / deltaTime;
+    if(curPosition != null) {
       if(curPosition.accuracy.toInt() > 50) {
         meterCurSpeed = 0;
         meterStatus = MeterStatus.METER_GPS_ERROR;
       } else {
+        final curSpeed = curPosition.speed.toInt();
+
         meterCurSpeed = curSpeed * 3.6;
         meterStatus = MeterStatus.METER_RUNNING;
 
@@ -160,7 +152,6 @@ class MeterUtil {
       }
     }
 
-    _lastPosition = curPosition;
     _lastUpdateTime = curTime;
 
     if(meterCostCounter <= 0) {
@@ -232,7 +223,6 @@ class MeterUtil {
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
 
-    _lastPosition = null;
     _lastUpdateTime = 0;
 
     meterCost = prefCostBase;
