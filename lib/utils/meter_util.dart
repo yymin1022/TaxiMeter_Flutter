@@ -73,7 +73,7 @@ class MeterUtil {
             notificationText: AppLocalizations.of(context)!.meter_noti_gps_text,
             setOngoing: true
           ),
-          intervalDuration: const Duration(milliseconds: 300),
+          intervalDuration: const Duration(milliseconds: 100),
           timeLimit: const Duration(seconds: 1)
         );
       } else {
