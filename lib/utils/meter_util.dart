@@ -122,19 +122,13 @@ class MeterUtil {
     }
 
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
-    if(curPosition != null) {
-      if(curPosition.accuracy.toInt() > 50) {
-        meterCurSpeed = 0;
-        meterStatus = MeterStatus.METER_GPS_ERROR;
-      } else {
-        final curSpeed = curPosition.speed.toInt();
+    if(curPosition != null && curPosition.accuracy.toInt() < 50) {
+      final curSpeed = curPosition.speed.toInt();
+      meterCurSpeed = curSpeed * 3.6;
+      meterStatus = MeterStatus.METER_RUNNING;
 
-        meterCurSpeed = curSpeed * 3.6;
-        meterStatus = MeterStatus.METER_RUNNING;
-
-        meterCostCounter -= (curSpeed * deltaTime).toInt();
-        meterSumDistance += curSpeed * deltaTime;
-      }
+      meterCostCounter -= (curSpeed * deltaTime).toInt();
+      meterSumDistance += curSpeed * deltaTime;
     } else {
       meterCurSpeed = 0;
       meterStatus = MeterStatus.METER_GPS_ERROR;
