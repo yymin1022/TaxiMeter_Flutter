@@ -80,13 +80,13 @@ class MeterUtil {
       }
 
       _gpsTimer = Timer.periodic(
-        const Duration(seconds: 1), (_) {
+        const Duration(seconds: 1), (_) async {
           try {
-            Geolocator.getCurrentPosition(
+            increaseCost(await Geolocator.getCurrentPosition(
               locationSettings: _locationSettings
-            ).then((pos) => increaseCost(pos));
+            ));
           } on TimeoutException catch(_) {
-            increaseCost(null);
+            increaseCost(await Geolocator.getLastKnownPosition());
           }
         }
       );
