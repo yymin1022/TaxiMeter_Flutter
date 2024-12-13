@@ -50,6 +50,8 @@ class _MeterPageState extends State<MeterPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     return PopScope(
       canPop: false,
       child: Scaffold(
