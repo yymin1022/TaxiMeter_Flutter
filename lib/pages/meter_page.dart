@@ -54,6 +54,11 @@ class _MeterPageState extends State<MeterPage> {
 
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (res, _) async {
+        if(!res && context.mounted && await _showExitDialog() == true) {
+          Navigator.pop(context);
+        }
+      },
       child: Scaffold(
         backgroundColor: MeterColor.meterBackground,
         body: SafeArea(
@@ -76,8 +81,7 @@ class _MeterPageState extends State<MeterPage> {
                   color: MeterColor.meterTextColorWhite,
                 ),
                 onPressed: () async {
-                  bool? isExit = await _showExitDialog();
-                  if(context.mounted && isExit == true) {
+                  if(context.mounted && await _showExitDialog() == true) {
                     Navigator.pop(context);
                   }
                 },
