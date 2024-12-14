@@ -55,7 +55,9 @@ class _MeterPageState extends State<MeterPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (res, _) async {
-        if(!res && context.mounted && await _showExitDialog() == true) {
+        if(Platform.isAndroid
+            && !res && context.mounted
+            && await _showExitDialog() == true) {
           Navigator.pop(context);
         }
       },
@@ -81,7 +83,8 @@ class _MeterPageState extends State<MeterPage> {
                   color: MeterColor.meterTextColorWhite,
                 ),
                 onPressed: () async {
-                  if(context.mounted && await _showExitDialog() == true) {
+                  if(context.mounted
+                      && await _showExitDialog() == true) {
                     Navigator.pop(context);
                   }
                 },
