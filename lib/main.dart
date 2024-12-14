@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taximeter/cauly/cauly.dart';
@@ -35,8 +34,6 @@ class TaxiMeterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     return MaterialApp(
       title: "Taxi Meter",
       localizationsDelegates: AppLocalizations.localizationsDelegates,
