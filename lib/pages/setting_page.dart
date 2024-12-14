@@ -32,8 +32,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),

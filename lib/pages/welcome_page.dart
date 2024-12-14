@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:taximeter/utils/color_util.dart';
@@ -109,8 +108,6 @@ class _WelcomePageLocationState extends State<WelcomePageLocation> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(
