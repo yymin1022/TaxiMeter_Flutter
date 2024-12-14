@@ -58,6 +58,7 @@ class _MeterPageState extends State<MeterPage> {
         if(Platform.isAndroid
             && !res && context.mounted
             && await _showExitDialog() == true) {
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
           Navigator.pop(context);
         }
       },
@@ -85,6 +86,7 @@ class _MeterPageState extends State<MeterPage> {
                 onPressed: () async {
                   if(context.mounted
                       && await _showExitDialog() == true) {
+                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                     Navigator.pop(context);
                   }
                 },
