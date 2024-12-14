@@ -50,8 +50,18 @@ class _MeterPageState extends State<MeterPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (res, _) async {
+        if(Platform.isAndroid
+            && !res && context.mounted
+            && await _showExitDialog() == true) {
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+          Navigator.pop(context);
+        }
+      },
       child: Scaffold(
         backgroundColor: MeterColor.meterBackground,
         body: SafeArea(
@@ -74,8 +84,9 @@ class _MeterPageState extends State<MeterPage> {
                   color: MeterColor.meterTextColorWhite,
                 ),
                 onPressed: () async {
-                  bool? isExit = await _showExitDialog();
-                  if(context.mounted && isExit == true) {
+                  if(context.mounted
+                      && await _showExitDialog() == true) {
+                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
                     Navigator.pop(context);
                   }
                 },

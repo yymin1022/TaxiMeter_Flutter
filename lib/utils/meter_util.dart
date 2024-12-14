@@ -40,7 +40,6 @@ class MeterUtil {
 
   late Timer _gpsTimer;
   late LocationSettings _locationSettings;
-  Position? _lastPosition;
   int _lastUpdateTime = 0;
 
   void startMeter(BuildContext context) async {
@@ -65,25 +64,35 @@ class MeterUtil {
 
       if(Platform.isAndroid) {
         _locationSettings = AndroidSettings(
-            accuracy: LocationAccuracy.high,
-            timeLimit: const Duration(seconds: 1)
+          accuracy: LocationAccuracy.high,
+          foregroundNotificationConfig: ForegroundNotificationConfig(
+            notificationChannelName: AppLocalizations.of(context)!.meter_noti_gps_channel,
+            notificationTitle: AppLocalizations.of(context)!.meter_noti_gps_title,
+            notificationText: AppLocalizations.of(context)!.meter_noti_gps_text,
+            setOngoing: true
+          ),
+          intervalDuration: const Duration(milliseconds: 0),
+          timeLimit: const Duration(seconds: 1)
         );
       } else {
         _locationSettings = AppleSettings(
-            accuracy: LocationAccuracy.best,
-            activityType: ActivityType.otherNavigation,
-            timeLimit: const Duration(seconds: 1)
+          accuracy: LocationAccuracy.bestForNavigation,
+          activityType: ActivityType.automotiveNavigation,
+          allowBackgroundLocationUpdates: true,
+          pauseLocationUpdatesAutomatically: false,
+          showBackgroundLocationIndicator: true,
+          timeLimit: const Duration(seconds: 1)
         );
       }
 
       _gpsTimer = Timer.periodic(
-        const Duration(seconds: 1), (_) {
+        const Duration(seconds: 1), (_) async {
           try {
-            Geolocator.getCurrentPosition(
+            increaseCost(await Geolocator.getCurrentPosition(
               locationSettings: _locationSettings
-            ).then((pos) => increaseCost(pos));
+            ));
           } on TimeoutException catch(_) {
-            increaseCost(null);
+            increaseCost(await Geolocator.getLastKnownPosition());
           }
         }
       );
@@ -108,31 +117,18 @@ class MeterUtil {
 
     final curTime = DateTime.now().millisecondsSinceEpoch;
     if(_lastUpdateTime == 0) {
-      _lastPosition = curPosition;
       _lastUpdateTime = curTime;
       return;
     }
 
     final deltaTime = (curTime - _lastUpdateTime) / 1000.0;
-    if(_lastPosition != null && curPosition != null) {
-      final curDistance = double.parse(Geolocator.distanceBetween(
-        _lastPosition!.latitude,
-        _lastPosition!.longitude,
-        curPosition.latitude,
-        curPosition.longitude,
-      ).toStringAsFixed(1));
+    if(curPosition != null && curPosition.accuracy.toInt() < 50) {
+      final curSpeed = curPosition.speed.toInt();
+      meterCurSpeed = curSpeed * 3.6;
+      meterStatus = MeterStatus.METER_RUNNING;
 
-      final curSpeed = curDistance / deltaTime;
-      if(curPosition.accuracy.toInt() > 100) {
-        meterCurSpeed = 0;
-        meterStatus = MeterStatus.METER_GPS_ERROR;
-      } else {
-        meterCurSpeed = curSpeed * 3.6;
-        meterStatus = MeterStatus.METER_RUNNING;
-
-        meterCostCounter -= (curSpeed * deltaTime).toInt();
-        meterSumDistance += curSpeed * deltaTime;
-      }
+      meterCostCounter -= (curSpeed * deltaTime).toInt();
+      meterSumDistance += curSpeed * deltaTime;
     } else {
       meterCurSpeed = 0;
       meterStatus = MeterStatus.METER_GPS_ERROR;
@@ -150,7 +146,6 @@ class MeterUtil {
       }
     }
 
-    _lastPosition = curPosition;
     _lastUpdateTime = curTime;
 
     if(meterCostCounter <= 0) {
@@ -222,7 +217,6 @@ class MeterUtil {
     prefPercNightStart1 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_1") ?? 22;
     prefPercNightStart2 = await PreferenceUtil().getPrefsValueI("pref_perc_night_start_2") ?? 23;
 
-    _lastPosition = null;
     _lastUpdateTime = 0;
 
     meterCost = prefCostBase;

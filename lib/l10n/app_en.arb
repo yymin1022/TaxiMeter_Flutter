@@ -48,6 +48,9 @@
   "meter_info_status_not_running": "Not Running",
   "meter_info_status_running": "Running",
   "meter_info_status_title": "Status",
+  "meter_noti_gps_channel": "Background Running Notification",
+  "meter_noti_gps_text": "Taxi Meter is running in background",
+  "meter_noti_gps_title": "Taxi Meter",
   "meter_snack_percentage_night": "Night Percentage will be applied at Setted Time",
   "meter_snack_warning_location_accuracy": "Meter might be unstable because of Non-precise Location Information.",
 
