@@ -14,11 +14,10 @@ import 'package:taximeter/utils/preference_util.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final firebaseUtil = FirebaseUtil();
-  await firebaseUtil.initFirebase();
+  await FirebaseUtil().initFirebase();
 
-  if(await firebaseUtil.isUpdateAvail()) {
-    firebaseUtil.updateCostInfo();
+  if(await FirebaseUtil().isUpdateAvail()) {
+    FirebaseUtil().updateCostInfo();
   }
 
   await dotenv.load(fileName: ".env");
