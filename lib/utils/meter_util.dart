@@ -65,6 +65,8 @@ class MeterUtil {
       if(Platform.isAndroid) {
         _locationSettings = AndroidSettings(
           accuracy: LocationAccuracy.high,
+          distanceFilter: 0,
+          forceLocationManager: true,
           foregroundNotificationConfig: ForegroundNotificationConfig(
             notificationChannelName: AppLocalizations.of(context)!.meter_noti_gps_channel,
             notificationTitle: AppLocalizations.of(context)!.meter_noti_gps_title,
