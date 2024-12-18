@@ -8,7 +8,12 @@ import 'package:taximeter/firebase_options.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
 class FirebaseUtil {
-  FirebaseUtil();
+  FirebaseUtil._privateConstructor();
+  static final FirebaseUtil _instance = FirebaseUtil._privateConstructor();
+
+  factory FirebaseUtil() {
+    return _instance;
+  }
 
   final _prefUtil = PreferenceUtil();
   late FirebaseFirestore _firestoreDB;
