@@ -81,6 +81,7 @@ class MeterUtil {
           accuracy: LocationAccuracy.bestForNavigation,
           activityType: ActivityType.automotiveNavigation,
           allowBackgroundLocationUpdates: true,
+          distanceFilter: 0,
           pauseLocationUpdatesAutomatically: false,
           showBackgroundLocationIndicator: true,
           timeLimit: const Duration(seconds: 1)
