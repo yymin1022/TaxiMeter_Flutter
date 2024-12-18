@@ -316,7 +316,7 @@ class _SettingPageState extends State<SettingPage> {
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_base") ?? 4800,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_run_per") ?? 131,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_time_per") ?? 30,
-                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_dist_base") ?? 1600,
+                          await prefUtil.getPrefsValueI("pref_cost_${data.code}_dist_base") ?? 1600,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_city") ?? 20,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_1") ?? 20,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_perc_night_2") ?? 40,
