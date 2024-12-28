@@ -67,16 +67,20 @@ class _MeterPageState extends State<MeterPage> {
         body: SafeArea(
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  MeterAnimation(meterUtil: meterUtil!),
-                  MeterCostView(meterUtil: meterUtil!),
-                  MeterInfo(meterUtil: meterUtil!),
-                  MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                  isAdRemoval ? const SizedBox.shrink() : const MeterAdvertisement(),
-                ],
+              OrientationBuilder(
+                builder: (context, orientation) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      MeterAnimation(meterUtil: meterUtil!),
+                      MeterCostView(meterUtil: meterUtil!),
+                      MeterInfo(meterUtil: meterUtil!),
+                      MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                      isAdRemoval ? const SizedBox.shrink() : const MeterAdvertisement(),
+                    ],
+                  );
+                }
               ),
               IconButton(
                 icon: const Icon(
