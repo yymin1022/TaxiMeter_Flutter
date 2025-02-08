@@ -3,6 +3,7 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:taximeter/pages/meter_page/meter_page_landscape.dart";
 import "package:taximeter/pages/meter_page/meter_page_portrait.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
 import "package:taximeter/utils/color_util.dart";
@@ -67,11 +68,15 @@ class _MeterPageState extends State<MeterPage> {
             children: [
               OrientationBuilder(
                 builder: (context, orientation) {
+                  print(orientation);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                      if(orientation == Orientation.portrait)
+                        MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView)
+                      else
+                        MeterPageLandscape(meterUtil: meterUtil!, updateCallback: updateMeterView),
                       isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
                     ],
                   );
