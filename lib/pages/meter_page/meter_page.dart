@@ -10,6 +10,7 @@ import "package:taximeter/cauly/cauly.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_animation.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_control.dart";
+import "package:taximeter/pages/meter_page/widgets/meter_costview.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_info.dart";
 import "package:taximeter/utils/color_util.dart";
 import "package:taximeter/utils/meter_util.dart";
@@ -134,45 +135,6 @@ class _MeterPageState extends State<MeterPage> {
           ],
         );
       }
-    );
-  }
-}
-
-
-
-class MeterCostView extends StatefulWidget {
-  const MeterCostView({super.key, required this.meterUtil});
-
-  final MeterUtil meterUtil;
-
-  @override
-  State<StatefulWidget> createState() => _MeterCostViewState();
-}
-
-class _MeterCostViewState extends State<MeterCostView> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            sprintf(AppLocalizations.of(context)!.meter_cost, [NumberFormat("#,##0").format(widget.meterUtil.meterCost)]),
-            style: const TextStyle(
-              color: MeterColor.meterTextColorWhite,
-              fontSize: 75.0
-            ),
-          ),
-          Text(
-            widget.meterUtil.meterCostCounter.toString(),
-            style: const TextStyle(
-              color: MeterColor.meterBlue,
-              fontSize: 35.0
-            )
-          ),
-        ],
-      ),
     );
   }
 }
