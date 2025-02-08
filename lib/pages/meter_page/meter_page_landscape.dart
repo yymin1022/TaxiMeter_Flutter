@@ -24,7 +24,6 @@ class _MeterPageLandscapeState extends State<MeterPageLandscape> {
           child: Column(
             children: [
               MeterCostView(meterUtil: widget.meterUtil),
-              MeterInfo(meterUtil: widget.meterUtil),
             ],
           )
         ),
