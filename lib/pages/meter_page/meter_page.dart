@@ -68,27 +68,16 @@ class _MeterPageState extends State<MeterPage> {
             children: [
               OrientationBuilder(
                 builder: (context, orientation) {
-                  if(orientation == Orientation.portrait) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                        isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
-                      ],
-                    );
-                  } else {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Stack(
-                          children: [
-                            MeterPageLandscape(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                            isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
-                          ],
-                        )
-                      ],
-                    );
-                  }
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if(orientation == Orientation.portrait)
+                        MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView)
+                      else
+                        MeterPageLandscape(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                      isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
+                    ],
+                  );
                 }
               ),
               IconButton(
