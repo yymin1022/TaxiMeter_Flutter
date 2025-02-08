@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:sprintf/sprintf.dart';
-import 'package:taximeter/pages/meter_page/meter_page.dart';
+import 'package:taximeter/pages/meter_page/widgets/meter_control_button.dart';
 import 'package:taximeter/utils/color_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 
@@ -23,63 +23,63 @@ class _MeterControlState extends State<MeterControl> {
       children: [
         Row(
           children: [
-            MeterButton(
-                btnColor: MeterColor.meterBlue,
-                btnText: AppLocalizations.of(context)!.meter_btn_start,
-                onClickFunction: () {
-                  setState(() {
-                    widget.meterUtil.startMeter(context);
-                    widget.updateCallback();
-                  });
-                }
+            MeterControlButton(
+              btnColor: MeterColor.meterBlue,
+              btnText: AppLocalizations.of(context)!.meter_btn_start,
+              onClickFunction: () {
+                setState(() {
+                  widget.meterUtil.startMeter(context);
+                  widget.updateCallback();
+                });
+              }
             ),
-            MeterButton(
-                btnColor: MeterColor.meterYellow,
-                btnText: AppLocalizations.of(context)!.meter_btn_stop,
-                onClickFunction: () {
-                  setState(() {
-                    if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
-                      _showStopDialog();
-                    }
-                  });
-                }
+            MeterControlButton(
+              btnColor: MeterColor.meterYellow,
+              btnText: AppLocalizations.of(context)!.meter_btn_stop,
+              onClickFunction: () {
+                setState(() {
+                  if(widget.meterUtil.meterStatus != MeterStatus.METER_NOT_RUNNING) {
+                    _showStopDialog();
+                  }
+                });
+              }
             ),
           ],
         ),
         Row(
           children: [
-            MeterButton(
-                btnColor: MeterColor.meterGreen,
-                btnText: widget.meterUtil.meterIsPercNight
-                    ? AppLocalizations.of(context)!.meter_btn_percentage_night_true
-                    : AppLocalizations.of(context)!.meter_btn_percentage_night_false,
-                onClickFunction: () {
-                  setState(() {
-                    widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
-                    widget.updateCallback();
-                  });
+            MeterControlButton(
+              btnColor: MeterColor.meterGreen,
+              btnText: widget.meterUtil.meterIsPercNight
+                  ? AppLocalizations.of(context)!.meter_btn_percentage_night_true
+                  : AppLocalizations.of(context)!.meter_btn_percentage_night_false,
+              onClickFunction: () {
+                setState(() {
+                  widget.meterUtil.setPercNight(!widget.meterUtil.meterIsPercNight);
+                  widget.updateCallback();
+                });
 
-                  if(widget.meterUtil.meterIsPercNight) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(AppLocalizations.of(context)!.meter_snack_percentage_night),
-                          duration: const Duration(seconds: 2),
-                        )
-                    );
-                  }
+                if(widget.meterUtil.meterIsPercNight) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context)!.meter_snack_percentage_night),
+                        duration: const Duration(seconds: 2),
+                      )
+                  );
                 }
+              }
             ),
-            MeterButton(
-                btnColor: MeterColor.meterRed,
-                btnText: widget.meterUtil.meterIsPercCity
-                    ? AppLocalizations.of(context)!.meter_btn_percentage_outcity_true
-                    : AppLocalizations.of(context)!.meter_btn_percentage_outcity_false,
-                onClickFunction: () {
-                  setState(() {
-                    widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
-                    widget.updateCallback();
-                  });
-                }
+            MeterControlButton(
+              btnColor: MeterColor.meterRed,
+              btnText: widget.meterUtil.meterIsPercCity
+                  ? AppLocalizations.of(context)!.meter_btn_percentage_outcity_true
+                  : AppLocalizations.of(context)!.meter_btn_percentage_outcity_false,
+              onClickFunction: () {
+                setState(() {
+                  widget.meterUtil.setPercCity((!widget.meterUtil.meterIsPercCity));
+                  widget.updateCallback();
+                });
+              }
             ),
           ],
         ),
@@ -101,15 +101,15 @@ class _MeterControlState extends State<MeterControl> {
             title: Text(AppLocalizations.of(context)!.meter_dialog_stop_title),
             actions: <Widget>[
               TextButton(
-                  child: Text(
-                    AppLocalizations.of(context)!.meter_dialog_stop_ok,
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  onPressed: () {
-                    widget.meterUtil.stopMeter();
-                    widget.updateCallback();
-                    Navigator.pop(context);
-                  }
+                child: Text(
+                  AppLocalizations.of(context)!.meter_dialog_stop_ok,
+                  style: const TextStyle(fontSize: 17.0),
+                ),
+                onPressed: () {
+                  widget.meterUtil.stopMeter();
+                  widget.updateCallback();
+                  Navigator.pop(context);
+                }
               ),
             ],
           );
