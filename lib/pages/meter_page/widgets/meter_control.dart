@@ -9,8 +9,8 @@ import 'package:taximeter/utils/meter_util.dart';
 class MeterControl extends StatefulWidget {
   const MeterControl({super.key, required this.meterUtil, required this.updateCallback});
 
-  final MeterUtil meterUtil;
   final Function updateCallback;
+  final MeterUtil meterUtil;
 
   @override
   State<StatefulWidget> createState() => _MeterControlState();

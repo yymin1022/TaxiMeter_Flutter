@@ -3,11 +3,8 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:taximeter/pages/meter_page/meter_page_portrait.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
-import "package:taximeter/pages/meter_page/widgets/meter_animation.dart";
-import "package:taximeter/pages/meter_page/widgets/meter_control.dart";
-import "package:taximeter/pages/meter_page/widgets/meter_costview.dart";
-import "package:taximeter/pages/meter_page/widgets/meter_info.dart";
 import "package:taximeter/utils/color_util.dart";
 import "package:taximeter/utils/meter_util.dart";
 import "package:taximeter/utils/preference_util.dart";
@@ -74,10 +71,7 @@ class _MeterPageState extends State<MeterPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      MeterAnimation(meterUtil: meterUtil!),
-                      MeterCostView(meterUtil: meterUtil!),
-                      MeterInfo(meterUtil: meterUtil!),
-                      MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                      MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView),
                       isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
                     ],
                   );
