@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "package:intl/intl.dart";
 import "package:sprintf/sprintf.dart";
 import "package:taximeter/cauly/cauly.dart";
+import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_animation.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_control.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_info.dart";
@@ -80,7 +81,7 @@ class _MeterPageState extends State<MeterPage> {
                       MeterCostView(meterUtil: meterUtil!),
                       MeterInfo(meterUtil: meterUtil!),
                       MeterControl(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                      isAdRemoval ? const SizedBox.shrink() : const MeterAdvertisement(),
+                      isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
                     ],
                   );
                 }
@@ -137,68 +138,7 @@ class _MeterPageState extends State<MeterPage> {
   }
 }
 
-class MeterAdvertisement extends StatefulWidget {
-  const MeterAdvertisement({super.key});
 
-  @override
-  State<StatefulWidget> createState() => _MeterAdvertisementState();
-}
-
-class _MeterAdvertisementState extends State<MeterAdvertisement> {
-  BannerAd? _bannerAdView;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if(Platform.isAndroid) {
-      _createBannerAdViewAndroid();
-    } else {
-      _createBannerAdViewIOS();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if(Platform.isAndroid) {
-      return SizedBox(
-        height: _bannerAdView!.bannerSizeHeight.toDouble(),
-        child: AdWidget(ad: _bannerAdView!),
-      );
-    } else {
-      return const SizedBox(
-        height: 50,
-        child: UiKitView(
-          viewType: 'bannerViewType',
-          layoutDirection: null,
-          creationParams: {"param": "bannerViewParam"},
-          creationParamsCodec: StandardMessageCodec(),
-        ),
-      );
-    }
-  }
-
-  void _createBannerAdViewAndroid() {
-    _bannerAdView = BannerAd(
-      listener: BannerAdListener(
-        onReceiveAd: (ad) {
-          debugPrint('BannerAdListener onReceiveAd!!!');
-        },
-        onFailedToReceiveAd: (ad, errorCode, errorMessage) {
-          debugPrint('BannerAdListener onFailedToReceiveAd : $errorCode $errorMessage');
-        },
-      ),
-      adInfo: AdInfo(
-        dotenv.get("CAULY_APP_CODE_ANDROID"),
-        BannerHeightEnum.adaptive, 320, 50));
-    _bannerAdView!.load();
-  }
-
-  void _createBannerAdViewIOS() {
-    const methodChannel = MethodChannel('samples.flutter.dev/caulyIos');
-    methodChannel.invokeMethod('initialize', <String, dynamic>{'identifier':'TAXI_METER', 'code': dotenv.get("CAULY_APP_CODE_IOS"), 'useDynamicReload': true, 'closeLanding': true });
-  }
-}
 
 class MeterCostView extends StatefulWidget {
   const MeterCostView({super.key, required this.meterUtil});
