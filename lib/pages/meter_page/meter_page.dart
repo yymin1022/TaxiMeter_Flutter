@@ -2,11 +2,7 @@ import "dart:io";
 
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import "package:intl/intl.dart";
-import "package:sprintf/sprintf.dart";
-import "package:taximeter/cauly/cauly.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_animation.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_control.dart";
