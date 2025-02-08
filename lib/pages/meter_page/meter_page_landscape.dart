@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MeterPageLandscpe extends StatefulWidget {
+  const MeterPageLandscpe({super.key});
+
   @override
   State<StatefulWidget> createState() => _MeterPageLandscapeState();
 }
