@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:taximeter/pages/meter_page.dart';
+import 'package:taximeter/pages/meter_page/meter_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
