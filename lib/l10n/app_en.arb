@@ -18,6 +18,7 @@
   "nav_home": "Home",
   "nav_setting": "Setting",
 
+  "main_snack_gps_error": "Location Service is disabled. Please enable it.",
   "main_snack_permission_error": "Location Permission is denied. Please grant at System Settings.",
   "main_subtitle": "Touch to Start",
   "main_title_meter": "Meter",
