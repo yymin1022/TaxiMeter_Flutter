@@ -42,33 +42,35 @@ class _DonationPageState extends State<DonationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_1000, skuID: SkuID.donation_1000),
-                DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_5000, skuID: SkuID.donation_5000),
-                DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_10000, skuID: SkuID.donation_10000),
-              ],
-            ),
-            const SizedBox(height: 50.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
-                DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove),
-                DonationButton(btnOnClick: _restorePurchase, btnText: AppLocalizations.of(context)!.donation_btn_restore, skuID: null),
-              ],
-            ),
-            const SizedBox(height: 100.0),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(AppLocalizations.of(context)!.donation_info_text),
-            )
-          ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_1000, skuID: SkuID.donation_1000),
+                  DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_5000, skuID: SkuID.donation_5000),
+                  DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_10000, skuID: SkuID.donation_10000),
+                ],
+              ),
+              const SizedBox(height: 50.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_donate_50000, skuID: SkuID.donation_50000),
+                  DonationButton(btnOnClick: _onBtnClick, btnText: AppLocalizations.of(context)!.donation_btn_ad_remove, skuID: SkuID.ad_remove),
+                  DonationButton(btnOnClick: _restorePurchase, btnText: AppLocalizations.of(context)!.donation_btn_restore, skuID: null),
+                ],
+              ),
+              const SizedBox(height: 100.0),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(AppLocalizations.of(context)!.donation_info_text),
+              )
+            ],
+          ),
         ),
       )
     );
