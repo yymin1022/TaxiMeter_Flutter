@@ -15,11 +15,23 @@ class MainPage extends StatelessWidget {
             .then((res) {
               if(res == LocationPermission.always
                 || res == LocationPermission.whileInUse) {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const MeterPage();
-                  }
-                ));
+                Geolocator.isLocationServiceEnabled()
+                  .then((res) {
+                    if(res) {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const MeterPage();
+                          }
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(AppLocalizations.of(context)!.main_snack_gps_error),
+                            duration: const Duration(seconds: 2),
+                          )
+                      );
+                    }
+                  });
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
