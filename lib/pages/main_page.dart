@@ -31,42 +31,44 @@ class MainPage extends StatelessWidget {
           });
         },
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const Icon(
-                Icons.local_taxi,
-                size: 224.0
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.main_title_taxi,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 48.0,
-                      fontWeight: FontWeight.bold
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Icon(
+                  Icons.local_taxi,
+                  size: 224.0
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.main_title_taxi,
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 48.0,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.main_title_meter,
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 48.0
+                      )
                     )
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.main_title_meter,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 48.0
-                    )
+                  ],
+                ),
+                Text(
+                  AppLocalizations.of(context)!.main_subtitle,
+                  style: const TextStyle(
+                    color: Colors.black45,
+                    fontSize: 24.0
                   )
-                ],
-              ),
-              Text(
-                AppLocalizations.of(context)!.main_subtitle,
-                style: const TextStyle(
-                  color: Colors.black45,
-                  fontSize: 24.0
                 )
-              )
-            ],
+              ],
+            ),
           ),
         )
       )
