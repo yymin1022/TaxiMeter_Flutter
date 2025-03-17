@@ -64,37 +64,40 @@ class _MeterPageState extends State<MeterPage> {
       child: Scaffold(
         backgroundColor: MeterColor.meterBackground,
         body: SafeArea(
-          child: Stack(
-            children: [
-              OrientationBuilder(
-                builder: (context, orientation) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if(orientation == Orientation.portrait)
-                        MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView)
-                      else
-                        MeterPageLandscape(meterUtil: meterUtil!, updateCallback: updateMeterView),
-                      isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
-                    ],
-                  );
-                }
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new,
-                  color: MeterColor.meterTextColorWhite,
-                ),
-                onPressed: () async {
-                  if(context.mounted
-                      && await _showExitDialog() == true) {
-                    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                    Navigator.pop(context);
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+            child: Stack(
+              children: [
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if(orientation == Orientation.portrait)
+                          MeterPagePortrait(meterUtil: meterUtil!, updateCallback: updateMeterView)
+                        else
+                          MeterPageLandscape(meterUtil: meterUtil!, updateCallback: updateMeterView),
+                        isAdRemoval ? const SizedBox.shrink() : const MeterAdview(),
+                      ],
+                    );
                   }
-                },
-              ),
-            ],
-          ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    color: MeterColor.meterTextColorWhite,
+                  ),
+                  onPressed: () async {
+                    if(context.mounted
+                        && await _showExitDialog() == true) {
+                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ],
+            ),
+          )
         )
       )
     );
