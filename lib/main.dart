@@ -44,10 +44,7 @@ class TaxiMeterApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
-      home: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-        child: const TaxiMeterMain(),
-      ),
+      home: const TaxiMeterMain(),
     );
   }
 }
