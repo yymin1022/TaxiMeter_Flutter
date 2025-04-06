@@ -16,6 +16,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseUtil().initFirebase();
 
+  FirebaseUtil().logAnalytics("start_application", (Platform.isAndroid ? "Android" : "iOS"));
+
   if(await FirebaseUtil().isUpdateAvail()) {
     FirebaseUtil().updateCostInfo();
   }
