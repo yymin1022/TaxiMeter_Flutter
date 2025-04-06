@@ -80,6 +80,8 @@ class _DonationPageState extends State<DonationPage> {
   }
 
   void _onBtnClick(SkuID skuID) async {
+    FirebaseUtil().logAnalytics("donation_purchase_start", skuID.name);
+
     if(!isStoreEnabled || !mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -118,6 +120,7 @@ class _DonationPageState extends State<DonationPage> {
         );
       } else if((purchaseDetail.status == PurchaseStatus.purchased
           || purchaseDetail.status == PurchaseStatus.restored) && mounted) {
+        FirebaseUtil().logAnalytics("donation_purchase_done", purchaseDetail.productID);
         if(purchaseDetail.productID == SkuID.ad_remove.name) {
           PreferenceUtil().setPrefsValue("ad_remove", true);
         }
@@ -143,6 +146,7 @@ class _DonationPageState extends State<DonationPage> {
     if(mounted) {
       InAppPurchase.instance.restorePurchases()
         .then((res) {
+        FirebaseUtil().logAnalytics("donation_purchase_restore", null);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(context)!.donation_restore_done),
