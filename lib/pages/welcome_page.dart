@@ -21,6 +21,12 @@ class _WelcomePageState extends State<WelcomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    FirebaseUtil().logAnalytics("enter_welcome_page", null);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,

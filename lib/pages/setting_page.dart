@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:taximeter/utils/preference_util.dart';
 import 'package:taximeter/utils/settings_data.dart';
@@ -29,6 +30,12 @@ class _SettingPageState extends State<SettingPage> {
   int percNightEnd2 = 2;
   int percNightStart1 = 22;
   int percNightStart2 = 23;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseUtil().logAnalytics("enter_setting_page", null);
+  }
 
   @override
   Widget build(BuildContext context) {

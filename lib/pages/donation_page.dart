@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:taximeter/utils/donation_util.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 import 'package:taximeter/utils/preference_util.dart';
 
 class DonationPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _DonationPageState extends State<DonationPage> {
 
   @override
   void initState() {
+    FirebaseUtil().logAnalytics("enter_donation_page", null);
+
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
     _purchaseDetailStream = purchaseUpdated.listen((purchaseDetailsList) {
       _processPurchase(purchaseDetailsList);
