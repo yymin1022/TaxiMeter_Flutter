@@ -46,6 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void goNext() {
     setState(() {
       if(_welcomeIdx == 2 && mounted) {
+        FirebaseUtil().logAnalytics("setup_done", null);
         PreferenceUtil().setPrefsValue("is_setup_done", true)
           .then((res) => Navigator.of(context).pop());
       } else {
