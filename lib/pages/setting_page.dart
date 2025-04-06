@@ -277,6 +277,8 @@ class _SettingPageState extends State<SettingPage> {
                           inputPercCity, inputPercNight, inputPercNight,
                           inputPercNightStart, inputPercNightStart,
                           inputPercNightEnd, inputPercNightEnd);
+
+                      FirebaseUtil().logAnalytics("setting_set_location", "custom");
                     } catch(e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -318,6 +320,7 @@ class _SettingPageState extends State<SettingPage> {
                     if(value == "custom") {
                       _showCustomCostDialog();
                     } else {
+                      FirebaseUtil().logAnalytics("setting_set_location", data.code);
                       prefUtil.setPrefsValue("pref_location", data.code);
                       _setPrefCostData(data.code,
                           await prefUtil.getPrefsValueI("pref_cost_${data.code}_cost_base") ?? 4800,
@@ -362,6 +365,7 @@ class _SettingPageState extends State<SettingPage> {
                   groupValue: curTheme,
                   value: data.code,
                   onChanged: (value) {
+                    FirebaseUtil().logAnalytics("setting_set_theme", data.code);
                     prefUtil.setPrefsValue("pref_theme", data.code);
                     didChangeDependencies();
                     Navigator.of(context).pop();
@@ -405,6 +409,7 @@ class SettingListWebItem extends StatelessWidget {
       title: Text(title),
       subtitle: Text(url),
       onTap: () async {
+        FirebaseUtil().logAnalytics("setting_click_url", url);
         await launchUrl(Uri.parse(url));
       },
     );
