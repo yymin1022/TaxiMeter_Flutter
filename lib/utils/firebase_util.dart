@@ -48,6 +48,8 @@ class FirebaseUtil {
   }
 
   void updateCostInfo() async {
+    FirebaseUtil().logAnalytics("update_cost_start", null);
+
     var costInfoDoc = (await _firestoreDB.collection("cost").doc("info").get())
         .data()?["data"]!;
     costInfoDoc.forEach((data) {
@@ -60,5 +62,7 @@ class FirebaseUtil {
     var newVersion = (await _firestoreDB.collection("cost").doc("version").get())
         .data()?["data"] ?? "20001022";
     _prefUtil.setPrefsValue("pref_cost_version", newVersion);
+
+    FirebaseUtil().logAnalytics("update_cost_done", newVersion);
   }
 }
