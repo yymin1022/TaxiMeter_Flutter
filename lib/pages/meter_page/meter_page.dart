@@ -7,6 +7,7 @@ import "package:taximeter/pages/meter_page/meter_page_landscape.dart";
 import "package:taximeter/pages/meter_page/meter_page_portrait.dart";
 import "package:taximeter/pages/meter_page/widgets/meter_adview.dart";
 import "package:taximeter/utils/color_util.dart";
+import "package:taximeter/utils/firebase_util.dart";
 import "package:taximeter/utils/meter_util.dart";
 import "package:taximeter/utils/preference_util.dart";
 
@@ -28,6 +29,7 @@ class _MeterPageState extends State<MeterPage> {
   @override
   void initState() {
     super.initState();
+    FirebaseUtil().logAnalytics("enter_meter_page", null);
     meterUtil = MeterUtil(updateView: updateMeterView);
   }
 

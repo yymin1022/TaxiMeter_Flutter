@@ -21,6 +21,12 @@ class _WelcomePageState extends State<WelcomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    FirebaseUtil().logAnalytics("enter_welcome_page", null);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
@@ -40,6 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void goNext() {
     setState(() {
       if(_welcomeIdx == 2 && mounted) {
+        FirebaseUtil().logAnalytics("setup_done", null);
         PreferenceUtil().setPrefsValue("is_setup_done", true)
           .then((res) => Navigator.of(context).pop());
       } else {

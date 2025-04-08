@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,16 @@ class FirebaseUtil {
     return curVersion != newVersion;
   }
 
+  void logAnalytics(String action, String? msg) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: action,
+      parameters: {"detail": (msg ?? "")}
+    );
+  }
+
   void updateCostInfo() async {
+    FirebaseUtil().logAnalytics("update_cost_start", null);
+
     var costInfoDoc = (await _firestoreDB.collection("cost").doc("info").get())
         .data()?["data"]!;
     costInfoDoc.forEach((data) {
@@ -52,5 +62,7 @@ class FirebaseUtil {
     var newVersion = (await _firestoreDB.collection("cost").doc("version").get())
         .data()?["data"] ?? "20001022";
     _prefUtil.setPrefsValue("pref_cost_version", newVersion);
+
+    FirebaseUtil().logAnalytics("update_cost_done", newVersion);
   }
 }

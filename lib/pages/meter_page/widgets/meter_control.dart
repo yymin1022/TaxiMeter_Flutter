@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:taximeter/pages/meter_page/widgets/meter_control_button.dart';
 import 'package:taximeter/utils/color_util.dart';
+import 'package:taximeter/utils/firebase_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 
 class MeterControl extends StatefulWidget {
@@ -27,6 +28,7 @@ class _MeterControlState extends State<MeterControl> {
               btnColor: MeterColor.meterBlue,
               btnText: AppLocalizations.of(context)!.meter_btn_start,
               onClickFunction: () {
+                FirebaseUtil().logAnalytics("meter_start", null);
                 setState(() {
                   widget.meterUtil.startMeter(context);
                   widget.updateCallback();
@@ -89,13 +91,18 @@ class _MeterControlState extends State<MeterControl> {
   }
 
   void _showStopDialog() {
+    var meterCost = widget.meterUtil.meterCost;
+    var meterDistance = widget.meterUtil.meterSumDistance;
+    var meterPercNight = widget.meterUtil.meterIsPercNight;
+    var meterPercCity = widget.meterUtil.meterIsPercCity;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             contentPadding: const EdgeInsets.all(30.0),
             content: Text(
-              sprintf(AppLocalizations.of(context)!.meter_dialog_stop_content, [NumberFormat("#,##0").format(widget.meterUtil.meterCost), NumberFormat("#,##0.0").format(widget.meterUtil.meterSumDistance / 1000)]),
+              sprintf(AppLocalizations.of(context)!.meter_dialog_stop_content, [NumberFormat("#,##0").format(meterCost), NumberFormat("#,##0.0").format(meterDistance / 1000)]),
               style: const TextStyle(fontSize: 17.0),
             ),
             title: Text(AppLocalizations.of(context)!.meter_dialog_stop_title),
@@ -106,6 +113,7 @@ class _MeterControlState extends State<MeterControl> {
                   style: const TextStyle(fontSize: 17.0),
                 ),
                 onPressed: () {
+                  FirebaseUtil().logAnalytics("meter_stop", "Cost: $meterCost / Distance: $meterDistance} / OutCity: $meterPercCity / Night: $meterPercNight");
                   widget.meterUtil.stopMeter();
                   widget.updateCallback();
                   Navigator.pop(context);
