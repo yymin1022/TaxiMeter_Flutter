@@ -48,7 +48,7 @@ dependencies:
   sprintf: ^7.0.0
   in_app_purchase: ^3.2.3
   visibility_detector: ^0.4.0+2
-  flutter_dotenv: ^5.1.0
+  flutter_dotenv: ^5.2.1
   wakelock_plus: ^1.2.8
 
 dev_dependencies:
