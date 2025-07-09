@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:taximeter/l10n/app_localizations.dart';
 import 'package:taximeter/utils/color_util.dart';
 import 'package:taximeter/utils/meter_util.dart';
 

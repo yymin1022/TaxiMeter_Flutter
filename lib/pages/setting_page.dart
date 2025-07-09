@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:taximeter/l10n/app_localizations.dart';
 import 'package:taximeter/utils/firebase_util.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:taximeter/utils/preference_util.dart';
 import 'package:taximeter/utils/settings_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
