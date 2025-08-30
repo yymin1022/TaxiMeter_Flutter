@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:taximeter/l10n/app_localizations.dart';
 import 'package:taximeter/utils/preference_util.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
